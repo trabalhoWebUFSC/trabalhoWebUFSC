@@ -1,11 +1,10 @@
 import React from "react";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
     <div className="App">
-      {/* O SEU MÍNIMO "HELLO WORLD" */}
-      <h1>Portal do Hóspede - Hello World!</h1>
-      <p>O Front-end está rodando com sucesso.</p>
+      <Home />
     </div>
   );
 }
