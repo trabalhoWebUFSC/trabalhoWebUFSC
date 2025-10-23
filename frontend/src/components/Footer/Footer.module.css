@@ -1,0 +1,171 @@
+.footer {
+  background-color: var(--cor-secundaria-preto);
+  color: #aaa;
+  padding: 80px 0;
+  font-family: var(--fonte-corpo);
+}
+
+.footerContainer {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+}
+
+.footerCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+  object-fit: contain;
+  align-self: flex-start;
+}
+
+.description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid #444;
+  margin: 30px 0;
+}
+
+.legalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.legalLinks a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.legalLinks a:hover {
+  color: var(--cor-texto-claro);
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linksList li {
+  margin-bottom: 15px;
+}
+
+.linksList li a {
+  color: var(--cor-texto-claro);
+  text-decoration: none;
+  font-family: var(--fonte-titulos);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.linksList li a:hover {
+  color: var(--cor-primaria-dourado);
+}
+
+.socialIcons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: flex-start;
+}
+
+.socialIcons a {
+  color: #aaa;
+  border: 1px solid #555;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.socialIcons a:hover {
+  color: var(--cor-primaria-dourado);
+  border-color: var(--cor-primaria-dourado);
+  transform: translateY(-3px);
+}
+
+/* RESponsividade */
+
+@media (max-width: 900px) {
+  .footerContainer {
+    grid-template-columns: 1fr; /* Colunas empilhar */
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .logo {
+    align-self: flex-start;
+  }
+
+  .legalContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 10px;
+  }
+
+  .legalLinks {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .socialIcons {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 50px 0;
+  }
+
+  .description {
+    font-size: 0.85rem;
+  }
+
+  .linksList li a {
+    font-size: 1rem;
+  }
+
+  .socialIcons {
+    gap: 10px;
+  }
+
+  .socialIcons a {
+    width: 35px;
+    height: 35px;
+  }
+}
