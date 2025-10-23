@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Guia Global pra estilizar */
+:root {
+  /* Cores Principais */
+  --cor-primaria-dourado: #ffd700;
+  --cor-primaria-dourado-escuro: #d4af37;
+  --cor-secundaria-preto: #181b25;
+
+  /* Cores Neutras */
+  --cor-texto-claro: #ffffff;
+  --cor-texto-escuro: #333333;
+  --cor-fundo-claro: #ffffff;
+  --cor-fundo-cinza: #f4f4f4;
+
+  /* Fontes */
+  --fonte-titulos: "Georgia", serif;
+  --fonte-corpo: "Helvetica", "Arial", sans-serif;
+
+  /* Sombras*/
+  --sombra-texto-escura: 1px 1px 5px rgba(0, 0, 0, 0.9);
+  --sombra-texto-clara: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+/* Estilos padrão para o corpo */
+body {
+  font-family: var(--fonte-corpo);
+  background-color: var(--cor-secundaria-preto); /* <--- ALTERADO AQUI */
+  color: var(--cor-texto-escuro);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos padrão para títulos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-secundaria-preto);
+}
+
+/* Estilos links */
+a {
+  color: var(--cor-primaria-dourado-escuro);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.App {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+*:focus {
+  outline: none;
+  box-shadow: none;
+}
