@@ -9,7 +9,7 @@
   font-family: 'Playfair Display', serif;
   font-weight: 300px;
   list-style: none;
-  position: fixed;
+  position: absolute;
   width: 100%;
   z-index: 1000;
   margin-top: 60px;
@@ -20,7 +20,7 @@
  .logo {
   margin-top: 50px;
   margin-left: 50px;
-  position: fixed;
+  position:absolute;
   width: 100%;
   z-index: 1000;
  }
@@ -38,9 +38,7 @@
   flex-direction: column;
 
   
-  
-
-  
+    
   
  }
 
@@ -54,9 +52,7 @@
   top: 20px;
   right: 20px;
   z-index: 1001;
-  display:none;
-  
-  
+  display:none; 
    
  }
 
