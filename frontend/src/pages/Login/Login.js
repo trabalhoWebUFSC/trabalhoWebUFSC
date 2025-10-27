@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 
 function LoginPage() {
@@ -61,12 +62,12 @@ function LoginPage() {
 
         {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
         <p className={styles.forgotPassword}>
-          <a href="/forgot-password">Esqueceu a senha?</a>
+          <Link to="/forgot-password">Esqueceu a senha?</Link>
         </p>
 
         {/* Link para o Cadastro */}
         <p className={styles.registerLink}>
-          Não tem cadastro? <a href="/register">Registre-se aqui</a>
+          Não tem cadastro? <Link to="/register">Registre-se aqui</Link>
         </p>
       </form>
     </div>
