@@ -48,7 +48,7 @@
     margin-left: 200px;
     z-index:2;
     position:absolute;
-    margin-top:90px;
+    margin-top:80px;
     
 }
 
@@ -56,6 +56,7 @@
     color: #2D2C2C;
     font-size: 24px;
     margin-left:10px;
+    margin-top:20px;
     
 }
 
@@ -63,12 +64,12 @@
     color: #BF9766;
     font-size: 20px;
     margin-left:10px;
-    margin-top:-15px;
+    padding-top:10px;
     
 }
 
 .featuresContainer {
-    margin-top: 30px;
+    padding-top: 40px;
     color: #575656 ;
     font-size: 17px;
     column-gap:10px;
@@ -110,6 +111,7 @@
 
 .Line {
     width: 475px;
+    
 }
 
 .arrowBtn {
@@ -162,3 +164,4 @@
   width: 13px;
   height: 13px;
 }
+
