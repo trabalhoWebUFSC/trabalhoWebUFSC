@@ -4,6 +4,7 @@ import LoginPage from "./pages/Login/Login";
 import RegisterPage from "./pages/Register/Register";
 import Navbar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
+import RoomChoice from "./components/RoomChoice/RoomChoice";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
