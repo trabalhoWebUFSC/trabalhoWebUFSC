@@ -7,7 +7,6 @@ function Home() {
     <>
       <HeroHotel />
       <RoomChoice />
-      <Footer />
     </>
   );
 }
