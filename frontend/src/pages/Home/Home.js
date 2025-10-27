@@ -6,6 +6,7 @@ function Home() {
   return (
     <>
       <HeroHotel />
+      <RoomChoice />
       <Footer />
     </>
   );
