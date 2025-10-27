@@ -1,6 +1,7 @@
 import React, { useState } from "react"; 
+import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
-import HotelLogo from "../../assets/images/logo_hotel.svg";
+import HotelLogo from "../../assets/images/logo-hotel.png";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,14 +18,14 @@ function Navbar() {
                     <img
                         src={HotelLogo}
                         alt="Logo do Hotel"
-                        className={styles.logoImg}
+                        className={styles.logo}
                     />
                 </div>
                 <ul className={styles.navLinks}>
-                    <li><a href="/" className={styles.navLink}>Home</a></li>
-                    <li><a href="/services" className={styles.navLink}>Services</a></li>
-                    <li><a href="/contact" className={styles.navLink}>Contact Us</a></li>
-                    <li><a href="/login" className={styles.navLink}>Login</a></li>
+                    <li><Link to="/" className={styles.navLink}>Home</Link></li>
+                    <li><Link to="/services" className={styles.navLink}>Services</Link></li>
+                    <li><Link to="/contact" className={styles.navLink}>Contact Us</Link></li>
+                    <li><Link to="/login" className={styles.navLink}>Login</Link></li>
                 </ul>
             </nav>
 
@@ -34,10 +35,10 @@ function Navbar() {
                 </button>
                 
                 <ul className={`${styles.mobilenavLinks} ${isMenuOpen ? styles.open : ''}`}>
-                    <li><a href="/" className={styles.mobilenavLink}>Home</a></li>
-                    <li><a href="/services" className={styles.mobilenavLink}>Services</a></li>
-                    <li><a href="/contact" className={styles.mobilenavLink}>Contact Us</a></li>
-                    <li><a href="/login" className={styles.mobilenavLink}>Login</a></li>
+                    <li><Link to="/" className={styles.mobilenavLink}>Home</Link></li>
+                    <li><Link to="/services" className={styles.mobilenavLink}>Services</Link></li>
+                    <li><Link to="/contact" className={styles.mobilenavLink}>Contact Us</Link></li>
+                    <li><Link to="/login" className={styles.mobilenavLink}>Login</Link></li>
                 </ul>
             </section>
         </>
