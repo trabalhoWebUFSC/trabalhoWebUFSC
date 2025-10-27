@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -18,8 +20,8 @@
   --cor-fundo-cinza: #f4f4f4;
 
   /* Fontes */
-  --fonte-titulos: "Georgia", serif;
-  --fonte-corpo: "Helvetica", "Arial", sans-serif;
+  --fonte-titulos: "Playfair Display", serif;
+  --fonte-corpo: "Playfair Display", serif;
 
   /* Sombras*/
   --sombra-texto-escura: 1px 1px 5px rgba(0, 0, 0, 0.9);
