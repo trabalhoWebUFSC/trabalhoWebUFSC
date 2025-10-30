@@ -1,0 +1,50 @@
+.imageContainer {
+  position: relative;
+}
+
+.playButton {
+  /* Position */
+  position: absolute;
+  top: 50%;
+  right: -54px;
+  transform: translate(0, -50%);
+  z-index: 10;
+
+  /* Appearance */
+  width: 108px;
+  height: 102px;
+  background-color: var(--gold-500, #BF9766);
+  border: none;
+  cursor: pointer;
+
+  /* Centralizes */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: background-color 0.3s ease;
+}
+
+.playButton:hover {
+  background-color: var(--cor-primaria-dourado-escuro, #a6783c);
+}
+
+.playIcon {
+  width: 41px;
+  height: 41px;
+  fill: var(--cor-texto-claro, #FFF);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .playButton {
+    right: -40px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .playIcon {
+    width: 30px;
+    height: 30px;
+  }
+}
