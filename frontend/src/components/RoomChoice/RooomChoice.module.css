@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+.roomSection {
+    background-color: #2D2C2C;
+    margin-top: 100px;
+    padding-bottom: 100px;
+    
+    
+}
+
+.Title {
+    color: #BF9766;
+    font-family: 'Philosopher', sans-serif;
+    font-size: 20px;
+    margin-left: 620px;
+    padding-top: 100px;
+}
+
+.subTitle {
+    color: white;
+    font-family: 'Forum', sans-serif;
+    font-size: 44px;
+    font-weight: normal;
+    margin-top:20px;
+    margin-left:500px;
+}
+
+.roomImg {
+    width: 652.16px;
+    height: 405.34px;
+    border-radius: 2px;
+    margin-left:700px;
+    margin-top: 50px;
+    margin-bottom:80px;
+    z-index:1;
+    position: relative;
+}
+
+.roomCard {
+    background-color: white;
+    width: 590px;
+    height:330px;
+    font-family: 'Forum', sans-serif;
+    border-radius: 2px;
+    margin-left: 200px;
+    z-index:2;
+    position:absolute;
+    margin-top:80px;
+    
+}
+
+.suiteName {
+    color: #2D2C2C;
+    font-size: 24px;
+    margin-left:10px;
+    margin-top:20px;
+    
+}
+
+.price {
+    color: #BF9766;
+    font-size: 20px;
+    margin-left:10px;
+    padding-top:10px;
+    
+}
+
+.featuresContainer {
+    padding-top: 40px;
+    color: #575656 ;
+    font-size: 17px;
+    column-gap:10px;
+    row-gap: 60px;
+    grid-template-columns: 1fr 1fr 1fr;
+    display: grid;
+        
+    
+}
+
+.featureItem {
+    width: 24px;
+    height: 19.4px;
+    margin-left:50px;    
+    
+}
+
+.detailsLink {
+    color: #BDBDBD;
+    font-family: 'Forum', sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.bookBtn {
+    color: #BF9766;
+    border: none;
+    font-size: 23px;
+    cursor: pointer;
+    margin-top:60px;
+    background-color: transparent;
+    font-family: 'Forum', sans-serif;
+    border-top: 1px solid #BF9766;
+    border-bottom: 1px solid #BF9766;
+    margin-left: 350px;
+}
+
+
+.Line {
+    width: 475px;
+    margin-left: 38px;
+    
+}
+
+.arrowBtn {
+    cursor:pointer;
+    color:white;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    position: absolute;
+
+}
+   
+
+
+.arrowBtn:first-of-type {
+  margin-left: 70px;
+  margin-top: 260px;
+  
+}
+
+.arrowBtn:last-of-type {
+  margin-left:1400px;
+  margin-top: -281px;
+  
+}
+
+.dotsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: #BDBDBD;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.activeDot {
+  background-color: #BF9766;
+  width: 13px;
+  height: 13px;
+}
+

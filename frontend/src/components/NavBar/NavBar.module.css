@@ -1,0 +1,121 @@
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 200px;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 300px;
+  list-style: none;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  margin-top: 40px;
+  margin-left: 90px;
+
+ }
+
+ .logo {
+  margin-top: 20px;
+  margin-left: 50px;
+  position: absolute;
+  width: 30%;
+  z-index: 1000;
+ }
+
+ .navLink{
+  color: white;
+  text-decoration: none;
+  
+ }
+
+ .mobilenavLinks{
+  list-style: none;
+  font-family: 'Playfair Display', serif;
+  font-weight: 300px;
+  flex-direction: column;
+
+  
+    
+  
+ }
+
+.mobileNavbar{
+  background: none;
+  border: none;
+  color: black;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  display:none; 
+   
+ }
+
+ .mobilenavLink{
+  color: white;
+  text-decoration: none;
+  
+ }
+
+ .mobilebtn{
+      border: none;
+      background-color: transparent;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+ }
+
+ .navLink:active,
+ .navLink:focus {
+  text-decoration:underline;
+ }
+ 
+ .activeLink {
+  text-decoration: underline !important;
+ }
+
+
+ @media screen and (max-width: 1170px) {
+  .mobilenavLinks {
+    display:none;
+    position:absolute;
+    top:80px;
+    margin-left:-70px;
+    gap:12px;
+    font-size: 22px;
+    
+
+  }
+  
+  .mobilenavLink:Active,
+  .mobilenavLink:Focus {
+    text-decoration: underline;
+  }
+
+  .activeLink {
+    text-decoration:underline !important;
+  }
+  
+  .navLinks {
+    display: none;
+  }
+
+  .mobilebtn {
+    display: block;
+    margin-top:50px;
+    margin-right:50px;
+  }
+
+  .mobileNavbar {
+    display: flex;
+
+  }
+
+  .mobilenavLinks.open { 
+    display:flex;
+    transition:max-height 0.3s ease-out 
+  }
+
+ }

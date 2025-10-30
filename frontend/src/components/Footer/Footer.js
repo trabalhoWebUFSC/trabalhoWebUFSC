@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 import logo from "../../assets/images/logo-hotel.png";
 
@@ -23,8 +24,8 @@ function Footer() {
               © 2025 Imperial Grand Hotel. Todos os direitos reservados.
             </p>
             <div className={styles.legalLinks}>
-              <a href="/privacy">Política de Privacidade</a>
-              <a href="/terms">Termos de Uso</a>
+              <Link to="/privacy">Política de Privacidade</Link>
+              <Link to="/terms">Termos de Uso</Link>
             </div>
           </div>
         </div>
@@ -33,16 +34,16 @@ function Footer() {
         <div className={styles.footerCol}>
           <ul className={styles.linksList}>
             <li>
-              <a href="/">INÍCIO</a>
+              <Link to="/">INÍCIO</Link>
             </li>
             <li>
-              <a href="/about">SOBRE NÓS</a>
+              <Link to="/about">SOBRE NÓS</Link>
             </li>
             <li>
-              <a href="/services">SERVIÇOS</a>
+              <Link to="/services">SERVIÇOS</Link>
             </li>
             <li>
-              <a href="/rooms">QUARTOS</a>
+              <Link to="/rooms">QUARTOS</Link>
             </li>
           </ul>
           <div className={styles.socialIcons}>
