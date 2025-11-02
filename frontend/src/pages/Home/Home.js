@@ -1,5 +1,6 @@
 import HeroHotel from "../../components/HeroHotel/HeroHotel";
 import RoomChoice from "../../components/RoomChoice/RoomChoice";
+import PromoBanner from "../../components/PromoBanner/PromoBanner";
 
 
 function Home() {
@@ -7,6 +8,7 @@ function Home() {
     <>
       <HeroHotel />
       <RoomChoice />
+      <PromoBanner />
     </>
   );
 }
