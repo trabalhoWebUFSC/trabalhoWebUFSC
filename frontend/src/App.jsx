@@ -20,7 +20,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
 
-      <Footer />
+      <div id="contact">
+        <Footer />
+      </div>
     </div>
   );
 }
