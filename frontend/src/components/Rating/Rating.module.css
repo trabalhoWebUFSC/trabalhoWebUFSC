@@ -138,3 +138,15 @@
   gap: 8px;
   margin-top: 90px;
 }
+
+
+.clientPhoto {
+    width:94px;
+    height:94px;
+    border-radius: 50%;
+    border: 5px solid #BF9766;
+}
+
+.clientText { 
+    margin-top:20px;
+}
