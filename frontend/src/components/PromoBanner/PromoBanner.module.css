@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.promoImage {
+    z-index:1;
+}
+
+.promoImage2 {
+    z-index:2;
+}
+
+.promoContent { 
+    position: relative;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.promoImage , 
+ promoImage2 {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+}
+
+
+.promoText {
+    display: flex;
+    gap: 100px; 
+    justify-content: center; 
+    align-items: center; 
+    position: absolute; 
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; 
+}
+    
+
+.promoH1 {
+    color:white;
+}
+
+.promoButton {
+    color: white;
+    border: none;
+    font-size: 23px;
+    cursor: pointer;
+    background-color: transparent;
+    font-family: 'Forum', sans-serif;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    
+
+}
+
+.promoH1 {
+    font-family: "Forum", sans-serif;
+    font-weight: normal;
+    font-size: 64px;
+    width: 800px;    
+
+}

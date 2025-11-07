@@ -10,7 +10,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContainer}>
-        {/* Coluna 2 - Logo, Texto, etc*/}
+        {/* Coluna 1 - Logo, Texto, etc*/}
         <div className={styles.footerCol}>
           <img src={logo} alt="Imperial Grand Hotel" className={styles.logo} />
           <p className={styles.description}>
@@ -34,16 +34,16 @@ function Footer() {
         <div className={styles.footerCol}>
           <ul className={styles.linksList}>
             <li>
-              <Link to="/">INÍCIO</Link>
+              <a href="/">INÍCIO</a>
             </li>
             <li>
               <Link to="/about">SOBRE NÓS</Link>
             </li>
             <li>
-              <Link to="/services">SERVIÇOS</Link>
+              <a href="/#services">SERVIÇOS</a>
             </li>
             <li>
-              <Link to="/rooms">QUARTOS</Link>
+              <a href="/#services">QUARTOS</a>
             </li>
           </ul>
           <div className={styles.socialIcons}>
