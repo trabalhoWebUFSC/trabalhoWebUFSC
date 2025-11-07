@@ -5,7 +5,7 @@ import {ReactComponent as PlayIcon} from '../../assets/icons/play-icon.svg';
 
 function AboutPage() {
   return (
-    <section className={styles.discoverSection}>
+    <section id="about-page" className={styles.discoverSection}>
       <div className={styles.imageContainer}>
         <img
           src={imagemAbout}
