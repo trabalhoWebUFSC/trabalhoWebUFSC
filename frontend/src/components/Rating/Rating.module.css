@@ -7,6 +7,9 @@
 
 .reviewsSection {
     background-color: white;
+    display: flex;
+    padding-right:55px;
+                           
     
 }
 
@@ -97,7 +100,7 @@
 }
 
 .starsWrapper{
-    margin-left:280px;
+    margin-left:320px;
     margin-top:10px;
     
 }
@@ -107,6 +110,7 @@
     justify-content:center;
     margin-top:110px;
     gap:20px;
+    
 }
 
 .dot {
@@ -120,6 +124,7 @@
   transition: background-color 0.3s, transform 0.2s;
   width:13px;
   height:13px;
+  
 }
 
 .dot:hover {
@@ -136,7 +141,7 @@
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 90px;
+  margin-top: 150px;
 }
 
 
@@ -146,6 +151,11 @@
     border-radius: 50%;
     border: 5px solid #BF9766;
 }
+
+.clientText { 
+    margin-top:20px;
+}
+
 
 .clientText { 
     margin-top:20px;
