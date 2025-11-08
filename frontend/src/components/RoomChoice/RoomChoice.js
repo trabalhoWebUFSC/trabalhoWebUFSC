@@ -148,7 +148,7 @@ function RoomChoice() {
           </div>
 
           <div className={styles.cardActions}>
-            <a href="/details" className={styles.detailsLink}>
+            <a href="/about" className={styles.detailsLink}>
               Details &gt;
             </a>
 
