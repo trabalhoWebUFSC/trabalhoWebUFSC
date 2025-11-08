@@ -30,7 +30,7 @@
 /* Estilos padrão para o corpo */
 body {
   font-family: var(--fonte-corpo);
-  background-color: var(--cor-secundaria-preto); /* <--- ALTERADO AQUI */
+  background-color: var(--cor-fundo-claro);
   color: var(--cor-texto-escuro);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
