@@ -12,9 +12,9 @@ function HeroHotel() {
       <div className={styles.heroOverlay}>
         {" "}
         <div className={styles.heroContent}>
-          <p className={styles.subtitle}>MELHOR LUGAR PARA CURTIR E RELAXAR</p>
+          <p className={styles.subtitle}>BEST PLACE TO RELAX AND ENJOY</p>
           <h1 className={styles.title}>
-            O Lugar Perfeito Para <br /> Aproveitar sua Vida
+            The Perfect Place To <br /> Enjoy Your Life
           </h1>
         </div>
       </div>
