@@ -4,9 +4,14 @@
     gap: 10px;
 }
 
+.profile-picture-container.hasImage {
+    align-items: center;
+}
+
 .profile-picture-label {
     font-weight: 500;
     margin-bottom: 5px;
+    display: block;
 }
 
 .profile-picture-input {
@@ -14,11 +19,10 @@
 }
 
 .profile-picture-preview {
-    width: 120px;
-    height: 120px;
+    width: 145px;
+    height: 145px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid #ddd;
 }
 
 .profile-picture-buttons {
@@ -28,24 +32,26 @@
 
 .picButton {
     padding: 8px 12px;
-    border: none;
+    border: 1px solid var(--cor-secundaria-preto);
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     font-family: 'Playfair Display', serif;
-    background-color: #d4af37;
+    background-color: var(--cor-fundo-claro);
     transition: background-color 0.2s;
 }
 
 .picButton:hover {
-    background-color: #eedd82;
+    color: var(--cor-primaria-dourado-escuro);
+    border-color: var(--cor-primaria-dourado-escuro);
 }
 
 .deleteButton {
-    background-color: #c82333;
-    color: white;
+    background-color: #ffff;
+    color: #000;
   }
   
   .deleteButton:hover {
-    background-color: #dc3545;
+    color:#d13242;
+    border-color: #d13242;
 }
