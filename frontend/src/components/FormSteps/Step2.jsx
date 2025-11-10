@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PasswordInput from '../Password/PasswordInput';
 import { validateEmail } from '../../utils/validator/email';
 import { validatePassword, confirmPassword } from '../../utils/validator/password';
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from "../../pages/Register/Register.module.css";
 
 function Step2({ data, onChange, onBlur, emptyField }) {
   const [emailError, setEmailError] = useState('');
@@ -29,38 +31,38 @@ function Step2({ data, onChange, onBlur, emptyField }) {
 
   return (
     <>
-      <div className="formGroup">
-        <label htmlFor="email">E-mail:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="email">Email:</label>
         <input
           type="email"
           id="email"
           value={data.email}
           onChange={(e) => onChange('email', e.target.value)}
           onBlur={(e) => {handleEmailBlur(e); onBlur('email');}}
-          className={`inputField ${emptyField?.email || emailError ? 'errorMessage' : ''}`}
+          className={`${sharedStyles.inputField} ${emptyField?.email || emailError ? sharedStyles.errorMessage : ''}`}
           required
         />
         {emptyField?.email ? (
-          <span className="errorMessage">{emptyField.email}</span>
+          <span className={sharedStyles.errorMessage}>{emptyField.email}</span>
         ) : emailError ? (
-          <span className="errorMessage">{emailError}</span>
+          <span className={sharedStyles.errorMessage}>{emailError}</span>
         ) : null}
       </div>
 
       <PasswordInput
         id="password"
-        label="Senha:"
+        label="Password:"
         value={data.password}
         onChange={(e) => onChange('password', e.target.value)}
         onBlur={() => onBlur('password')}
-        className={`inputField ${emptyField?.password ? 'errorMessage' : ''}`}
+        className={`${sharedStyles.inputField} ${emptyField?.name ? sharedStyles.errorMessage : ''}`}
         error={emptyField?.password}
         required
       />
       {data.password && passwordRules.length > 0 && (
-        <div className="validationList">
+        <div className={styles.validationList}>
           {passwordRules.map((rule, index) => (
-            <div key={index} className={`validationItem ${rule.isValid ? 'valid' : 'invalid'}`}>
+            <div key={index} className={`${styles.validationItem} ${rule.isValid ? styles.valid : styles.invalid}`}>
               <span>{rule.isValid ? '✓' : '✗'}</span>
               <span>{rule.message}</span>
             </div>
@@ -70,11 +72,11 @@ function Step2({ data, onChange, onBlur, emptyField }) {
 
       <PasswordInput
         id="confirmPassword"
-        label="Confirmação de senha:"
+        label="Password confirmation:"
         value={data.confirmPassword}
         onChange={(e) => onChange('confirmPassword', e.target.value)}
         onBlur={(e) => {handleConfirmPasswordBlur(e); onBlur('confirmPassword');}}
-        className={`inputField ${emptyField?.confirmPassword || confirmPasswordError ? 'errorMessage' : ''}`}
+        className={`${sharedStyles.inputField} ${emptyField?.confirmPassword || confirmPasswordError ? sharedStyles.errorMessage : ''}`}
         error={emptyField?.confirmPassword || confirmPasswordError}
         required
       />

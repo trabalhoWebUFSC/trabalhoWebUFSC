@@ -1,0 +1,67 @@
+.buttonGroup {
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.btn {
+  width: 20%;
+  padding: 14px;
+  background-color: var(--cor-fundo-claro);
+  color: var(--cor-secundaria-preto);
+  border: none;
+  border-radius: 50px;
+  font-size: 2em;
+  font-weight: 400;
+  font-family:'Times New Roman', Times, serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  color: var(--cor-primaria-dourado-escuro);
+
+}
+
+.loginLink {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #bbbbbb;
+}
+
+.loginLink a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.addressGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* validacao de senha */
+.validationList {
+  margin-top: -14px; 
+  margin-bottom: 24px;
+}
+
+.validationItem {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.validationItem.valid {
+  color: #008000;
+}
+
+.validationItem.invalid {
+  color: #d13242;
+}

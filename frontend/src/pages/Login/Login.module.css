@@ -1,90 +1,21 @@
-/* container principal */
-.loginContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #212121;
-  background-image: url("../../assets/images/hall-bg.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-}
-
-/* Formulário */
-.loginForm {
-  background: #333333;
-  padding: 40px;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-
-/* título*/
-.formTitle {
-  margin-bottom: 30px;
-  color: #eedd82;
-  font-size: 1.8em;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-
-/* agrupamento da label e input */
-.formGroup {
-  margin-bottom: 25px;
-  text-align: left;
-}
-
-.formGroup label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 400;
-  color: #ffffff;
-  font-size: 0.95em;
-  letter-spacing: 0.5px;
-}
-
-/* campois de input  */
-.inputField {
-  width: 100%;
-  padding: 14px;
-  background-color: #444444;
-  border: 1px solid #555555;
-  border-radius: 4px;
-  color: #ffffff;
-  font-size: 1em;
-  box-sizing: border-box;
-}
-
-.inputField:focus {
-  border-color: #d4af37;
-  border-bottom: 3px solid #d4af37;
-  outline: none;
-  box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
-}
-
 /* Botão de Submissão */
 .submitButton {
-  width: 100%;
+  width: 45%;
   padding: 14px;
-  background-color: #d4af37;
-  color: #212121;
-  border: none;
+  background-color: var(--cor-primaria-dourado);
+  color: var(--cor-secundaria-preto);
+  border: 1px solid var(--cor-secundaria-preto);
   border-radius: 4px;
   font-size: 1.1em;
-  font-weight: 700;
+  font-weight: 400;
+  font-family: var(--fonte-corpo);
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 20px;
 }
 
 .submitButton:hover {
-  background-color: #eedd82;
+  color: var(--cor-secundaria-preto);
+  background-color: var(--cor-primaria-dourado-escuro);
 }
 
 /* links adicionais (esqueceu sehha e registro) */
@@ -92,24 +23,13 @@
 .registerLink {
   margin-top: 15px;
   font-size: 0.9em;
-  color: #bbbbbb;
+  color: #909090;
 }
 
 .forgotPassword a,
 .registerLink a {
-  color: #d4af37;
+  color: var(--cor-primaria-dourado-escuro);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
-}
-
-/* Mensagens de erro */
-.errorMessage {
-  color: #ffb3b3;
-  background-color: #58151c;
-  border: 1px solid #7c2d33;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  font-size: 0.95em;
 }

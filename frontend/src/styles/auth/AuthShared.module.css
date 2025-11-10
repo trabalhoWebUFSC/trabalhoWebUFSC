@@ -1,0 +1,89 @@
+/* Container principal compartilhado */
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #212121;
+  background-image: url("../../assets/images/resort-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* Formulário compartilhado */
+.authForm {
+  background: var(--cor-fundo-claro);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+  opacity: 90%;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+/* Título */
+.formTitle {
+  margin-bottom: 30px;
+  color: var(--cor-primaria-dourado-escuro);
+  font-size: 1.8em;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Agrupamento da label e input */
+.formGroup {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 400;
+  color: var(--cor-texto-escuro);
+  font-size: 0.95em;
+  letter-spacing: 0.5px;
+}
+
+/* Campos de input */
+.inputField {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--cor-fundo-claro);
+  border: 1px solid #555555;
+  border-radius: 4px;
+  color: var(--cor-texto-escuro);
+  font-size: 1em;
+  font-family: var(--fonte-corpo);
+  box-sizing: border-box;
+}
+
+.inputField:focus {
+  border-color: var(--cor-primaria-dourado-escuro);
+  border-bottom: 3px solid var(--cor-primaria-dourado-escuro);
+  outline: none;
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
+}
+
+/* Links compartilhados */
+.link {
+  color: var(--cor-primaria-dourado-escuro);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Mensagens de erro */
+.errorMessage {
+  color: #d13242;
+  margin-bottom: 5px;
+  font-size: 1em;
+}

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import "./Register.css"
 import Step1 from '../../components/FormSteps/Step1';
 import Step2 from '../../components/FormSteps/Step2';
 import Step3 from '../../components/FormSteps/Step3';
 import { validateField } from '../../utils/validator/field';
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from "./Register.module.css";
 
 function RegisterPage() {
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
@@ -81,8 +82,10 @@ function RegisterPage() {
     }
   };
   
-  const handleFieldBlur = (field, fieldLabel) => {
-    const error = validateField(formState[field], fieldLabel);
+  const handleFieldBlur = (field, parentField = null) => {
+    // se o campo tiver um 'parent field' (campos aninhados) acessa com formState[parentField][field]
+    const value = parentField ? formState[parentField][field] : formState[field];
+    const error = validateField(value);
     setEmptyField(prev => ({...prev, [field]: error}));
   };
 
@@ -91,9 +94,9 @@ function RegisterPage() {
   };
 
   return (
-    <div className="registerContainer">
-    <form onSubmit={handleSubmit} className="registerForm">
-      <h2 className="formTitle">Cadastro</h2>
+    <div className={sharedStyles.authContainer}>
+    <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
+      <h2 className={sharedStyles.formTitle}>Sign Up</h2>
 
       {/* se estiver na primeira etapa renderiza Step1*/}
       {currentStep === 1 && (
@@ -118,22 +121,22 @@ function RegisterPage() {
         <Step3 
           data={formState}
           onChange={handleChange}
-          onBlur={handleFieldBlur}
+          onBlur={(field) => handleFieldBlur(field, 'address')}
           emptyField={emptyField}
         />
       )}
 
       <div className="buttonGroup">
         {currentStep > 1 && (
-          <button type="button" onClick={prevStep} className="btn">Voltar</button>
+          <button type="button" onClick={prevStep} className={styles.btn}>«</button>
         )}
 
         {currentStep < totalSteps && (
-          <button type="button" disabled={isBtnDisabled} onClick={nextStep} className="btn">Próximo</button>
+          <button type="button" disabled={isBtnDisabled} onClick={nextStep} className={styles.btn}>»</button>
         )}
 
         {currentStep === totalSteps && (
-          <button type="submit" disabled={isBtnDisabled} className="btn">Finalizar</button>
+          <button type="submit" disabled={isBtnDisabled} className={styles.btn}>»</button>
         )}
       </div>
     </form>

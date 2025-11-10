@@ -1,7 +1,11 @@
-import React from 'react';
+import Reac, {useState } from 'react';
 import { formatCep } from '../../utils/formatter/cep';
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from "../../pages/Register/Register.module.css";
 
-function Step3({ data, onChange }) {
+function Step3({ data, onChange, onBlur, emptyField }) {
+  const [cepError, setCepError] = useState('');
+  
   // funcao auxiliar para atualizar campos de address
   const handleAddressChange = (field, value) => {
     onChange('address', {...data.address, [field]: value});
@@ -28,9 +32,11 @@ function Step3({ data, onChange }) {
       const apiData = await response.json()
 
       if (apiData.erro) {
-        alert('CEP não encontrado!');
+        setCepError('CEP não encontrado');
         return;
       }
+      
+      setCepError(''); // se o CEP for encontrado, remove o erro
 
       onChange('address', {
         // 'data' eh o prop 
@@ -44,97 +50,104 @@ function Step3({ data, onChange }) {
       })
 
     } catch (error) {
-      alert('Erro ao buscar CEP:', error);
+      setCepError('Erro ao buscar CEP:', error);
     }
   }
 
   return (
     <>
     {/* separa as infos em colunas */}
-    <div className="addressGrid">
-      <div className="formGroup">
-        <label htmlFor="cep">CEP:</label>
+    <div className={styles.addressGrid}>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="cep">Postal code:</label>
         <input
           type="text"
           id="cep"
           value={formatCep(data.address.cep)}
           onChange={handleCepChange}
-          onBlur={(e) => handleCepBlur(data.address.cep)} 
+          onBlur={() => {handleCepBlur(data.address.cep); onBlur('cep');}} 
           placeholder="00000-000"
-          className="inputField"
+          className={`${sharedStyles.inputField} ${emptyField?.cep || cepError ? sharedStyles.errorMessage : ''}`}
           required
         />
+        {(emptyField?.cep || cepError ) && (
+          <span className={sharedStyles.errorMessage}>{emptyField?.cep || cepError }</span>
+        )}
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="street">Rua:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="street">Street:</label>
         <input
           type="text"
           id="street"
           value={data.address.street}
           onChange={(e) => handleAddressChange('street', e.target.value)}
-          className="inputField"
+          className={sharedStyles.inputField}
           required
         />
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="number">Número:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="number">Number:</label>
         <input
           type="text"
           id="number"
           value={data.address.number}
           onChange={(e) => handleAddressChange('number', e.target.value)}
-          className="inputField"
+          onBlur={() => onBlur('number')}
+          className={sharedStyles.inputField}
           required
         />
+        {emptyField?.number && (
+          <span className="errorMessage">{emptyField?.number}</span>
+        )}
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="hood">Bairro:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="hood">Neighborhood:</label>
         <input
           type="text"
           id="hood"
           value={data.address.hood}
           onChange={(e) => handleAddressChange('hood', e.target.value)}
-          className="inputField"
+          className={sharedStyles.inputField}
           required
         />        
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="city">Cidade:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="city">City:</label>
         <input
           type="text"
           id="city"
           value={data.address.city}
           onChange={(e) => handleAddressChange('city', e.target.value)}
-          className="inputField"
+          className={sharedStyles.inputField}
           required
         />
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="state">UF:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="state">State:</label>
         <input
           type="text"
           id="state"
           value={data.address.state}
           onChange={(e) => handleAddressChange('state', e.target.value)}
-          className="inputField"
+          className={sharedStyles.inputField}
           required
         />
       </div>
 
-      <div className="formGroup">
-        <label htmlFor="complement">Complemento:</label>
+      <div className={sharedStyles.formGroup}>
+        <label htmlFor="complement">Complement:</label>
         <input
           type="text"
           id="complement"
           value={data.address.complement}
           onChange={(e) => handleAddressChange('complement', e.target.value)}
-          className="inputField"
-          placeholder="(Opcional)"
+          className={sharedStyles.inputField}
+          placeholder="(Optional)"
         />
       </div>
     </div>
