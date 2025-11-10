@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+.reviewsSection {
+    background-color: white;
+    display: flex;
+    padding-right:55px;
+                           
+    
+}
+
+.subTitle { 
+    color: #BF9766;
+    font-family: "Philosopher" ,sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    width: 375;
+    height:36px;
+    padding-right: 0px;
+    
+}
+
+.mainTitle {
+    font-family: "Philosopher" sans-serif;
+    font-size: 64px;
+    font-weight: 100;
+    width:756px;
+    height:84px;
+    color: #171717;
+    margin-left: 180px;
+
+}
+
+.clientName {
+    color:#BF9766;
+    font-family: "Forum" , sans-serif;
+    font-weight: 200;
+    width: 130px;
+    height:26px;
+    
+}
+
+.clientTitle{
+    color: #575656;
+    font-family:"Forum" , sans-serif;
+    font-size: 14px;
+    width: 41px;
+    height:21px;
+}
+
+.reviewText {
+    color:#575656;
+    font-size: 22px;
+    width:670px;
+    height:81px;
+    font-weight:300;
+    margin-top:30px;
+    font-family: "Poppins" , sans-serif;
+    margin-left:60px;
+}
+
+.reviewsSection{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top: 150px;
+    padding-bottom:150px;
+    position:relative;
+
+}
+
+.arrowLeft{
+    color:#505050;
+    cursor:pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    position:absolute;
+    left:70px;
+    top:50%;
+    
+
+}
+
+
+.arrowRight{
+    color:#505050;
+    cursor:pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    position:absolute;
+    padding-left: 1000px;
+    top:50%;    
+
+}
+
+.starsWrapper{
+    margin-left:320px;
+    margin-top:10px;
+    
+}
+
+.clientInfo{
+    display:flex;
+    justify-content:center;
+    margin-top:110px;
+    gap:20px;
+    
+}
+
+.dot {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius: 50%;
+  background-color: gray;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width:13px;
+  height:13px;
+  
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.activeDot {
+  background-color: #BF9766;
+  width: 13px;
+  height: 13px;
+}
+
+.dotsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 150px;
+}
+
+
+.clientPhoto {
+    width:94px;
+    height:94px;
+    border-radius: 50%;
+    border: 5px solid #BF9766;
+}
+
+.clientText { 
+    margin-top:20px;
+}
+
+
+.clientText { 
+    margin-top:20px;
+}

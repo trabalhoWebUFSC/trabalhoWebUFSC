@@ -15,11 +15,13 @@
  }
 
  .logo {
-  margin-top: 20px;
-  margin-left: 50px;
+  margin-top: 16px;
+  margin-left: 36px;
   position: absolute;
   width: 30%;
   z-index: 1000;
+  height:58px;
+  width:232px;
  }
 
  .navLink{
