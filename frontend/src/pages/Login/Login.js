@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import styles from "./Login.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from './Login.module.css';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,17 +22,18 @@ function LoginPage() {
     console.log("Tentativa de Login:", { email, password });
 
     // chamada FETCH para API
+    navigate("/portal");
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <form onSubmit={handleSubmit} className={styles.loginForm}>
-        <h2 className={styles.formTitle}>Acesso ao Portal</h2>
+   <div className={sharedStyles.authContainer}>
+      <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
+        <h2 className={sharedStyles.formTitle}>Sign In</h2>
 
-        {error && <p className={styles.errorMessage}>{error}</p>}
+        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
 
         {/* CAMPO EMAIL */}
-        <div className={styles.formGroup}>
+        <div className={sharedStyles.formGroup}>
           <label htmlFor="email">E-mail:</label>
           <input
             type="text"
@@ -38,36 +41,36 @@ function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className={styles.inputField}
+            className={sharedStyles.inputField}
           />
         </div>
 
         {/* CAMPO SENHA */}
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Senha:</label>
+        <div className={sharedStyles.formGroup}>
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className={styles.inputField}
+            className={sharedStyles.inputField}
           />
         </div>
 
         {/* BOTÃO SUBMIT */}
         <button type="submit" className={styles.submitButton}>
-          Entrar no Portal
+          Submit 
         </button>
 
         {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
         <p className={styles.forgotPassword}>
-          <Link to="/forgot-password">Esqueceu a senha?</Link>
+          <Link to="/forgot-password">Forgot your password?</Link>
         </p>
 
         {/* Link para o Cadastro */}
         <p className={styles.registerLink}>
-          Não tem cadastro? <Link to="/register">Registre-se aqui</Link>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
     </div>
