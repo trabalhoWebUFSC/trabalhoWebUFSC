@@ -2,6 +2,7 @@ import HeroHotel from "../../components/HeroHotel/HeroHotel";
 import RoomChoice from "../../components/RoomChoice/RoomChoice";
 import PromoBanner from "../../components/PromoBanner/PromoBanner";
 import Rating from "../../components/Rating/Rating";
+import NewsSection from "../../components/NewsSection/NewsSection";
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       </div>
 
       <Rating />
+      <NewsSection />
       <PromoBanner />
     </>
   );
