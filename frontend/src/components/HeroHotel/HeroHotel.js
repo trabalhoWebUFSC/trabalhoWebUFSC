@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./HeroHotel.module.css";
 
-import heroBg from "../../assets/images/hero-hotel-bg.jpg";
+import heroBg from "../../assets/images/hero-hotel-bg2.svg";
 
 function HeroHotel() {
   return (
