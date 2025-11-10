@@ -5,7 +5,7 @@ import room2 from "../../assets/images/room2.png";
 import room3 from "../../assets/images/room3.png";
 import room4 from "../../assets/images/room4.png";
 import room5 from "../../assets/images/room5.png";
-
+import Reservations from "../../pages/Reservations/Reservations";
 
 import { 
   FaUsers, FaBath, FaCoffee, FaBed, FaWifi, FaSnowflake, 
@@ -118,6 +118,8 @@ function RoomChoice() {
 
   const currentRoom = rooms[currentRoomIndex];
 
+  const [showReservationModal, setShowReservationModal] = useState(false);
+
   return (
     <section className={styles.roomSection}>
       <div className={styles.header}>
@@ -154,11 +156,15 @@ function RoomChoice() {
 
             <button
               className={styles.bookBtn}
-              onClick={() => alert(`Reservando ${currentRoom.name}!`)}
+              onClick={() => setShowReservationModal(true)}
             >
               Book Now &gt;
             </button>
           </div>
+          {/* Modal de Reserva */}
+          {showReservationModal && (
+            <Reservations onClose={() => setShowReservationModal(false)} />
+          )}
         </div>
 
         <div className={styles.roomImage}>
