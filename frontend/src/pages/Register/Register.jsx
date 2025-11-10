@@ -126,7 +126,7 @@ function RegisterPage() {
         />
       )}
 
-      <div className="buttonGroup">
+      <div className={styles.buttonGroup}>
         {currentStep > 1 && (
           <button type="button" onClick={prevStep} className={styles.btn}>«</button>
         )}

@@ -14,6 +14,14 @@
   padding: 0;
 }
 
+.authContainer.popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+}
+
 /* Formulário compartilhado */
 .authForm {
   background: var(--cor-fundo-claro);
@@ -27,6 +35,7 @@
   opacity: 90%;
   max-height: 75vh;
   overflow-y: auto;
+  font-family: var(--fonte-corpo);
 }
 
 /* Título */
@@ -62,7 +71,7 @@
   border-radius: 4px;
   color: var(--cor-texto-escuro);
   font-size: 1em;
-  font-family: var(--fonte-corpo);
+  font-family: inherit;
   box-sizing: border-box;
 }
 
