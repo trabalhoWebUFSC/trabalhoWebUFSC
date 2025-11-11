@@ -3,7 +3,7 @@
   display: flex;
   gap: 200px;
   justify-content: center;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-weight: 300px;
   list-style: none;
   position: absolute;
@@ -11,37 +11,31 @@
   z-index: 1000;
   margin-top: 40px;
   margin-left: 90px;
+}
 
- }
-
- .logo {
+.logo {
   margin-top: 16px;
   margin-left: 36px;
   position: absolute;
   width: 30%;
   z-index: 1000;
-  height:58px;
-  width:232px;
- }
+  height: 58px;
+  width: 232px;
+}
 
- .navLink{
+.navLink {
   color: white;
   text-decoration: none;
-  
- }
+}
 
- .mobilenavLinks{
+.mobilenavLinks {
   list-style: none;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-weight: 300px;
   flex-direction: column;
+}
 
-  
-    
-  
- }
-
-.mobileNavbar{
+.mobileNavbar {
   background: none;
   border: none;
   color: black;
@@ -51,73 +45,136 @@
   top: 20px;
   right: 20px;
   z-index: 1001;
-  display:none; 
-   
- }
+  display: none;
+}
 
- .mobilenavLink{
+.mobilenavLink {
   color: white;
   text-decoration: none;
-  
- }
+}
 
- .mobilebtn{
-      border: none;
-      background-color: transparent;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: white;
- }
+.mobilebtn {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+}
 
- .navLink:active,
- .navLink:focus {
-  text-decoration:underline;
- }
- 
- .activeLink {
+.navLink:active,
+.navLink:focus {
+  text-decoration: underline;
+}
+
+.activeLink {
   text-decoration: underline !important;
- }
+}
 
-
- @media screen and (max-width: 1170px) {
+@media screen and (max-width: 1170px) {
   .mobilenavLinks {
-    display:none;
-    position:absolute;
-    top:80px;
-    margin-left:-70px;
-    gap:12px;
+    display: none;
+    position: absolute;
+    top: 80px;
+    margin-left: -70px;
+    gap: 12px;
     font-size: 22px;
-    
-
   }
-  
-  .mobilenavLink:Active,
-  .mobilenavLink:Focus {
+
+  .mobilenavLink:active,
+  .mobilenavLink:focus {
     text-decoration: underline;
   }
 
   .activeLink {
-    text-decoration:underline !important;
+    text-decoration: underline !important;
   }
-  
+
   .navLinks {
     display: none;
   }
 
   .mobilebtn {
     display: block;
-    margin-top:50px;
-    margin-right:50px;
   }
 
   .mobileNavbar {
     display: flex;
-
   }
 
-  .mobilenavLinks.open { 
-    display:flex;
-    transition:max-height 0.3s ease-out 
+  .mobilenavLinks.open {
+    display: flex;
+    transition: max-height 0.3s ease-out;
   }
+}
 
- }
+/* dropdown do perfil*/
+
+.dropdownContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profileBtn {
+  background-color: transparent;
+  border: none;
+  color: white; /* <--- MUDANÇA AQUI */
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.profileBtn .arrow {
+  margin-left: 5px;
+  font-size: 0.8em;
+}
+
+.dropdownContent {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border-radius: 5px;
+  padding: 8px 0;
+}
+
+/* links dentro do dropdown */
+.dropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.dropdownContent a:hover {
+  background-color: #f1f1f1;
+}
+
+/*botão de perfil no mobile */
+.mobilenavLink.profileBtn {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 10px 20px;
+}
+
+/* No mobile o dropdown empurra pra baixo*/
+.mobilenavLinks .dropdownContent {
+  position: static;
+  box-shadow: none;
+  border-radius: 0;
+  background-color: #f9f9f9;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.mobilenavLinks .dropdownContent a {
+  color: #333;
+}
