@@ -3,7 +3,7 @@ import Home from "./pages/Home/Home";
 import AboutPage from "./pages/About/About.js";
 import LoginPage from "./pages/Login/Login";
 import RegisterPage from "./pages/Register/Register";
-import PortalPage from "./pages/Portal/Portal"
+import PortalPage from "./pages/Portal/Portal";
 import Footer from "./components/Footer/Footer";
 import { Routes, Route } from "react-router-dom";
 
