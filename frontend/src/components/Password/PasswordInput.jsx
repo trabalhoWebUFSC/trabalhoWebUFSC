@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
-import './PasswordInput.css';
+import React, { useState } from 'react';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import { toggleShow } from '../../utils/password/showPassword';
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from './PasswordInput.module.css';
 
 function PasswordInput({ 
   id, 
@@ -13,32 +14,30 @@ function PasswordInput({
   error,
   required = false 
 }) {
-  const inputRef = useRef(null);
-  const [eyeIsClosed, setEyeIsClosed] = useState(false);
-
+  const [eyeIsClosed, setEyeIsClosed] = useState(true);
+  
   return (
-    <div className="formGroup">
+    <div className={sharedStyles.formGroup}>
       {label && <label htmlFor={id}>{label}</label>}
-      <div className="passwordInputWrapper">
+      <div className={styles.passwordInputWrapper}>
         <input
-          type="password"
+          type={eyeIsClosed ? 'password' : 'text'}
           id={id}
-          ref={inputRef}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
-          className={`inputField ${className}`}
+          className={sharedStyles.inputField}
           required={required}
         />
         <button 
           type="button"
-          className="togglePasswordBtn"
-          onClick={() => toggleShow(inputRef, setEyeIsClosed)}
+          className={styles.togglePasswordBtn}
+          onClick={() => toggleShow(setEyeIsClosed)}
         >
           {eyeIsClosed ? <VscEye /> : <VscEyeClosed />}
         </button>
       </div>
-      {error && <span className="errorMessage">{error}</span>}
+      {error && <span className={sharedStyles.errorMessage}>{error}</span>}
     </div>
   );
 }

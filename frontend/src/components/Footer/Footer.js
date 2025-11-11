@@ -14,18 +14,18 @@ function Footer() {
         <div className={styles.footerCol}>
           <img src={logo} alt="Imperial Grand Hotel" className={styles.logo} />
           <p className={styles.description}>
-            Com lindos apartamentos, o Imperial Grand Hotel tornou-se um ícone
-            de charme e elegância ao Sul do Brasil, na Ilha de Santa Catarina,
-            oferecendo um ambiente acolhedor com uma vista privilegiada.
+            With its beautiful apartments, the Imperial Grand Hotel has become an icon
+            of charm and style in Southern Brazil, on Santa Catarina Island,
+            offering a welcoming atmosphere with a privileged view.
           </p>
           <hr className={styles.divider} />
           <div className={styles.legalContainer}>
             <p className={styles.copyright}>
-              © 2025 Imperial Grand Hotel. Todos os direitos reservados.
+              © 2025 Imperial Grand Hotel. All rights reserved.
             </p>
             <div className={styles.legalLinks}>
-              <Link to="/privacy">Política de Privacidade</Link>
-              <Link to="/terms">Termos de Uso</Link>
+              <Link to="/privacy">Privacy Police</Link>
+              <Link to="/terms">Terms of Use</Link>
             </div>
           </div>
         </div>
@@ -34,16 +34,16 @@ function Footer() {
         <div className={styles.footerCol}>
           <ul className={styles.linksList}>
             <li>
-              <a href="/">INÍCIO</a>
+              <a href="/">HOME</a>
             </li>
             <li>
-              <Link to="/about">SOBRE NÓS</Link>
+              <Link to="/about">ABOUT US</Link>
             </li>
             <li>
-              <a href="/#services">SERVIÇOS</a>
+              <a href="/#services">SERVICES</a>
             </li>
             <li>
-              <a href="/#services">QUARTOS</a>
+              <a href="/#services">ROOMS</a>
             </li>
           </ul>
           <div className={styles.socialIcons}>

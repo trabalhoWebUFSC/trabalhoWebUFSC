@@ -31,34 +31,36 @@ const ProfilePicture = ({ value, onChange }) => {
         onChange(null);
     };
     
-    const uploadButtonLabel = preview ? "Editar" : "Enviar";
+    const uploadButtonLabel = preview ? "Edit" : "Upload";
    
     return (
-        <div className="profile-picture-container">
-            <label className="profile-picture-label">Foto de perfil:</label>
-            <input
-                type="file"
-                ref={hiddenInputRef}
-                onChange={handleUploadedFile}
-                className="profile-picture-input"
-                accept="image/*"
-            />
-            {preview && (
-                <img 
-                    src={preview} 
-                    alt="Preview" 
-                    className="profile-picture-preview"
+        <div>
+            <label className="profile-picture-label">Profile picture:</label>
+            <div className={`profile-picture-container ${preview ? "hasImage" : ''}`}>
+                <input
+                    type="file"
+                    ref={hiddenInputRef}
+                    onChange={handleUploadedFile}
+                    className="profile-picture-input"
+                    accept="image/*"
                 />
-            )}
-            <div className="profile-picture-buttons">
-                <button type="button" onClick={onUpload} className="picButton">
-                    {uploadButtonLabel}
-                </button>
                 {preview && (
-                    <button type="button" onClick={onDelete} className="picButton deleteButton">
-                        Excluir
-                    </button>
+                    <img 
+                        src={preview} 
+                        alt="Preview" 
+                        className="profile-picture-preview"
+                    />
                 )}
+                <div className="profile-picture-buttons">
+                    <button type="button" onClick={onUpload} className="picButton">
+                        {uploadButtonLabel}
+                    </button>
+                    {preview && (
+                        <button type="button" onClick={onDelete} className="picButton deleteButton">
+                            Delete
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
