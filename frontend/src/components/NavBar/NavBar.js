@@ -28,7 +28,7 @@ function Navbar() {
     ? [
         { to: "/portal", label: "Portal" },
         { to: "/services", label: "Services" },
-        { to: "/reservations", label: "Reservations" },
+        { to: "/profile/my-reservations", label: "Reservations" },
         { to: "/profile", label: "Profile" },
       ]
     : [
@@ -76,7 +76,7 @@ function Navbar() {
               onClick={toggleProfileMenu}
               className={`${linkClass} ${styles.profileBtn}`}
             >
-              Profile {/* <--- MUDANÇA AQUI */}
+              Profile
               <span className={styles.arrow}>&#9660;</span>
             </button>
             {isProfileOpen && <ProfileDropdown />}

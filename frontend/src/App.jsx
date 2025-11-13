@@ -6,19 +6,23 @@ import RegisterPage from "./pages/Register/Register";
 import PortalPage from "./pages/Portal/Portal";
 import Footer from "./components/Footer/Footer";
 import { Routes, Route } from "react-router-dom";
+import MyReservations from "./pages/MyReservations/MyReservations";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/portal" element={<PortalPage />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/portal" element={<PortalPage />} />
+          <Route path="/profile/my-reservations" element={<MyReservations />} />
+        </Routes>
+      </main>
 
       <div id="contact">
         <Footer />
