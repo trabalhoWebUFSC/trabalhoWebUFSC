@@ -19,6 +19,7 @@
   width: 232px;
   height: 58px;
   z-index: 1000;
+  margin-left:8px;
 }
 
 .navLink {
