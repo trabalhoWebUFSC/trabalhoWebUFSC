@@ -94,9 +94,14 @@
 .detailsLink {
     color: #BDBDBD;
     font-family: 'Forum', sans-serif;
-    text-decoration: none;
+    text-decoration: none !important;
     font-size: 18px;
     margin-left: 20px;
+    transition: color 0.3s ease;
+}
+
+.detailsLink:hover{
+    color:#575656
 }
 
 .bookBtn {
@@ -110,8 +115,12 @@
     border-top: 1px solid #BF9766;
     border-bottom: 1px solid #BF9766;
     margin-left: 350px;
+    transition: color 0.3s ease;
 }
 
+.bookBtn:hover {
+    color: #8b683d;
+}
 
 .Line {
     width: 475px;
@@ -430,4 +439,5 @@
     }
 
 }
+
 
