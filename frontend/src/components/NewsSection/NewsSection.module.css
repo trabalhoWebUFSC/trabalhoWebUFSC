@@ -49,10 +49,13 @@
     position: relative;
     left:1050px;
     bottom: 58px;
-    
+    transition: color 0.3s ease;   
     
 }
 
+.discoverBtn:hover{
+  color:#818080
+}
 
 
 
