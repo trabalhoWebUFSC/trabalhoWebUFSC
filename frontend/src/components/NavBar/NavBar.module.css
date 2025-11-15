@@ -1,10 +1,10 @@
 .navLinks {
   list-style: none;
   display: flex;
-  gap: 160px;
+  gap: 180px;
   justify-content: center;
   font-family: 'Playfair Display', serif;
-  font-weight: 600;
+  font-weight: 300;
   position: absolute;
   width: 100%;
   z-index: 1000;
@@ -23,21 +23,16 @@
 
 .navLink {
   color: white;
-  text-decoration: none;
+  text-decoration: none !important;
+  transition: color 0.3s ease; 
+  font-size:18px;
 }
 
 .navLink:hover {
   color: #BF9766;
 }
 
-.navLink:active,
-.navLink:focus {
-  text-decoration: underline;
-}
 
-.activeLink {
-  text-decoration: underline !important;
-}
 
 
 
@@ -61,6 +56,11 @@
   color: white;
   position: relative;
   z-index: 2000;
+  transition: color 0.3s ease; 
+}
+
+.mobilebtn:hover{
+  color: #b5b5b5
 }
 
 .mobilenavLinks {
@@ -72,11 +72,13 @@
   display: none;
   font-size: 40px;
   white-space: nowrap;
+  
 }
 
 .mobilenavLink {
   color: white;
-  text-decoration: none;
+  text-decoration: none !important;
+  transition: color 0.3s ease; 
 }
 
 .mobilenavLink:hover {
