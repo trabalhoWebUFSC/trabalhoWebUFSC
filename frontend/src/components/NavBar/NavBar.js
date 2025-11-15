@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import HotelLogo from "../../assets/images/logo-hotel.png";
+import { FaBars, FaTimes } from "react-icons/fa";
 
-// Componente separado pro Dropdown
+
 function ProfileDropdown() {
   return (
     <div className={styles.dropdownContent}>
@@ -17,6 +18,7 @@ function ProfileDropdown() {
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   const location = useLocation();
   const isPortalPage =
     location.pathname.startsWith("/portal") ||
@@ -24,6 +26,7 @@ function Navbar() {
 
   const profileDropdownRef = useRef(null);
 
+  
   const navLinks = isPortalPage
     ? [
         { to: "/portal", label: "Portal" },
@@ -38,14 +41,17 @@ function Navbar() {
         { to: "/login", label: "Login" },
       ];
 
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+ 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
   };
 
+  
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -56,11 +62,21 @@ function Navbar() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [profileDropdownRef]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
+ 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add("menu-open");
+      document.documentElement.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+      document.documentElement.classList.remove("menu-open");
+    }
+  }, [isMenuOpen]);
+
+  // Renderizar links (desktop + mobile)
   const renderNavLinks = (isMobile = false) => {
     const linkClass = isMobile ? styles.mobilenavLink : styles.navLink;
 
@@ -76,9 +92,9 @@ function Navbar() {
               onClick={toggleProfileMenu}
               className={`${linkClass} ${styles.profileBtn}`}
             >
-              Profile
-              <span className={styles.arrow}>&#9660;</span>
+              Profile <span className={styles.arrow}>&#9660;</span>
             </button>
+
             {isProfileOpen && <ProfileDropdown />}
           </li>
         );
@@ -86,7 +102,11 @@ function Navbar() {
 
       return (
         <li key={link.to}>
-          <Link to={link.to} className={linkClass}>
+          <Link
+            to={link.to}
+            className={linkClass}
+            onClick={isMobile ? toggleMenu : undefined}
+          >
             {link.label}
           </Link>
         </li>
@@ -96,7 +116,7 @@ function Navbar() {
 
   return (
     <>
-      {/* Navbar Desktop*/}
+      
       <nav className={styles.navbarContainer}>
         <div className={styles.logo}>
           <img src={HotelLogo} alt="Logo do Hotel" className={styles.logo} />
@@ -104,10 +124,10 @@ function Navbar() {
         <ul className={styles.navLinks}>{renderNavLinks(false)}</ul>
       </nav>
 
-      {/*Navbar Mobile*/}
+      
       <section className={styles.mobileNavbar}>
         <button className={styles.mobilebtn} onClick={toggleMenu}>
-          <i className="fa-solid fa-bars"></i>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
 
         <ul
@@ -123,3 +143,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
