@@ -82,6 +82,7 @@
     position:absolute;
     left:70px;
     top:50%;
+    transition: color 0.3s ease; 
     
 
 }
@@ -95,8 +96,18 @@
     font-size: 1.5rem;
     position:absolute;
     padding-left: 1000px;
-    top:50%;    
+    top:50%;  
+    transition: color 0.3s ease;   
 
+}
+
+.arrowLeft:hover{
+    color:#2c2b2b;
+}
+
+.arrowRight:hover{
+    color:#2c2b2b;
+ 
 }
 
 .starsWrapper{
