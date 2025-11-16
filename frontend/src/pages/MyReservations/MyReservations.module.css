@@ -1,0 +1,127 @@
+.pageWrapper {
+  background-color: var(--cor-secundaria-preto);
+
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-top: 90px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+}
+
+/* --- ESTILOS DE LAYOUT --- */
+
+.title {
+  color: var(--cor-texto-claro);
+
+  font-size: 2.2rem;
+  border-bottom: 2px solid #444;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.loadingText {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #aaa;
+  padding: 50px 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+  margin-top: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  margin-bottom: 25px;
+}
+
+.reserveLink {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.reserveLink:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
+
+/* Eestilos Tabela */
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.reservasTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: #f0f0f0;
+}
+
+.reservasTable thead th {
+  background-color: #3a3a3a;
+  color: #fff;
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.reservasTable tbody td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #3a3a3a;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+.reservasTable tbody tr:hover {
+  background-color: #333;
+}
+
+.reservasTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 12px;
+  display: inline-block;
+  text-transform: uppercase;
+  min-width: 80px;
+  text-align: center;
+}
+
+.confirmada {
+  background-color: #28a745;
+  color: #fff;
+}
+.pendente {
+  background-color: #ffc107;
+  color: #212529;
+}
+.finalizada {
+  background-color: #6c757d;
+  color: #fff;
+}

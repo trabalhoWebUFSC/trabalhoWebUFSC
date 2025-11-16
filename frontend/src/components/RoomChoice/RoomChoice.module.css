@@ -7,6 +7,7 @@
     background-color: #2D2C2C;
     margin-top: 100px;
     padding-bottom: 100px;
+    overflow: hidden;
     
     
 }
@@ -93,9 +94,14 @@
 .detailsLink {
     color: #BDBDBD;
     font-family: 'Forum', sans-serif;
-    text-decoration: none;
+    text-decoration: none !important;
     font-size: 18px;
     margin-left: 20px;
+    transition: color 0.3s ease;
+}
+
+.detailsLink:hover{
+    color:#575656
 }
 
 .bookBtn {
@@ -109,8 +115,12 @@
     border-top: 1px solid #BF9766;
     border-bottom: 1px solid #BF9766;
     margin-left: 350px;
+    transition: color 0.3s ease;
 }
 
+.bookBtn:hover {
+    color: #8b683d;
+}
 
 .Line {
     width: 475px;
@@ -168,6 +178,266 @@
   background-color: #BF9766;
   width: 13px;
   height: 13px;
+}
+
+
+
+@media (max-width: 768px) {
+    
+
+    .roomSection {
+        margin-top: 80px;
+        padding-bottom: 100px;
+        padding-left: 30px;
+        padding-right: 30px;
+        overflow-x: hidden;
+        position: relative; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top:30px;
+        
+    }
+
+    .Title,
+    .subTitle {
+        margin-left: 0;
+        text-align: center;
+        order:1;
+    }
+
+    .Title {
+        padding-top: 50px;
+        font-size: 16px;
+    }
+
+    .subTitle {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .roomImg {
+        display: block;
+        width: 100%; 
+        max-width: 500px;
+        height: auto; 
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        margin-bottom: 0;
+        position: relative; 
+        z-index: 1; 
+        order:2;
+    }
+
+    .roomCard {
+        width: 75%; 
+        max-width: 450px; 
+        height: 350px; 
+        position: absolute; 
+        z-index: 5;
+        left: 50%;
+        order:3;
+        transform: translateX(-50%);
+        top: 330px;    
+        padding: 15px 15px 20px 15px;
+        margin-left: 0;
+        margin-top: 0;
+    }
+    
+
+    .suiteName,
+    .price {
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .price {
+        padding-top: 5px;
+        margin-bottom: 10px;
+    }
+
+   
+    .featuresContainer {
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 5px;
+        row-gap: 20px; 
+        padding-top: 15px;
+    }
+    
+    .featureItem {
+        margin-left: 10px; 
+        margin-top: 16px;
+        display: flex;
+        gap: 10px; 
+        align-items: center;
+        justify-content: flex-start; 
+        font-size: 14px; 
+    }
+    
+
+    .featureItem img {
+        width: 20px;
+        height: auto;
+    }
+
+    .Line {
+        width: 100%; 
+        margin-left: 0; 
+        margin-top: 15px;
+    }
+
+    .detailsLink {
+        display: inline-block;
+        margin-left: 0;
+        font-size: 16px;
+    }
+    
+    .bookBtn {
+        margin-top:30px;
+        margin-left: 25px; 
+        display: inline-block;
+        padding: 6px 40px; 
+        font-size: 18px;
+    }
+       
+
+    .arrowBtn {
+        display: block; 
+        font-size: 1.2rem;
+        top: 45%; 
+        margin-top: 0;
+    }
+    
+    .arrowBtn:first-of-type {
+        left: 15px; 
+        margin-left:0;
+        top:251px;
+        
+    }
+    
+    .arrowBtn:last-of-type {
+        right: 15px; 
+        margin-left: 0;
+        padding-top:400px;
+    }
+
+    .dotsContainer {
+        padding-top: 350px; 
+        order:4;
+    }
+}
+
+
+@media (min-width: 780px) and (max-width: 1280px) {
+    .sliderContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative; 
+        width: 90%; 
+        max-width: 950px;
+        margin: 0 auto; 
+        margin-top: 50px;
+    }
+    
+    
+    .roomImg, .roomCard {
+        margin-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+
+    .Title {
+        margin-left: 0;
+        text-align: center;
+        padding-top: 50px; 
+    }
+
+    .subTitle {
+        margin-left: 0;
+        text-align: center;
+        font-size: 40px; 
+    }
+
+
+    .roomImage {
+        width: 100%;
+        max-width: 800px; 
+        position: relative; 
+    }
+    
+    .roomImg {
+        width: 100%; 
+        height: auto; 
+    }
+    .roomCard {
+        width: 450px; 
+        height: auto;
+        position: absolute; 
+        z-index: 2;
+        top:130%; 
+        left: 50%; 
+        padding: 20px;
+        transform: translate(-50%, -50%);
+    }
+
+    .Line {
+        width: 85%; 
+        margin: 15px auto;
+    }
+    
+    .bookBtn {
+        margin-left: 250px; 
+        font-size: 25px;
+        margin-top:-20px;
+    }
+
+    .featuresContainer {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 60px;
+        column-gap: 10px;
+        padding-top: 20px;
+        font-size: 16px;
+        
+    }
+
+    .featureItem {
+        margin-left: 10px; 
+        gap: 10px;
+    }
+
+    .arrowBtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+    }
+    
+    .arrowBtn:first-of-type {
+        left: 0; 
+        margin-left: -30px; 
+        margin-top: 0;
+    }
+
+    .arrowBtn:last-of-type {
+        right: 0; 
+        margin-left: 0;
+        margin-right: -30px; 
+        margin-top: 0;
+    }
+
+    .dotsContainer {
+        margin-top: 320px;
+    }
+
+
+    .cardActions {
+        margin-top:40px;
+    }
+
 }
 
 
