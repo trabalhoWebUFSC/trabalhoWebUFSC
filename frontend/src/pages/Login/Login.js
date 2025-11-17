@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api, { setAuthToken } from "../../services/api";
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from './Login.module.css';
 
@@ -7,22 +8,50 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    setLoading(true);
 
-    // LÓGICA DE LOGIN
+    // validacao
     if (!email || !password) {
-      setError("Por favor, preencha E-mail e Senha.");
+      setError("Please fill in email and password.");
+      setLoading(false);
       return;
     }
 
-    console.log("Tentativa de Login:", { email, password });
+    try {
+      // chamada da api
+      const response = await api.post("/login", {
+        email,
+        password
+      });
 
-    // chamada FETCH para API
-    navigate("/portal");
+      // extrai token da resposta
+      const { token } = response.data;
+
+      // define o token no axios
+      setAuthToken(token);
+
+      navigate("/portal"); 
+
+    } catch (error) {
+      if (error.response) {
+        // erro do servidor (credenciais invalidas)
+        setError(error.response.data.message || "Failed to login. Please verify your credentials.");
+      } else if (error.request){
+        // erro de conexao
+        setError("Connection error. Please try again.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,11 +65,12 @@ function LoginPage() {
         <div className={sharedStyles.formGroup}>
           <label htmlFor="email">E-mail:</label>
           <input
-            type="text"
+            type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
             className={sharedStyles.inputField}
           />
         </div>
@@ -54,13 +84,18 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
             className={sharedStyles.inputField}
           />
         </div>
 
         {/* BOTÃO SUBMIT */}
-        <button type="submit" className={styles.submitButton}>
-          Submit 
+        <button 
+          type="submit" 
+          className={styles.submitButton}
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Submit"} 
         </button>
 
         {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
