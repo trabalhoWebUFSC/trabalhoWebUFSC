@@ -10,6 +10,7 @@
 
 # Arquivos de ambiente com segredos
 .env
+.env.local
 
 # Arquivos do VS Code
 .vscode/
