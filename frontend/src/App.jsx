@@ -24,7 +24,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          
+          <Route path="/register" element={<RegisterPage mode="register" />} />
+          
+          <Route path="/profile" element={<RegisterPage mode="view" />} />
+          <Route path="/profile/edit" element={<RegisterPage mode="edit" />} />
+          
           <Route path="/portal" element={<PortalPage />} />
           <Route path="/profile/my-reservations" element={<MyReservations />} />
         </Routes>
