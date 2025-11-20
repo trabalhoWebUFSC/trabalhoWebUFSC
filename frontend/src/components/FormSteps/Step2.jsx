@@ -5,7 +5,7 @@ import { validatePassword, confirmPassword } from '../../utils/validator/passwor
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from "../../pages/Register/Register.module.css";
 
-function Step2({ data, onChange, onBlur, emptyField }) {
+function Step2({ data, onChange, onBlur, emptyField, disabled = false }) {
   const [emailError, setEmailError] = useState('');
   const [passwordRules, setPasswordRules] = useState([]);
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
@@ -40,6 +40,7 @@ function Step2({ data, onChange, onBlur, emptyField }) {
           onChange={(e) => onChange('email', e.target.value)}
           onBlur={(e) => {handleEmailBlur(e); onBlur('email');}}
           className={`${sharedStyles.inputField} ${emptyField?.email || emailError ? sharedStyles.errorMessage : ''}`}
+          disabled={disabled}
           required
         />
         {emptyField?.email ? (
@@ -57,6 +58,7 @@ function Step2({ data, onChange, onBlur, emptyField }) {
         onBlur={() => onBlur('password')}
         className={`${sharedStyles.inputField} ${emptyField?.name ? sharedStyles.errorMessage : ''}`}
         error={emptyField?.password}
+        disabled={disabled}
         required
       />
       {data.password && passwordRules.length > 0 && (
@@ -78,6 +80,7 @@ function Step2({ data, onChange, onBlur, emptyField }) {
         onBlur={(e) => {handleConfirmPasswordBlur(e); onBlur('confirmPassword');}}
         className={`${sharedStyles.inputField} ${emptyField?.confirmPassword || confirmPasswordError ? sharedStyles.errorMessage : ''}`}
         error={emptyField?.confirmPassword || confirmPasswordError}
+        disabled={disabled}
         required
       />
     </>

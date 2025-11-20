@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api, { setAuthToken } from '../../services/api';
 import Step1 from '../../components/FormSteps/Step1';
 import Step2 from '../../components/FormSteps/Step2';
 import Step3 from '../../components/FormSteps/Step3';
@@ -7,8 +9,11 @@ import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from "./Register.module.css";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
   const [emptyField, setEmptyField] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
@@ -16,7 +21,6 @@ function RegisterPage() {
     // Dados pessoais
     name: '',
     birth: '',
-    profilePicture: null,
 
     // Credenciais
     email: '',
@@ -89,8 +93,42 @@ function RegisterPage() {
     setEmptyField(prev => ({...prev, [field]: error}));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const payload = {
+        name: formState.name,
+        birth: formState.birth,
+        email: formState.email,
+        password: formState.password,
+        address: {
+          cep: formState.address.cep,
+          street: formState.address.street,
+          number: formState.address.number,
+          hood: formState.address.hood,
+          city: formState.address.city,
+          state: formState.address.state,
+          complement: formState.address.complement
+        }
+      };
+
+      // Envia para API 
+      const response = await api.post('/auth/register', payload);
+
+      // Faz login automaticamente após ser cadastrado
+      setAuthToken(response.data.token);
+      navigate("/portal");
+
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || "Failed to sign up. Please try again.";
+      setError(errorMessage);
+      console.error("Sign up error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,10 +136,9 @@ function RegisterPage() {
     <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
       <h2 className={sharedStyles.formTitle}>Sign Up</h2>
 
-      {/* se estiver na primeira etapa renderiza Step1*/}
       {currentStep === 1 && (
         <Step1 
-          data={formState}
+        data={formState}
           onChange={handleChange}
           onBlur={handleFieldBlur}
           emptyField={emptyField}
@@ -128,16 +165,37 @@ function RegisterPage() {
 
       <div className={styles.buttonGroup}>
         {currentStep > 1 && (
-          <button type="button" onClick={prevStep} className={styles.btn}>«</button>
+          <button 
+            type="button" 
+            onClick={prevStep} 
+            className={styles.btn}
+            disabled={loading}
+          >
+            «
+          </button>
         )}
 
         {currentStep < totalSteps && (
-          <button type="button" disabled={isBtnDisabled} onClick={nextStep} className={styles.btn}>»</button>
+          <button 
+            type="button" 
+            disabled={isBtnDisabled || loading} 
+            onClick={nextStep} 
+            className={styles.btn}
+          >
+            »
+          </button>
         )}
 
         {currentStep === totalSteps && (
-          <button type="submit" disabled={isBtnDisabled} className={styles.btn}>»</button>
+          <button 
+            type="submit" 
+            disabled={isBtnDisabled || loading}
+            className={styles.btn}
+            >
+            »
+          </button>
         )}
+        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
       </div>
     </form>
     </div>
