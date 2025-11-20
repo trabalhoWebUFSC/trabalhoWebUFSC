@@ -16,7 +16,7 @@ function LoginPage() {
     setError("");
     setLoading(true);
 
-    // validacao
+    // validação básica
     if (!email || !password) {
       setError("Please fill in email and password.");
       setLoading(false);
@@ -24,31 +24,21 @@ function LoginPage() {
     }
 
     try {
-      // chamada da api
-      const response = await api.post("/login", {
+      // chamada à api para realizar login
+      const response = await api.post('/auth/login', {
         email,
         password
       });
 
-      // extrai token da resposta
-      const { token } = response.data;
-
-      // define o token no axios
-      setAuthToken(token);
-
+      // salva o token e faz login
+      setAuthToken(response.data.token);
       navigate("/portal"); 
 
-    } catch (error) {
-      if (error.response) {
-        // erro do servidor (credenciais invalidas)
-        setError(error.response.data.message || "Failed to login. Please verify your credentials.");
-      } else if (error.request){
-        // erro de conexao
-        setError("Connection error. Please try again.");
-      } else {
-        setError("An unexpected error occurred.");
-      }
-      console.error("Login error:", error);
+    } catch (err) {
+      // exibe mensagem de erro
+      const errorMessage = err.response?.data?.message || "Failed to login. Please try again.";
+      setError(errorMessage);
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
@@ -58,8 +48,6 @@ function LoginPage() {
    <div className={sharedStyles.authContainer}>
       <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
         <h2 className={sharedStyles.formTitle}>Sign In</h2>
-
-        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
 
         {/* CAMPO EMAIL */}
         <div className={sharedStyles.formGroup}>
@@ -97,6 +85,8 @@ function LoginPage() {
         >
           {loading ? "Loading..." : "Submit"} 
         </button>
+
+        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
 
         {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
         <p className={styles.forgotPassword}>
