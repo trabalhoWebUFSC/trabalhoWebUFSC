@@ -1,9 +1,19 @@
 import React from 'react';
+import ProfilePicture from '../Upload/ProfilePicture';
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 
 function Step1({ data, onChange, onBlur, emptyField, disabled = false }) {
   return (
     <>
+      <div className={sharedStyles.formGroup}>
+        <ProfilePicture 
+          value={data.profilePicture}
+          onChange={(file) => onChange('profilePicture', file)}
+          previewUrl={data.profilePictureUrl}
+          disabled={disabled}
+        />
+      </div>
+
       <div className={sharedStyles.formGroup}>
         <label htmlFor="name">Full name:</label>
         <input 
@@ -29,7 +39,7 @@ function Step1({ data, onChange, onBlur, emptyField, disabled = false }) {
           value={data.birth}
           onChange={(e) => onChange('birth', e.target.value)}
           onBlur={() => onBlur('birth')}
-          className={`${sharedStyles.inputField} ${emptyField?.name ? sharedStyles.errorMessage : ''}`}
+          className={`${sharedStyles.inputField} ${emptyField?.birth ? sharedStyles.errorMessage : ''}`}
           disabled={disabled}
           required
         />
