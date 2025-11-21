@@ -9,11 +9,13 @@ function Home() {
   return (
     <>
       <HeroHotel />
-      <div id="services">
+      <div id="rooms">
         <RoomChoice />
       </div>
-
-      <Services />
+      
+      <div id="services">
+       <Services />
+      </div>
       <Rating />
       <NewsSection />
       <PromoBanner />
@@ -22,3 +24,4 @@ function Home() {
 }
 
 export default Home;
+
