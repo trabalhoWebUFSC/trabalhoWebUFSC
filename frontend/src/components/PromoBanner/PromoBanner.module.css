@@ -54,9 +54,15 @@
     font-family: 'Forum', sans-serif;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
-    
+    transition: color 0.3s ease , border-color 0.3s ease; 
 
 }
+
+.promoButton:hover {
+    color: #BF9766;
+    border-color: #BF9766;   
+}
+
 
 .promoH1 {
     font-family: "Forum", sans-serif;
@@ -113,3 +119,4 @@
 
     
 }
+
