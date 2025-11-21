@@ -104,11 +104,12 @@
     border-top: 1px solid #BF9766;
     border-bottom: 1px solid #BF9766;
     margin-left: 390px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease , border-color 0.3s ease;
 }
 
 .bookBtn:hover {
     color: #8b683d;
+    border-color: #8b683d;
 }
 
 .Line {
@@ -430,4 +431,3 @@
        top:45%;
     }
 }
-
