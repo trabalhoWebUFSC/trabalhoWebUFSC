@@ -6,7 +6,8 @@ import axios from 'axios';
  */
 const api = axios.create({
   baseURL: (process.env.REACT_APP_API_URL || 'http://localhost:3001') + '/api',
-  withCredentials: true // envia cookies automaticamente
+  // withCredentials: true  <-- REMOVIDO/COMENTADO PARA EVITAR ERRO DE CORS COM BACKEND PADRÃO
+  withCredentials: false
 });
 
 /**
@@ -16,6 +17,7 @@ const api = axios.create({
  */
 export const setAuthToken = (token) => {
   if (token) {
+    // Configura o header padrão para todas as requisições futuras
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     localStorage.setItem('authToken', token);
   } else {
@@ -54,7 +56,10 @@ api.interceptors.response.use(
     // Token expirado ou não autorizado
     if (error.response?.status === 401) {
       logout();
-      window.location.href = '/login';
+      // Opcional: redirecionar apenas se não estivermos já na tela de login
+      if (!window.location.pathname.includes('/login')) {
+         window.location.href = '/login';
+      }
     }
 
     // Erro do servidor
@@ -70,7 +75,7 @@ api.interceptors.response.use(
  * Interceptor de requisição para logs em desenvolvimento
  * Mostra método HTTP e URL da requisição
  */
-if (process.env.REACT_APP_ENVIRONMENT === 'development') {
+if (process.env.NODE_ENV === 'development') { // Ajustado para NODE_ENV que é padrão
   api.interceptors.request.use((config) => {
     console.log(`[${config.method.toUpperCase()}] ${config.url}`);
     return config;

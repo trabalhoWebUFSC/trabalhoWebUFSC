@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api, { setAuthToken } from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import api from '../../services/api';
 import Step1 from '../../components/FormSteps/Step1';
 import Step2 from '../../components/FormSteps/Step2';
 import Step3 from '../../components/FormSteps/Step3';
@@ -45,106 +47,85 @@ function RegisterPage({ mode = 'register' }) {
 
   const isViewMode = mode === 'view';
   const isEditMode = mode === 'edit';
-  const isRegisterMode = mode === 'register';
-  const isDisabled = isViewMode;
 
   // carrega dados ao montar o componente se for view/edit
   useEffect(() => {
-    if ((isViewMode || isEditMode) && dataLoading) {
-      loadProfileData();
-    }
-  }, []);
-
-  const loadProfileData = async () => {
-    try {
-      const response = await api.get('/auth/profile');
-      const userData = response.data;
-
-      setFormState({
-        name: userData.name || '',
-        birth: userData.birth || '',
-        email: userData.email || '',
-        password: '',
-        confirmPassword: '',
-        profilePicture: null,
-        profilePictureUrl: userData.profilePictureUrl || null,
-        address: userData.address || {
-          cep: '',
-          street: '',
-          number: '',
-          hood: '',
-          city: '',
-          state: '',
-          complement: ''
+    if (isViewMode || isEditMode) {
+      const fetchUserData = async () => {
+        try {
+          const response = await api.get('/auth/me'); 
+          const user = response.data;
+          
+          setFormState({
+            name: user.name || '',
+            birth: user.birth ? user.birth.split('T')[0] : '',
+            email: user.email || '',
+            password: '', 
+            confirmPassword: '',
+            profilePicture: null,
+            profilePictureUrl: user.profilePictureUrl || null,
+            address: user.address || {
+              cep: '',
+              street: '',
+              number: '',
+              hood: '',
+              city: '',
+              state: '',
+              complement: ''
+            }
+          });
+        } catch (err) {
+          setError("Error loading the user data.");
+          navigate('/login');
+        } finally {
+          setDataLoading(false);
         }
-      });
-    } catch (err) {
-      console.error("Error loading profile:", err);
-      setError("Error loading profile: " + err.message);
-      
-      if (err.response?.status === 401) {
-        navigate("/login");
-      }
-    } finally {
-      setDataLoading(false);
+      };
+      fetchUserData();
     }
+  }, [mode, navigate, isViewMode, isEditMode]);
+
+  useEffect(() => {
+    const isStep1Valid = formState.name && formState.birth;
+    const isStep2Valid = formState.email && (isEditMode || (formState.password && formState.confirmPassword));
+    const isStep3Valid = formState.address.cep && formState.address.street && formState.address.number;
+
+    if (currentStep === 1) setIsBtnDisabled(!isStep1Valid);
+    else if (currentStep === 2) setIsBtnDisabled(!isStep2Valid);
+    else if (currentStep === 3) setIsBtnDisabled(!isStep3Valid);
+  }, [formState, currentStep, isEditMode]);
+
+  const handleChange = (field, value, section = null) => {
+    if (section) {
+      setFormState((prev) => ({
+        ...prev,
+        [section]: { ...prev[section], [field]: value }
+      }));
+    } else {
+      setFormState((prev) => ({ ...prev, [field]: value }));
+    }
+
+    if (section && emptyField[field]) {
+      setEmptyField((prev) => ({ ...prev, [field]: '' }));
+    } else if (!section && emptyField[field]) {
+      setEmptyField((prev) => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleFieldBlur = (field, section = null) => {
+    const value = section ? formState[section][field] : formState[field];
+    if (isEditMode && (field === 'password' || field === 'confirmPassword') && !value) return;
+    
+    const errorMsg = validateField(value);
+    setEmptyField((prev) => ({ ...prev, [field]: errorMsg }));
   };
 
   const nextStep = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(prev => prev + 1);
-    }
+    if (currentStep < totalSteps) setCurrentStep(currentStep + 1);
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
-
-  const validateCurrentStep = () => {
-    if (currentStep === 1) {
-      return formState.name.trim() !== '' &&
-      formState.birth.trim() !== '';
-    }
-
-    if (currentStep === 2) {
-      const hasEmail = formState.email.trim() !== '';
-      if (isRegisterMode) {
-        return hasEmail && formState.password.trim() !== '' &&
-        formState.confirmPassword.trim() !== '';
-      }
-      return hasEmail;
-    }
-    
-    if (currentStep === 3) {
-      return formState.address.cep.trim() !== '' &&
-        formState.address.street.trim() !== '' &&
-        formState.address.number.trim() !== '' &&
-        formState.address.hood.trim() !== '' &&
-        formState.address.city.trim() !== '' &&
-        formState.address.state.trim() !== '';
-    }
-    return false;
-  };
-  
-  useEffect(() => {
-    setIsBtnDisabled(!validateCurrentStep());
-  }, [formState, currentStep, isRegisterMode]);
-  
-  const handleChange = (field, value) => {
-    setFormState(prev => ({ ...prev, [field]: value }));
-    // limpa o erro do campo quando o usuario comeca a digitar
-    if (emptyField[field]) {
-      setEmptyField(prev => ({...prev, [field]: ''}));
-    }
-  };
-  
-  const handleFieldBlur = (field, parentField = null) => {
-    // se o campo tiver um 'parent field' (campos aninhados) acessa com formState[parentField][field]
-    const value = parentField ? formState[parentField][field] : formState[field];
-    const error = validateField(value);
-    setEmptyField(prev => ({...prev, [field]: error}));
+    if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
   const handleSubmit = async (e) => {
@@ -153,82 +134,65 @@ function RegisterPage({ mode = 'register' }) {
     setError("");
 
     try {
-      const formData = new FormData();
-      
-      formData.append('name', formState.name);
-      formData.append('birth', formState.birth);
-      formData.append('email', formState.email);
-      
-      if (isRegisterMode || (isEditMode && formState.password)) {
-        formData.append('password', formState.password);
-      }
-      
-      if (formState.profilePicture) {
-        formData.append('profilePicture', formState.profilePicture);
-      }
-      
-      formData.append('address', JSON.stringify({
-        cep: formState.address.cep,
-        street: formState.address.street,
-        number: formState.address.number,
-        hood: formState.address.hood,
-        city: formState.address.city,
-        state: formState.address.state,
-        complement: formState.address.complement
-      }));
+      let payload;
+      let config = {};
 
-      if (isRegisterMode) {
-        const response = await api.post('/auth/register', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        setAuthToken(response.data.userId);
-        navigate("/portal");
-      } else if (isEditMode) {
-        await api.put('/auth/profile', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        navigate("/profile");
+      if (formState.profilePicture) {
+        payload = new FormData();
+        payload.append('name', formState.name);
+        payload.append('birth', formState.birth);
+        payload.append('email', formState.email);
+        
+        if (formState.password) {
+          payload.append('password', formState.password);
+        }
+        
+        payload.append('address', JSON.stringify(formState.address));
+        payload.append('profilePicture', formState.profilePicture);
+        config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      } else {
+        payload = formState;
+      }
+
+      if (mode === 'edit') {
+        await api.put('/users/profile', payload, config);
+        toast.success("Profile successfuly updated!");
+        setTimeout(() => navigate("/portal"), 2000);
+      } else {
+        await api.post('/auth/register', payload, config);
+        toast.success("Account succesfully created! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000);
       }
 
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || "Error processing request.";
-      setError(errorMessage);
-      console.error("Error:", err);
+      const msg = err.response?.data?.message || "Failed to sign up. Please try again.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  const getTitle = () => {
-    if (isRegisterMode) return 'Sign Up';
-    if (isViewMode) return 'Profile';
-    if (isEditMode) return 'Edit Profile';
-  };
-
-  if (dataLoading && (isViewMode || isEditMode)) {
-    return (
-      <div className={sharedStyles.authContainer}>
-        <div className={sharedStyles.authForm}>
-          <h2 className={sharedStyles.formTitle}>{getTitle()}</h2>
-          <p>Loading profile...</p>
-        </div>
-      </div>
-    );
-  }
+  if (dataLoading) return <div className={styles.loading}>Loading data...</div>;
 
   return (
     <div className={sharedStyles.authContainer}>
-      <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
-        <h2 className={sharedStyles.formTitle}>{getTitle()}</h2>
+      <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+        autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+      />
 
+      <form className={`${sharedStyles.authForm} ${styles.registerForm}`} onSubmit={handleSubmit}>
+        <h2 className={sharedStyles.formTitle}>
+          {isViewMode ? 'Profile' : isEditMode ? 'Edit Profile' : 'Sign Up'}
+        </h2>
 
         {currentStep === 1 && (
-          <Step1 
+          <Step1
             data={formState}
             onChange={handleChange}
             onBlur={handleFieldBlur}
             emptyField={emptyField}
-            disabled={isDisabled}
+            disabled={isViewMode}
           />
         )}
 
@@ -238,7 +202,7 @@ function RegisterPage({ mode = 'register' }) {
             onChange={handleChange}
             onBlur={handleFieldBlur}
             emptyField={emptyField}
-            disabled={isDisabled}
+            disabled={isViewMode}
           />
         )}
 
@@ -248,7 +212,7 @@ function RegisterPage({ mode = 'register' }) {
             onChange={handleChange}
             onBlur={(field) => handleFieldBlur(field, 'address')}
             emptyField={emptyField}
-            disabled={isDisabled}
+            disabled={isViewMode}
           />
         )}
 
@@ -270,22 +234,27 @@ function RegisterPage({ mode = 'register' }) {
               disabled={isBtnDisabled || loading} 
               onClick={nextStep} 
               className={styles.btn}
-              >
+            >
               »
             </button>
           )}
 
           {currentStep === totalSteps && !isViewMode && (
             <button 
-            type="submit" 
-            disabled={isBtnDisabled || loading}
-            className={styles.btn}
+              type="submit" 
+              disabled={isBtnDisabled || loading}
+              className={styles.btn}
             >
               »
             </button>
           )}
         </div>
-        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
+
+        {error && (
+          <p className={sharedStyles.errorMessage} style={{marginTop: '15px', textAlign: 'center'}}>
+            {error}
+          </p>
+        )}
       </form>
     </div>
   );
