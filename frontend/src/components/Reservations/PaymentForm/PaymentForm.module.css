@@ -1,0 +1,85 @@
+.stepContainer {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+.paymentSummary {
+  background-color: #f8f9fa;
+  border: 1px solid #eee;
+  color: #000;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.totalPrice {
+  color: var(--cor-primaria-dourado-escuro, #c0a16b);
+  font-size: 1.4em;
+  font-weight: bold;
+  display: block;
+}
+
+.stepTitle {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: #333;
+  border-bottom: 2px solid var(--cor-primaria-dourado-escuro, #c0a16b);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+}
+
+.halfInput {
+  flex: 1;
+}
+
+.btn {
+  width: 50%;
+  padding: 14px;
+  background-color: var(--cor-fundo-claro, #fff);
+  color: var(--cor-secundaria-preto, #000);
+  border: 1px solid var(--cor-secundaria-preto, #000);
+  border-radius: 4px;
+  font-size: 1.1em;
+  font-family: var(--fonte-corpo);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  color: var(--cor-primaria-dourado-escuro);
+  border-color: var(--cor-primaria-dourado-escuro);
+}
+
+.backBtn {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 10px;
+  font-size: 0.9em;
+  width: 100%;
+  text-align: center;
+}
+
+.backBtn:hover {
+  color: #000;
+}
