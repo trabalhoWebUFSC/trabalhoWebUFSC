@@ -48,20 +48,14 @@
 }
 
 
-@media (max-width: 1200px) {
-  .title {
-    font-size: 4rem;
-  }
-}
 
-
-@media (max-width: 768px) {
+@media (min-width:750px) and (max-width: 1180px) {
   .heroSection { 
     min-height: 100vh; } 
 
 
   .title {
-    font-size: 40px;
+    font-size: 70px;
   }
 
   .subtitle {
@@ -74,16 +68,16 @@
   }
 }
 
-@media (min-width: 480px) and (max-width:500px) {
+@media (min-width: 320px) and (max-width:570px) {
   .title {
     font-size: 2.1rem;
       
   }
 
   .subtitle{
-    font-size:25px;
-    width:370px;
-    height:27px;
+    font-size:10px;
+    width:380px;
+    
   }
 
   .heroContent{
@@ -91,5 +85,6 @@
   }
 }
   
+
 
 
