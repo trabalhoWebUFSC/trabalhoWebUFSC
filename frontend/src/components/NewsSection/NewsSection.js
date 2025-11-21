@@ -64,9 +64,6 @@ const NewsSection = () => {
          <p className={styles.newsSubtitle}>LOCAL NEWS AND ACTIVITIES</p>
         <h2 className={styles.newsTitle}>Latest News Update</h2>
        </div>
-        <button className={styles.discoverBtn}>
-          Discover More &gt; 
-        </button>
       </div>
 
       <div className={styles.newsGrid}>
@@ -103,3 +100,4 @@ const NewsSection = () => {
 };
 
 export default NewsSection;
+
