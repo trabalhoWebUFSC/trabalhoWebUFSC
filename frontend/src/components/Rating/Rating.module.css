@@ -81,7 +81,7 @@
     border: none;
     font-size: 1.5rem;
     position:absolute;
-    left:70px;
+    left:100px;
     top:50%;
     transition: color 0.3s ease; 
     
@@ -96,7 +96,7 @@
     border: none;
     font-size: 1.5rem;
     position:absolute;
-    padding-left: 1000px;
+    padding-left: 940px;
     top:50%;  
     transition: color 0.3s ease;   
 
