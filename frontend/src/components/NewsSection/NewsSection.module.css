@@ -37,26 +37,6 @@
   font-family: "Forum", sans-serif;
 }
 
-.discoverBtn {
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    background-color: transparent;
-    border-top: 1px solid #BDBDBD;
-    border-bottom: 1px solid #BDBDBD;
-    font-family: "Forum", sans-serif;
-    color: #BDBDBD ;
-    position: relative;
-    left:1050px;
-    bottom: 58px;
-    transition: color 0.3s ease;   
-    
-}
-
-.discoverBtn:hover{
-  color:#818080
-}
-
 
 
 .newsGrid {
@@ -211,16 +191,6 @@ display: flex;
     }
     
 
-    .discoverBtn {
-        position: static;
-        margin-top: 20px;
-        left: auto;
-        bottom: auto;
-        font-size: 18px;
-        padding: 5px 10px; 
-        
-    }
-
   .newsGrid {
         display: grid;
         grid-template-columns: 1fr; 
@@ -282,7 +252,7 @@ display: flex;
     }
 }
 
-@media (min-width: 780px) and (max-width: 1024px) {
+@media (min-width: 765px) and (max-width: 1024px) {
       .newsSection {
         padding: 60px 20px; 
         margin-bottom: 80px; 
@@ -307,13 +277,6 @@ display: flex;
         font-size: 48px; 
     }
 
-    .discoverBtn {
-        position: static; 
-        left: auto;
-        bottom: auto;
-        font-size: 20px; 
-        padding: 5px 0;
-    }
 
     .newsGrid {
         display: grid;
@@ -370,3 +333,4 @@ display: flex;
     }
 
 }
+
