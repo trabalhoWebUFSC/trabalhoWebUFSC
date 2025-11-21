@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styles from "./RoomChoice.module.css";
-import room1 from "../../assets/images/room1.png";
-import room2 from "../../assets/images/room2.png";
-import room3 from "../../assets/images/room3.png";
-import room4 from "../../assets/images/room4.png";
-import room5 from "../../assets/images/room5.png";
+import room1 from "../../assets/images/room1.jpg";
+import room2 from "../../assets/images/room2.jpg";
+import room3 from "../../assets/images/room3.jpg";
+import room4 from "../../assets/images/room4.jpg";
+import room5 from "../../assets/images/room5.jpg";
 import Reservations from "../../pages/Reservations/Reservations";
 
 import { 
@@ -150,9 +150,6 @@ function RoomChoice() {
           </div>
 
           <div className={styles.cardActions}>
-            <a href="/about" className={styles.detailsLink}>
-              Details &gt;
-            </a>
 
             <button
               className={styles.bookBtn}
@@ -194,4 +191,5 @@ function RoomChoice() {
 }
 
 export default RoomChoice;
+
 
