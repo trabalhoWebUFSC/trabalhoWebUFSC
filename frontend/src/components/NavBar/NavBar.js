@@ -5,12 +5,12 @@ import HotelLogo from "../../assets/images/logo-hotel.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 
-function ProfileDropdown() {
+function ProfileDropdown({ onClose }) {
   return (
     <div className={styles.dropdownContent}>
-      <Link to="/profile">View Profile</Link>
-      <Link to="/profile/edit">Edit Profile</Link>
-      <Link to="/logout">Log Out</Link>
+      <Link to="/profile" onClick={onClose}>View Profile</Link>
+      <Link to="/profile/edit" onClick={onClose}>Edit Profile</Link>
+      <Link to="/logout" onClick={onClose}>Log Out</Link>
     </div>
   );
 }
@@ -76,6 +76,12 @@ function Navbar() {
     }
   }, [isMenuOpen]);
 
+  // Fechar dropdown ao mudar de rota
+  useEffect(() => {
+    setIsProfileOpen(false);
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   // Renderizar links (desktop + mobile)
   const renderNavLinks = (isMobile = false) => {
     const linkClass = isMobile ? styles.mobilenavLink : styles.navLink;
@@ -89,13 +95,16 @@ function Navbar() {
             ref={profileDropdownRef}
           >
             <button
+              type="button"
               onClick={toggleProfileMenu}
               className={`${linkClass} ${styles.profileBtn}`}
             >
               Profile <span className={styles.arrow}>&#9660;</span>
             </button>
 
-            {isProfileOpen && <ProfileDropdown />}
+            {isProfileOpen && (
+              <ProfileDropdown onClose={() => setIsProfileOpen(false)} />
+            )}
           </li>
         );
       }
