@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./RoomChoice.module.css";
+import api from "../../services/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import room1 from "../../assets/images/room1.jpg";
 import room2 from "../../assets/images/room2.jpg";
 import room3 from "../../assets/images/room3.jpg";
@@ -108,6 +111,25 @@ function RoomChoice() {
 
   // slider card
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
+  const [showReservationModal, setShowReservationModal] = useState(false);
+  const [backendRooms, setBackendRooms] = useState([]);
+
+  // Busca os quartos reais do backend ao carregar
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await api.get('/rooms');
+        if (Array.isArray(response.data)) {
+          setBackendRooms(response.data);
+          console.log("Quartos carregados do Backend:", response.data.length);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar quartos:", error);
+        toast.error("Erro ao conectar com servidor de quartos.");
+      }
+    };
+    fetchRooms();
+  }, []);
 
   const nextRoom = () => {
     setCurrentRoomIndex((prev) => (prev === rooms.length - 1 ? 0 : prev + 1));
@@ -117,11 +139,28 @@ function RoomChoice() {
   };
 
   const currentRoom = rooms[currentRoomIndex];
+  
+  // Tenta encontrar o ID real do banco comparando com o nome
+  const matchedBackendRoom = backendRooms.find(r => r.name === currentRoom.name);
+  const realRoomId = matchedBackendRoom ? matchedBackendRoom._id : null;
 
-  const [showReservationModal, setShowReservationModal] = useState(false);
+  const handleBookClick = () => {
+    if (realRoomId) {
+      setShowReservationModal(true);
+    } else {
+      // Se não tiver ID real, significa que o backend não retornou dados ou o nome não bate
+      toast.warn("Sistema indisponível temporariamente: Quarto não encontrado no servidor.");
+      console.warn(`Quarto "${currentRoom.name}" não encontrado na lista do backend:`, backendRooms);
+    }
+  };
 
   return (
     <section className={styles.roomSection}>
+      <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+        autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+      />
+
       <div className={styles.header}>
         <p className={styles.Title}>OUR ROOM CHOICES</p>
         <h2 className={styles.subTitle}>Luxury Rooms & Suites</h2>
@@ -153,14 +192,23 @@ function RoomChoice() {
 
             <button
               className={styles.bookBtn}
-              onClick={() => setShowReservationModal(true)}
+              onClick={handleBookClick}
+              // Desabilita visualmente se não tiver ID real
+              style={{ 
+                opacity: realRoomId ? 1 : 0.6, 
+                cursor: realRoomId ? 'pointer' : 'not-allowed' 
+              }}
             >
               Book Now &gt;
             </button>
           </div>
-          {/* Modal de Reserva */}
+          
           {showReservationModal && (
-            <Reservations onClose={() => setShowReservationModal(false)} />
+            <Reservations 
+              onClose={() => setShowReservationModal(false)} 
+              roomId={realRoomId} // Envia o ID real do MongoDB
+              pricePerNight={matchedBackendRoom ? matchedBackendRoom.pricePerNight : 0}
+            />
           )}
         </div>
 
