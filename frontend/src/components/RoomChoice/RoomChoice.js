@@ -38,7 +38,7 @@ function RoomChoice() {
 
   const rooms = [
     {
-      id: 1,
+      _id: 1,
       name: "Deluxe Room",
       price: "$300/night",
       image: room1,
@@ -52,7 +52,7 @@ function RoomChoice() {
       ]
     },
     {
-      id: 2,
+      _id: 2,
       name: "Superior Ocean View",
       price: "$450/night",
       image: room2,
@@ -66,7 +66,7 @@ function RoomChoice() {
       ]
     },
     {
-      id: 3,
+      _id: 3,
       name: "Executive Suite",
       price: "$650/night",
       image: room3,
@@ -80,7 +80,7 @@ function RoomChoice() {
       ]
     },
     {
-      id: 4,
+      _id: 4,
       name: "Family Apartment",
       price: "$790/night",
       image: room4,
@@ -94,7 +94,7 @@ function RoomChoice() {
       ]
     },
     {
-      id: 5,
+      _id: 5,
       name: "Presidential Penthouse",
       price: "$1200/night",
       image: room5,
@@ -228,7 +228,7 @@ function RoomChoice() {
       <div className={styles.dotsContainer}>
         {rooms.map((room, index) => (
           <button
-            key={room.id}
+            key={room._id}
             className={`${styles.dot} ${index === currentRoomIndex ? styles.activeDot : ""}`}
             onClick={() => setCurrentRoomIndex(index)}
           />

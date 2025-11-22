@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyReservations.module.css";
 import { Link } from "react-router-dom";
+import api from "../../services/api";
 import { formatBRLDate } from "../../utils/formatter/date";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Dados mockados para simular a resposta da API
 const mockReservations = [
@@ -72,22 +75,81 @@ function MyReservations() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // função para mapear status da API
+  const mapStatus = (status) => {
+    const map = {
+      'confirmed': 'Confirmada',
+      'pending': 'Pendente',
+      'cancelled': 'Finalizada',
+      'finished': 'Finalizada'
+    };
+    return map[status?.toLowerCase()] || status;
+  };
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // ordena os dados: mais recentes primeiro
-      const sortedData = [...mockReservations].sort(
-        (a, b) => new Date(b.checkIn) - new Date(a.checkIn)
-      );
+    const fetchReservations = async () => {
+      try {
+        const response = await api.get('/bookings/my-reservations');
+        
+        // formata os dados da API para a estrutura da tabela
+        const apiData = response.data.map(item => ({
+          id: item._id,
+          roomName: item.room?.name || "Quarto",
+          checkIn: item.checkIn,
+          checkOut: item.checkOut,
+          status: mapStatus(item.status),
+          totalPrice: item.totalPrice,
+          reserverEmail: item.reservedByEmail,
+          companionEmail: item.companionEmail
+        }));
 
-      setReservations(sortedData);
-      setLoading(false);
-    }, 1000);
+        if (apiData.length === 0) {
+            setReservations(sortReservations(mockReservations));
+        } else {
+            setReservations(sortReservations(apiData));
+        }
 
-    return () => clearTimeout(timer);
+      } catch (error) {
+        console.warn("API unavailable, loading mocks...", error);
+        setReservations(sortReservations(mockReservations));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservations();
   }, []);
+
+  // ordena os dados: mais recentes primeiro
+  const sortReservations = (data) => {
+    return [...data].sort((a, b) => new Date(b.checkIn) - new Date(a.checkIn));
+  };
+
+  const handleCancel = async (id) => {
+    if (!window.confirm("Are you sure you want to cancel this reservation?")) return;
+
+    if (id.startsWith('r') && id.length < 5) {
+      setReservations(prev => prev.filter(res => res.id !== id));
+      toast.success("Simulated reservation cancelled.");
+      return;
+    }
+
+    try {
+      await api.delete(`/bookings/${id}`);
+      setReservations(prev => prev.filter(res => res.id !== id));
+      toast.success("Reservation successfully cancelled.");
+    } catch (error) {
+      console.error("Cancel error", error);
+      toast.error("Error cancelling reservation.");
+    }
+  };
 
   return (
     <div className={styles.pageWrapper}>
+      <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+        autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+      />
       <h1 className={styles.title}>My Reservations</h1>
 
       {/* renderização condicional se reservations > 0 etc */}
@@ -105,6 +167,7 @@ function MyReservations() {
                 <th>Status</th>
                 <th>Reserved by</th>
                 <th>Companion</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -114,12 +177,12 @@ function MyReservations() {
                   <td>{res.roomName}</td>
                   <td>{formatBRLDate(res.checkIn)}</td>
                   <td>{formatBRLDate(res.checkOut)}</td>
-                  <td>R$ {res.totalPrice.toFixed(2)}</td>
+                  <td>R$ {res.totalPrice ? res.totalPrice.toFixed(2) : '0.00'}</td>
                   <td>
                     {/* define a classe do status dinamicamente  */}
                     <span
                       className={`${styles.status} ${
-                        styles[res.status.toLowerCase()]
+                        styles[res.status.toLowerCase()] || styles.finalizada
                       }`}
                     >
                       {res.status}
@@ -127,6 +190,16 @@ function MyReservations() {
                   </td>
                   <td>{res.reserverEmail}</td>
                   <td>{res.companionEmail || "(None)"}</td>
+                  <td>
+                    {res.status !== 'Finished' && res.status !== 'Cancelled' && (
+                      <button 
+                        onClick={() => handleCancel(res.id)}
+                        className={styles.cancel}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
