@@ -9,7 +9,7 @@ import RegisterPage from "./pages/Register/Register";
 import PortalPage from "./pages/Portal/Portal";
 import Footer from "./components/Footer/Footer";
 import MyReservations from "./pages/MyReservations/MyReservations";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute"; // Importe o componente
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {
   useEffect(() => {
