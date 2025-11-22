@@ -7,14 +7,18 @@ import { logout } from "../../services/api";
 
 function ProfileDropdown({ onClose, onLogout }) {
   return (
-    <div className={styles.dropdownContent}>
+    <div 
+      className={styles.dropdownContent}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
       <Link to="/profile" onClick={onClose}>View Profile</Link>
       <Link to="/profile/edit" onClick={onClose}>Edit Profile</Link>
-      {/* necessário mudar de link para button para executar a ação de logout */}
-      <button onClick={() => {
-        onLogout();
-        onClose();
-      }}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation(); // ao clicar, nao fecha prematuramente
+          onLogout();
+          onClose(); 
+        }}
       >
         Log Out
       </button>
@@ -55,8 +59,9 @@ function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
- 
-  const toggleProfileMenu = () => {
+  const toggleProfileMenu = (e) => {
+    // impede propagação para não fechar ao abrir
+    if(e) e.stopPropagation();
     setIsProfileOpen(!isProfileOpen);
   };
 
@@ -107,6 +112,7 @@ function Navbar() {
             key="profile-dropdown"
             className={styles.dropdownContainer}
             ref={profileDropdownRef}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             <button
               type="button"
