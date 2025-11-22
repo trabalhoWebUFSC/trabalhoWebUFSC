@@ -1,8 +1,18 @@
-// converte 'YYYY-MM-DD' para 'DD/MM/AAAA'
-
 export const formatBRLDate = (dateString) => {
-  if (!dateString) return null;
-  const [year, month, day] = dateString.split("-");
+  if (!dateString) return '';
 
-  return `${day}/${month}/${year}`;
+  try {
+    // ignora a hora (depois do T)
+    const cleanDate = dateString.split('T')[0];
+
+    // separa ano, mês e dia
+    const [year, month, day] = cleanDate.split('-');
+
+    // retorna formatado para XX/XX/XXXX
+    return `${day}/${month}/${year}`;
+    
+  } catch (error) {
+    console.error("Error formatting date:", error);
+    return dateString;
+  }
 };
