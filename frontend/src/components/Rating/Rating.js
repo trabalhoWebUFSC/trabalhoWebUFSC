@@ -62,7 +62,7 @@ function Reviews() {
                     </div>
                 </div>
         
-                <button className={styles.arrowRight} onClick={nextReview}>   // botão - próximo review 
+                <button className={styles.arrowRight} onClick={nextReview}>  
                     <FaChevronRight />
 
                 </button>
