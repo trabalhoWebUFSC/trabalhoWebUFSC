@@ -22,13 +22,13 @@ function App() {
 
       <main>
         <Routes>
-          {/* Rotas Públicas (Qualquer um acessa) */}
+          {/* rotas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage mode="register" />} />
           
-          {/* Rotas Privadas (Requer Login) */}
+          {/* rotas privadas */}
           <Route 
             path="/profile" 
             element={
