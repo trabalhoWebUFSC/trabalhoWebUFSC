@@ -47,12 +47,12 @@ const NewsSection = () => {
     },
   ];
 
-  const [currentIndexes, setCurrentIndexes] = useState(blocks.map(() => 0));
+  const [currentIndexes, setCurrentIndexes] = useState(blocks.map(() => 0)); //permite que cada card troque de imagem individualmente
 
   const nextImage = (blockIndex) => {
     setCurrentIndexes((prev) =>
       prev.map((index, i) =>
-        i === blockIndex ? (index + 1) % blocks[i].images.length : index
+        i === blockIndex ? (index + 1) % blocks[i].images.length : index  //Como cada bloco tem só duas imagens, usamos módulo (%) para alternar de forma cíclica.
       )
     );
   };
