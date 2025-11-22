@@ -5,6 +5,7 @@ import HotelLogo from "../../assets/images/logo-hotel.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { logout } from "../../services/api";
 
+//Dropdown exibido dentro do menu Profile,recebe callbacks para fechar o menu e deslogar
 function ProfileDropdown({ onClose, onLogout }) {
   return (
     <div 
@@ -27,14 +28,14 @@ function ProfileDropdown({ onClose, onLogout }) {
 }
 
 function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // controla o menu mobile
+  const [isProfileOpen, setIsProfileOpen] = useState(false);   // controla abertura do dropdown "Profile"
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const isPortalPage =
-    location.pathname.startsWith("/portal") ||
+    location.pathname.startsWith("/portal") ||   // identifica se estamos no portal do usuário para renderizar links diferentes
     location.pathname.startsWith("/profile");
 
   const profileDropdownRef = useRef(null);
