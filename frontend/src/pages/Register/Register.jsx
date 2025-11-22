@@ -156,11 +156,11 @@ function RegisterPage({ mode = 'register' }) {
 
       if (mode === 'edit') {
         await api.put('/users/profile', payload, config);
-        toast.success("Profile successfuly updated!");
+        toast.success("Profile successfully updated!");
         setTimeout(() => navigate("/portal"), 2000);
       } else {
         await api.post('/auth/register', payload, config);
-        toast.success("Account succesfully created! Redirecting to login...");
+        toast.success("Account successfully created! Redirecting to login...");
         setTimeout(() => navigate("/login"), 2000);
       }
 
