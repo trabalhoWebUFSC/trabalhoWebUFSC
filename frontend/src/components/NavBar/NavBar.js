@@ -1,16 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import HotelLogo from "../../assets/images/logo-hotel.png";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { logout } from "../../services/api";
 
-
-function ProfileDropdown({ onClose }) {
+function ProfileDropdown({ onClose, onLogout }) {
   return (
     <div className={styles.dropdownContent}>
       <Link to="/profile" onClick={onClose}>View Profile</Link>
       <Link to="/profile/edit" onClick={onClose}>Edit Profile</Link>
-      <Link to="/logout" onClick={onClose}>Log Out</Link>
+      {/* necessário mudar de link para button para executar a ação de logout */}
+      <button onClick={() => {
+        onLogout();
+        onClose();
+      }}
+      >
+        Log Out
+      </button>
     </div>
   );
 }
@@ -20,6 +27,8 @@ function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
   const isPortalPage =
     location.pathname.startsWith("/portal") ||
     location.pathname.startsWith("/profile");
@@ -49,6 +58,11 @@ function Navbar() {
  
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
+  };
+
+  const handleLogout = () => {
+    logout(); // limpa o token (em api.js)
+    navigate("/login"); // redireciona para o login
   };
 
   
@@ -103,7 +117,10 @@ function Navbar() {
             </button>
 
             {isProfileOpen && (
-              <ProfileDropdown onClose={() => setIsProfileOpen(false)} />
+              <ProfileDropdown 
+                onClose={() => setIsProfileOpen(false)} 
+                onLogout={handleLogout}
+              />
             )}
           </li>
         );

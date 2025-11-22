@@ -9,6 +9,7 @@ import RegisterPage from "./pages/Register/Register";
 import PortalPage from "./pages/Portal/Portal";
 import Footer from "./components/Footer/Footer";
 import MyReservations from "./pages/MyReservations/MyReservations";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"; // Importe o componente
 
 function App() {
   useEffect(() => {
@@ -21,17 +22,48 @@ function App() {
 
       <main>
         <Routes>
+          {/* Rotas Públicas (Qualquer um acessa) */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
-          
           <Route path="/register" element={<RegisterPage mode="register" />} />
           
-          <Route path="/profile" element={<RegisterPage mode="view" />} />
-          <Route path="/profile/edit" element={<RegisterPage mode="edit" />} />
+          {/* Rotas Privadas (Requer Login) */}
+          <Route 
+            path="/profile" 
+            element={
+              <PrivateRoute>
+                <RegisterPage mode="view" />
+              </PrivateRoute>
+            } 
+          />
           
-          <Route path="/portal" element={<PortalPage />} />
-          <Route path="/profile/my-reservations" element={<MyReservations />} />
+          <Route 
+            path="/profile/edit" 
+            element={
+              <PrivateRoute>
+                <RegisterPage mode="edit" />
+              </PrivateRoute>
+            } 
+          />
+          
+          <Route 
+            path="/portal" 
+            element={
+              <PrivateRoute>
+                <PortalPage />
+              </PrivateRoute>
+            } 
+          />
+          
+          <Route 
+            path="/profile/my-reservations" 
+            element={
+              <PrivateRoute>
+                <MyReservations />
+              </PrivateRoute>
+            } 
+          />
         </Routes>
       </main>
 
