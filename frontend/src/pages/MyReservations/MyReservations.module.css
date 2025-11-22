@@ -125,3 +125,13 @@
   background-color: #6c757d;
   color: #fff;
 }
+
+.cancel {
+  background: transparent;
+  border: 1px solid #d9534f;
+  color: #d9534f;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+}
