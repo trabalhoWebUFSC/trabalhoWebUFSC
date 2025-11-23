@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api, { setAuthToken } from "../../services/api";
-import sharedStyles from '../../styles/auth/AuthShared.module.css';
-import styles from './Login.module.css';
+import sharedStyles from "../../styles/auth/AuthShared.module.css";
+import styles from "./Login.module.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -25,18 +25,18 @@ function LoginPage() {
 
     try {
       // chamada à api para realizar login
-      const response = await api.post('/auth/login', {
+      const response = await api.post("/auth/login", {
         email,
-        password
+        password,
       });
 
       // salva o token e faz login
       setAuthToken(response.data.token);
-      navigate("/portal"); 
-
+      navigate("/portal");
     } catch (err) {
       // exibe mensagem de erro
-      const errorMessage = err.response?.data?.message || "Failed to login. Please try again.";
+      const errorMessage =
+        err.response?.data?.message || "Failed to login. Please try again.";
       setError(errorMessage);
       console.error("Login error:", err);
     } finally {
@@ -45,7 +45,7 @@ function LoginPage() {
   };
 
   return (
-   <div className={sharedStyles.authContainer}>
+    <div className={sharedStyles.authContainer}>
       <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
         <h2 className={sharedStyles.formTitle}>Sign In</h2>
 
@@ -78,20 +78,15 @@ function LoginPage() {
         </div>
 
         {/* BOTÃO SUBMIT */}
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className={styles.submitButton}
           disabled={loading}
         >
-          {loading ? "Loading..." : "Submit"} 
+          {loading ? "Loading..." : "Submit"}
         </button>
 
         {error && <p className={sharedStyles.errorMessage}>{error}</p>}
-
-        {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
-        <p className={styles.forgotPassword}>
-          <Link to="/forgot-password">Forgot your password?</Link>
-        </p>
 
         {/* Link para o Cadastro */}
         <p className={styles.registerLink}>
