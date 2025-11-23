@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { minDate } from '../../../utils/booking/minDate';
+import { validateEmail } from '../../../utils/validator/email';
 import styles from './ReservationForm.module.css';
 import sharedStyles from '../../../styles/auth/AuthShared.module.css';
 
-function ReservationForm({ 
-  data, 
-  onChange, 
-  onBlur, 
-  emptyField, 
-  showGuestEmail, 
-  toggleGuestEmail, 
-  onNext 
-}) {
+function ReservationForm({ data, onChange, onBlur, emptyField, showGuestEmail, toggleGuestEmail, onNext }) {
+  const [emailError, setEmailError] = useState('');
+
+  const handleEmailBlur = (e) => {
+    const emailError = validateEmail(e.target.value);
+    setEmailError(emailError);
+  }
+  
   return (
     <>
       <div className={sharedStyles.formGroup}>
@@ -19,11 +20,15 @@ function ReservationForm({
           type="date"
           id="initialDate"
           value={data.initialDate}
+          min={minDate()}
           onChange={(e) => onChange('initialDate', e.target.value)}
           onBlur={() => onBlur('initialDate')}
           className={`${sharedStyles.inputField} ${emptyField?.initialDate ? sharedStyles.errorMessage : ''}`}
           required
         />
+        {emptyField?.initialDate ? (
+          <span className={sharedStyles.errorMessage}>{emptyField.initialDate}</span>
+        ) : null}
       </div>
 
       <div className={sharedStyles.formGroup}>
@@ -32,11 +37,15 @@ function ReservationForm({
           type="date"
           id="finalDate"
           value={data.finalDate}
+          min={minDate()}
           onChange={(e) => onChange('finalDate', e.target.value)}
           onBlur={() => onBlur('finalDate')}
           className={`${sharedStyles.inputField} ${emptyField?.finalDate ? sharedStyles.errorMessage : ''}`}
           required
         />
+        {emptyField?.finalDate ? (
+          <span className={sharedStyles.errorMessage}>{emptyField.finalDate}</span>
+        ) : null}
       </div>
 
       <div className={sharedStyles.formGroup}>
@@ -72,10 +81,15 @@ function ReservationForm({
             type="email"
             placeholder="guest@example.com"
             value={data.guestEmail}
+            onBlur={(e) => {handleEmailBlur(e); onBlur('guestEmail');}}
             onChange={(e) => onChange('guestEmail', e.target.value)}
-            className={sharedStyles.inputField}
+            className={`${sharedStyles.inputField} ${emailError ? sharedStyles.errorMessage : ''}`}
           />
-          <small className={styles.helperText}>User must be registered.</small>
+          {emailError ? (
+            <span className={sharedStyles.errorMessage}>{emailError}</span>
+          ) : 
+            <small className={styles.helperText}>User must be registered.</small>
+          }
         </div>
       )}
 

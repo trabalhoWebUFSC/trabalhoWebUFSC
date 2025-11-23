@@ -76,6 +76,7 @@
   text-decoration: underline;
   margin-top: 10px;
   font-size: 0.9em;
+  font-family: inherit;
   width: 100%;
   text-align: center;
 }
