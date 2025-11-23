@@ -27,9 +27,22 @@ function ProfileDropdown({ onClose, onLogout }) {
   );
 }
 
+function LoginDropdown({ onClose }) {
+  return (
+    <div 
+      className={styles.dropdownContent} 
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      <Link to="/login" onClick={onClose}>Sign In</Link>
+      <Link to="/register" onClick={onClose}>Sign Up</Link>
+    </div>
+  );
+}
+
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // controla o menu mobile
   const [isProfileOpen, setIsProfileOpen] = useState(false);   // controla abertura do dropdown "Profile"
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,8 +52,8 @@ function Navbar() {
     location.pathname.startsWith("/profile");
 
   const profileDropdownRef = useRef(null);
+  const loginDropdownRef = useRef(null);
 
-  
   const navLinks = isPortalPage
     ? [
         { to: "/portal", label: "Portal" },
@@ -64,11 +77,18 @@ function Navbar() {
     // impede propagação para não fechar ao abrir
     if(e) e.stopPropagation();
     setIsProfileOpen(!isProfileOpen);
+    setIsLoginOpen(false);
+  };
+
+  const toggleLoginMenu = (e) => {
+    if(e) e.stopPropagation();
+    setIsLoginOpen(!isLoginOpen);
+    setIsProfileOpen(false);
   };
 
   const handleLogout = () => {
-    logout(); // limpa o token (em api.js)
-    navigate("/login"); // redireciona para o login
+    logout(); 
+    navigate("/login"); 
   };
 
   
@@ -79,6 +99,12 @@ function Navbar() {
         !profileDropdownRef.current.contains(event.target)
       ) {
         setIsProfileOpen(false);
+      }
+      if (
+        loginDropdownRef.current &&
+        !loginDropdownRef.current.contains(event.target)
+      ) {
+        setIsLoginOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -99,6 +125,7 @@ function Navbar() {
   // Fechar dropdown ao mudar de rota
   useEffect(() => {
     setIsProfileOpen(false);
+    setIsLoginOpen(false);
     setIsMenuOpen(false);
   }, [location.pathname]);
 
@@ -127,6 +154,31 @@ function Navbar() {
               <ProfileDropdown 
                 onClose={() => setIsProfileOpen(false)} 
                 onLogout={handleLogout}
+              />
+            )}
+          </li>
+        );
+      }
+
+      if (link.label === "Login" && !isPortalPage) {
+        return (
+          <li
+            key="login-dropdown"
+            className={styles.dropdownContainer}
+            ref={loginDropdownRef}
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={toggleLoginMenu}
+              className={`${linkClass} ${styles.profileBtn}`}
+            >
+              Account <span className={styles.arrow}>&#9660;</span>
+            </button>
+
+            {isLoginOpen && (
+              <LoginDropdown 
+                onClose={() => setIsLoginOpen(false)} 
               />
             )}
           </li>
