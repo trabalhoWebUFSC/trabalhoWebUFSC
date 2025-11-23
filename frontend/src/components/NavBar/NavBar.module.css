@@ -176,14 +176,23 @@
   padding: 8px 0;
 }
 
-.dropdownContent a {
+.dropdownContent a, 
+.dropdownContent button {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
 }
 
-.dropdownContent a:hover {
+.dropdownContent a:hover,
+.dropdownContent button:hover {
   background-color: #f1f1f1;
 }
 
