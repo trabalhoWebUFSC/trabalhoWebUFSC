@@ -5,6 +5,7 @@ import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import ReservationForm from '../../components/Reservations/ReservationsForm/ReservationsForm';
 import PaymentForm from '../../components/Reservations/PaymentForm/PaymentForm';
 import { calculateReservationCost } from '../../utils/booking/calculator';
+import { validateField } from '../../utils/validator/field';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,7 +15,6 @@ function Reservations({ onClose, roomId, pricePerNight }) {
   const [showGuestEmail, setShowGuestEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   
-  // Resumo dos dados da reserva para passar ao pagamento
   const [summaryData, setSummaryData] = useState({
     nights: 0,
     totalPrice: 0
@@ -41,6 +41,7 @@ function Reservations({ onClose, roomId, pricePerNight }) {
 
   const handlePaymentChange = (field, value) => {
     setPaymentInfo(prev => ({ ...prev, [field]: value }));
+    if (emptyField[field]) setEmptyField(prev => ({...prev, [field]: ''}));
   };
 
   const toggleGuestEmail = () => {
@@ -53,12 +54,15 @@ function Reservations({ onClose, roomId, pricePerNight }) {
   const handleNextStep = (e) => {
     e.preventDefault();
     
-    if (!reservationInfo.initialDate) { setEmptyField({initialDate: 'Required'}); return; }
-    if (!reservationInfo.finalDate) { setEmptyField({finalDate: 'Required'}); return; }
-    if (!reservationInfo.people) { setEmptyField({people: 'Required'}); return; }
+    const initialDateError = validateField(reservationInfo.initialDate);
+    if (initialDateError) { setEmptyField({initialDate: initialDateError}); return; }
+    const finalDateError = validateField(reservationInfo.finalDate);
+    if (finalDateError) { setEmptyField({finalDate: finalDateError}); return; }
+    const peopleError = validateField(reservationInfo.people);
+    if (peopleError) { setEmptyField({people: peopleError}); return; }
 
     if (reservationInfo.initialDate >= reservationInfo.finalDate) {
-      toast.warn("Check-out date must be after check-in date.");
+      toast.warn("Check-out must be after check-in.");
       return;
     }
 
@@ -119,7 +123,7 @@ function Reservations({ onClose, roomId, pricePerNight }) {
   return (
     <div className={modalStyles.modalOverlay}>
       <div className={modalStyles.modalContent}>
-        <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+        <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#a9802dac"}}
           autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
           rtl={false} pauseOnFocusLoss draggable pauseOnHover 
         />
@@ -136,7 +140,8 @@ function Reservations({ onClose, roomId, pricePerNight }) {
               data={reservationInfo}
               onChange={handleReservationChange}
               onBlur={(field) => {
-                  if(!reservationInfo[field]) setEmptyField(prev=>({...prev, [field]: 'Required'}));
+                const error = validateField(reservationInfo[field]);
+                if(error) setEmptyField(prev=>({...prev, [field]: error}));
               }}
               emptyField={emptyField}
               showGuestEmail={showGuestEmail}
@@ -151,6 +156,11 @@ function Reservations({ onClose, roomId, pricePerNight }) {
               onBack={() => setStep(1)}
               loading={loading}
               summaryData={summaryData}
+              emptyField={emptyField}
+              onBlur={(field) => {
+                const error = validateField(paymentInfo[field]);
+                if(error) setEmptyField(prev=>({...prev, [field]: error}));
+              }}
             />
           )}
         </div>
