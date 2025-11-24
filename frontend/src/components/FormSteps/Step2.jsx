@@ -61,7 +61,7 @@ function Step2({ data, onChange, onBlur, emptyField, disabled = false }) {
         disabled={disabled}
         required
       />
-      {data.password && passwordRules.length > 0 && (
+      {data.password && passwordRules.length > 0 && !disabled && (
         <div className={styles.validationList}>
           {passwordRules.map((rule, index) => (
             <div key={index} className={`${styles.validationItem} ${rule.isValid ? styles.valid : styles.invalid}`}>
