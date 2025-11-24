@@ -28,6 +28,26 @@
   text-align: left;
 }
 
+
+.fullWidthFix {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0 auto;
+  position: relative;
+}
+
+
+.fullWidthFix :global(.roomSection),
+.fullWidthFix :global(.Title),
+.fullWidthFix :global(.subTitle),
+.fullWidthFix :global(.roomImg),
+.fullWidthFix :global(.roomCard),
+.fullWidthFix :global(.arrowBtn:first-of-type),
+.fullWidthFix :global(.arrowBtn:last-of-type) {
+  margin-left: 0 !important;
+}
+
 /* Responsividade básica */
 @media (max-width: 1200px) {
   .title {
