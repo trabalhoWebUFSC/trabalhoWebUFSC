@@ -1,51 +1,109 @@
-# Hotel Temático [Nome do Hotel Aqui a decidir]
+# 🏨 Imperial Grand Hotel – Website Completo
 
-Bem-vindo ao repositório do nosso projeto de website para o Hotel Temático []! Esta é uma iniciativa acadêmica/pessoal desenvolvida para apresentar os encantos e as funcionalidades do nosso hotel exclusivo.
+Bem-vindo ao repositório oficial do **Imperial Grand Hotel**!  
+Este projeto é uma aplicação web completa (Frontend + Backend) desenvolvida com fins acadêmicos, focada em demonstrar o funcionamento de um sistema de reservas para um hotel temático de luxo.
 
-## 📜 Descrição
+O objetivo é oferecer uma experiência moderna, fluida e intuitiva, permitindo que visitantes conheçam o hotel, criem uma conta, façam login e verifiquem a disponibilidade dos quartos.
 
-Este projeto consiste na criação de uma página web interativa e envolvente para um hotel temático. O site foi desenvolvido para oferecer aos visitantes uma visão completa de todos os benefícios e atividades que o hotel proporciona, além de permitir que os usuários se cadastrem e verifiquem a disponibilidade dos quartos.
+---
 
-O objetivo é proporcionar uma experiência de usuário fluida e intuitiva, desde a descoberta das atrações do hotel até o processo de reserva.
+## 📜 Descrição Geral
+
+O projeto consiste em:
+
+- Um **frontend em React**, totalmente responsivo, elegante e fácil de navegar.
+- Um **backend em Node.js + Express**, responsável por autenticação, gerenciamento de usuários e controle de reservas.
+- Um **banco de dados MongoDB** para armazenar informações dos usuários, quartos e reservas.
+
+A experiência inclui desde a apresentação visual do hotel até funcionalidades reais de login, registro e acesso ao portal do cliente.
+
+---
 
 ## ✨ Funcionalidades Principais
 
-* *Página Inicial Atraente*: Uma introdução visualmente cativante ao tema do hotel.
-* *Benefícios e Atividades*: Uma seção dedicada a mostrar todas as experiências únicas que o hotel oferece (ex: spa, restaurantes temáticos, eventos especiais, etc.).
-* *Cadastro de Usuários*: Um formulário simples e seguro para que novos clientes possam criar uma conta.
-* *Visualização de Quartos*: Uma galeria de quartos com descrições, fotos e informações sobre disponibilidade e preços.
-* *Design Responsivo*: O site é projetado para se adaptar a diferentes tamanhos de tela, como desktops, tablets e smartphones.
+### 🏨 **Interface do Usuário**
+- **Página Inicial Atraente:** apresentação do Imperial Grand Hotel com imagens e destaques.
+- **Seção de Benefícios e Experiências:** spa, restaurantes temáticos, eventos exclusivos e outras atrações.
+- **Visualização de Quartos:** galeria com fotos, descrição, preços e disponibilidade.
 
-## 🛠 Tecnologias Utilizadas
+### 👤 **Área do Usuário**
+- **Cadastro de Usuários**
+- **Login com autenticação JWT**
+- **Portal do Usuário:** acesso às informações pessoais
+- **Gerenciamento de Reservas:** visualização de reservas feitas (quando aplicável)
 
-Este projeto foi construído utilizando as seguintes tecnologias web:
+### 📱 **Design Responsivo**
+Totalmente adaptado para:
+- Desktop  
+- Tablet  
+- Smartphones  
 
-* *HTML5*: Para a estruturação e semântica do conteúdo da página.
-* *CSS3*: Para a estilização, layout e design responsivo.
-* *JavaScript*: Para a interatividade, manipulação de eventos e funcionalidades dinâmicas do site.
+### 🖥 **Tecnologias utilizadas**
 
-##  Participating Members
+#### **Frontend**
+- React.js  
+- React Router  
+- Axios  
+- CSS Responsivo  
 
-Este projeto foi desenvolvido pela seguinte equipe:
+#### **Backend**
+- Node.js  
+- Express  
+- Mongoose  
+- Dotenv  
+- Jsonwebtoken (JWT)  
 
-* *Nicole*
-* *Sofia*
-* *Cecília*
-* *João Paulo*
-* *Vinícius*
+#### **Banco de Dados**
+- MongoDB Atlas  
 
-## 🚀 Como Executar o Projeto
+---
 
-Para visualizar o site, basta seguir os passos abaixo:
+## 🛠 Como Executar o Projeto
 
-1.  *Clone o repositório* para a sua máquina local:
-    bash
-    git clone 
-    
-2.  *Navegue até a pasta* do projeto:
-    bash
-    cd 
-    
-3.  **Abra o arquivo index.html** no seu navegador de preferência.
+### 📌 Pré-requisitos
+- Node.js instalado  
+- MongoDB Atlas configurado  
+- NPM ou Yarn  
 
-E pronto! Você poderá navegar por todas as páginas e funcionalidades do site.
+---
+
+### 🔧 **1. Clonar o repositório**
+https://github.com/trabalhoWebUFSC/trabalhoWebUFSC.git
+
+## ▶️ Backend
+
+### Entrar na pasta:
+cd backend
+
+### Instalar dependências:
+npm install
+
+### Rodar o servidor:
+npm start
+
+## 💻 Frontend
+
+### Entrar na pasta:
+cd frontend
+
+### Instalar dependências:
+npm install
+
+### Rodar o site:
+npm start 
+
+## 👥 Participantes do Projeto
+Este projeto foi desenvolvido pelos integrantes:
+
+- **Nicole**
+- **Sofia**
+- **Cecília**
+- **João Paulo**
+- **Vinícius**
+
+O **Imperial Grand Hotel** é um projeto completo que une:
+- design moderno  
+- responsividade  
+- funcionalidades reais  
+- autenticação  
+- integração entre frontend e backend  
