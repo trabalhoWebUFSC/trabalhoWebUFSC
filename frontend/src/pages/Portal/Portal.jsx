@@ -9,7 +9,9 @@ function PortalPage() {
       className={styles.heroSection}
       style={{ backgroundImage: `url(${hall})` }}
     >
-      <RoomChoice />
+      <div className={styles.fullWidthFix}>
+       <RoomChoice />
+      </div>
     </section>
   );
 }
