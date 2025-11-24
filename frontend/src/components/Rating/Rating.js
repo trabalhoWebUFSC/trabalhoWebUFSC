@@ -48,7 +48,7 @@ function Reviews() {
 
                     <p className={styles.reviewText}>{currentReview.text}</p>
                     
-                     /* Informações do cliente */
+                     
                     <div className={styles.clientInfo}>
                         <img 
                             src={currentReview.photoUrl} 
