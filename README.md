@@ -3,7 +3,7 @@
 Bem-vindo ao repositório oficial do **Imperial Grand Hotel**!  
 Este projeto é uma aplicação web completa (Frontend + Backend) desenvolvida com fins acadêmicos, focada em demonstrar o funcionamento de um sistema de reservas para um hotel temático de luxo.
 
-O objetivo é oferecer uma experiência moderna, fluida e intuitiva, permitindo que visitantes conheçam o hotel, criem uma conta, façam login e verifiquem a disponibilidade dos quartos.
+O objetivo é oferecer uma experiência moderna, fluida e intuitiva, permitindo que visitantes conheçam o hotel, criem uma conta, façam login reservem quartos.
 
 ---
 
