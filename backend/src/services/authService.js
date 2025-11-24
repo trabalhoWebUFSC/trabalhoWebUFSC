@@ -2,10 +2,6 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-/**
- * Registra um novo usuário
- * @param {object} userData - Dados do usuário
- */
 const registerUser = async (userData) => {
   const { email, password } = userData;
 
@@ -26,11 +22,6 @@ const registerUser = async (userData) => {
   return newUser;
 };
 
-/**
- * Loga um usuário e retorna um token
- * @param {string} email
- * @param {string} password
- */
 const loginUser = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {

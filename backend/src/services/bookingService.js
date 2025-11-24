@@ -2,11 +2,6 @@ const Booking = require('../models/Booking');
 const Room = require('../models/Room');
 // const paymentService = require('./paymentService');
 
-/**
- * Cria uma nova reserva
- * @param {object} user - O usuário (do token)
- * @param {object} bookingData - Dados da reserva
- */
 const createBooking = async (user, bookingData) => {
   const { roomId, checkIn, checkOut, people, guestEmail } = bookingData;
   
@@ -56,10 +51,6 @@ const createBooking = async (user, bookingData) => {
   return newBooking;
 };
 
-/**
- * Busca todas as reservas de um usuário (onde ele é dono ou convidado)
- * @param {string} userEmail - Email do usuário logado
- */
 const getMyReservationsForUser = async (userEmail) => {
   const reservations = await Booking.find({
     $or: [
