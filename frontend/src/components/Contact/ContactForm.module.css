@@ -86,14 +86,28 @@
 @media (max-width: 768px) {
   .contactContainer {
     flex-direction: column;
+    padding: 2rem 1rem;
+    padding-top: 5rem;
     gap: 2rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .textSection {
     padding-right: 0;
+    text-align: justify;
+  }
+
+  .formSection {
+    width: 100%;
   }
 
   .formTitle {
     font-size: 1.8rem;
+  }
+
+  .btn {
+    align-self: center;
+    width: 100%;
   }
 }
