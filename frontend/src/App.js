@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/NavBar/NavBar";
 import Home from "./pages/Home/Home";
 import AboutPage from "./pages/About/About";
+import ContactForm from "./components/Contact/ContactForm";
+import Services from "./components/Services/Services";
 import LoginPage from "./pages/Login/Login";
 import RegisterPage from "./pages/Register/Register";
 import PortalPage from "./pages/Portal/Portal";
@@ -25,6 +27,8 @@ function App() {
           {/* rotas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactForm />}/>
+          <Route path="/services" element={<Services />}/>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage mode="register" />} />
           

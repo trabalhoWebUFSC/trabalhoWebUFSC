@@ -1,20 +1,13 @@
 .pageWrapper {
   background-color: var(--cor-secundaria-preto);
-  width: 100%;
-  min-height: 100vh;
-  padding-top: 160px;
-  padding-bottom: 60px;
 
-  box-sizing: border-box;
-}
+  max-width: 2000px;
+  height: 800px;
 
-/* Content: Cuida APENAS de centralizar e limitar a largura */
-.pageContent {
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  padding-top: 90px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 60px;
 }
 
 /* estilos dos componentes*/

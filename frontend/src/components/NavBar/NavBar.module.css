@@ -191,8 +191,25 @@
   font-size: inherit;
 }
 
+.servicesNavbar .navLink,
+.contactNavbar .navLink {
+  color: #000;
+}
 
+.servicesNavbar .navLink:hover,
+.contactNavbar .navLink:hover {
+  color: #BF9766;
+}
 
+.servicesNavbar .mobilebtn,
+.contactNavbar .mobilebtn{
+  color: #000;
+}
+
+.servicesNavbar .logo,
+.contactNavbar .logo {
+  filter: brightness(0) saturate(100%);
+}
 
 .mobilenavLinks .dropdownContent {
   position: static;
