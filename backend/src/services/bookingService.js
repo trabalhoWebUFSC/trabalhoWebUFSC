@@ -42,7 +42,7 @@ const createBooking = async (user, bookingData) => {
 
   //Cria a reserva
   const newBooking = new Booking({
-    user: user.userId,
+    user: user._id,
     room: roomId,
     checkIn,
     checkOut,
