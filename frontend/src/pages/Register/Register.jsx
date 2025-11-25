@@ -12,7 +12,7 @@ import styles from "./Register.module.css";
 
 function RegisterPage({ mode = 'register' }) {
   const navigate = useNavigate();
-  
+
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
   const [emptyField, setEmptyField] = useState({});
   const [loading, setLoading] = useState(false);
@@ -53,14 +53,14 @@ function RegisterPage({ mode = 'register' }) {
     if (isViewMode || isEditMode) {
       const fetchUserData = async () => {
         try {
-          const response = await api.get('/auth/me'); 
+          const response = await api.get('/auth/me');
           const user = response.data;
-          
+
           setFormState({
             name: user.name || '',
             birth: user.birth ? user.birth.split('T')[0] : '',
             email: user.email || '',
-            password: '', 
+            password: '',
             confirmPassword: '',
             profilePicture: null,
             profilePictureUrl: user.profilePictureUrl || null,
@@ -87,13 +87,13 @@ function RegisterPage({ mode = 'register' }) {
 
   useEffect(() => {
     const isStep1Valid = formState.name && formState.birth;
-    const isStep2Valid = formState.email && (isEditMode || (formState.password && formState.confirmPassword));
-    const isStep3Valid = formState.address.cep && formState.address.street && formState.address.number;
+    const isStep2Valid = isViewMode || (formState.email && (isEditMode || (formState.password && formState.confirmPassword)));
+    const isStep3Valid = isViewMode || (formState.address.cep && formState.address.street && formState.address.number);
 
     if (currentStep === 1) setIsBtnDisabled(!isStep1Valid);
     else if (currentStep === 2) setIsBtnDisabled(!isStep2Valid);
     else if (currentStep === 3) setIsBtnDisabled(!isStep3Valid);
-  }, [formState, currentStep, isEditMode]);
+  }, [formState, currentStep, isEditMode, isViewMode]);
 
   const handleChange = (field, value, section = null) => {
     if (section) {
@@ -115,7 +115,7 @@ function RegisterPage({ mode = 'register' }) {
   const handleFieldBlur = (field, section = null) => {
     const value = section ? formState[section][field] : formState[field];
     if (isEditMode && (field === 'password' || field === 'confirmPassword') && !value) return;
-    
+
     const errorMsg = validateField(value);
     setEmptyField((prev) => ({ ...prev, [field]: errorMsg }));
   };
@@ -142,11 +142,11 @@ function RegisterPage({ mode = 'register' }) {
         payload.append('name', formState.name);
         payload.append('birth', formState.birth);
         payload.append('email', formState.email);
-        
+
         if (formState.password) {
           payload.append('password', formState.password);
         }
-        
+
         payload.append('address', JSON.stringify(formState.address));
         payload.append('profilePicture', formState.profilePicture);
         config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -176,9 +176,9 @@ function RegisterPage({ mode = 'register' }) {
 
   return (
     <div className={sharedStyles.authContainer}>
-      <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#d5a874ff" }}
         autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
-        rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover
       />
 
       <form className={`${sharedStyles.authForm} ${styles.registerForm}`} onSubmit={handleSubmit}>
@@ -203,11 +203,12 @@ function RegisterPage({ mode = 'register' }) {
             onBlur={handleFieldBlur}
             emptyField={emptyField}
             disabled={isViewMode}
+            mode={mode}
           />
         )}
 
         {currentStep === 3 && (
-          <Step3 
+          <Step3
             data={formState}
             onChange={handleChange}
             onBlur={(field) => handleFieldBlur(field, 'address')}
@@ -218,9 +219,9 @@ function RegisterPage({ mode = 'register' }) {
 
         <div className={styles.buttonGroup}>
           {currentStep > 1 && (
-            <button 
-              type="button" 
-              onClick={prevStep} 
+            <button
+              type="button"
+              onClick={prevStep}
               className={styles.btn}
               disabled={loading}
             >
@@ -229,10 +230,10 @@ function RegisterPage({ mode = 'register' }) {
           )}
 
           {currentStep < totalSteps && (
-            <button 
-              type="button" 
-              disabled={isBtnDisabled || loading} 
-              onClick={nextStep} 
+            <button
+              type="button"
+              disabled={isBtnDisabled || loading}
+              onClick={nextStep}
               className={styles.btn}
             >
               »
@@ -240,8 +241,8 @@ function RegisterPage({ mode = 'register' }) {
           )}
 
           {currentStep === totalSteps && !isViewMode && (
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isBtnDisabled || loading}
               className={styles.btn}
             >
@@ -251,7 +252,7 @@ function RegisterPage({ mode = 'register' }) {
         </div>
 
         {error && (
-          <p className={sharedStyles.errorMessage} style={{marginTop: '15px', textAlign: 'center'}}>
+          <p className={sharedStyles.errorMessage} style={{ marginTop: '15px', textAlign: 'center' }}>
             {error}
           </p>
         )}
