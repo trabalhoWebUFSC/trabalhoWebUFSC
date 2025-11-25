@@ -3,15 +3,19 @@ import RoomChoice from "../../components/RoomChoice/RoomChoice";
 import PromoBanner from "../../components/PromoBanner/PromoBanner";
 import Rating from "../../components/Rating/Rating";
 import NewsSection from "../../components/NewsSection/NewsSection";
+import Services from "../../components/Services/Services";
 
 function Home() {
   return (
     <>
       <HeroHotel />
-      <div id="services">
+      <div id="rooms">
         <RoomChoice />
       </div>
-
+      
+      <div id="services">
+       <Services />
+      </div>
       <Rating />
       <NewsSection />
       <PromoBanner />
@@ -20,3 +24,4 @@ function Home() {
 }
 
 export default Home;
+

@@ -18,15 +18,13 @@
   background-color: var(--cor-primaria-dourado-escuro);
 }
 
-/* links adicionais (esqueceu sehha e registro) */
-.forgotPassword,
+/* links adicionais registro) */
 .registerLink {
   margin-top: 15px;
   font-size: 0.9em;
   color: #909090;
 }
 
-.forgotPassword a,
 .registerLink a {
   color: var(--cor-primaria-dourado-escuro);
   text-decoration: none;

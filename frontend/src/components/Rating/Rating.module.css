@@ -9,6 +9,7 @@
     background-color: white;
     display: flex;
     padding-right:55px;
+    border-top: #9c7848 2px solid;
                            
     
 }
@@ -80,8 +81,9 @@
     border: none;
     font-size: 1.5rem;
     position:absolute;
-    left:70px;
+    left:100px;
     top:50%;
+    transition: color 0.3s ease; 
     
 
 }
@@ -94,9 +96,19 @@
     border: none;
     font-size: 1.5rem;
     position:absolute;
-    padding-left: 1000px;
-    top:50%;    
+    padding-left: 940px;
+    top:50%;  
+    transition: color 0.3s ease;   
 
+}
+
+.arrowLeft:hover{
+    color:#2c2b2b;
+}
+
+.arrowRight:hover{
+    color:#2c2b2b;
+ 
 }
 
 .starsWrapper{
@@ -157,6 +169,95 @@
 }
 
 
-.clientText { 
-    margin-top:20px;
+
+@media (max-width: 900px) {
+
+    .reviewsSection {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        align-items: center; 
+    }
+    .subTitle {
+        margin-left: 0; 
+        text-align: center;
+        font-size: 18px;
+        width: auto; 
+        padding-right: 0;
+    }
+
+    .mainTitle {
+        font-size: 40px; 
+        margin-left: 0; 
+        text-align: center;
+        width: 100%;
+        max-width: 500px; 
+        height: auto;
+    }
+    
+    .sliderContainer {
+        width: 100%;
+        max-width: 500px;
+        position: relative; 
+        margin-top: 20px;
+    }
+
+    .reviewText { 
+        font-size: 18px;
+        width: 100%;
+        max-width: 450px; 
+        height: auto;
+        margin-top: 20px;
+        margin-left: 0; 
+        padding: 0 10px; 
+        text-align: center;
+    }
+
+    .starsWrapper {
+        margin: 10px auto; 
+        text-align: center; 
+    }
+    
+
+    .clientInfo {
+        margin-top: 40px; 
+    }
+
+
+    .arrowLeft,
+    .arrowRight {
+        position: absolute;
+        top: 50%; 
+        transform: translateY(-50%);
+        font-size: 1.0rem;
+        color: #BDBDBD; 
+    }
+
+    .arrowLeft {
+        left: 0;
+        margin-left: 10px; 
+    }
+
+    .arrowRight {
+        padding-left: 0; 
+        right: 0;
+        margin-right: 10px; 
+    }
+    
+
+    .dotsContainer {
+        margin-top: 30px; 
+    }
+
+}
+
+@media (min-width: 640px), ( max-width:800px) {
+    .arrowRight{
+        margin-top:20px;
+    }
+
+    .arrowLeft {
+        margin-top:20px;
+    }
 }

@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import api from '../../services/api';
 import Step1 from '../../components/FormSteps/Step1';
 import Step2 from '../../components/FormSteps/Step2';
 import Step3 from '../../components/FormSteps/Step3';
@@ -6,22 +10,28 @@ import { validateField } from '../../utils/validator/field';
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from "./Register.module.css";
 
-function RegisterPage() {
+function RegisterPage({ mode = 'register' }) {
+  const navigate = useNavigate();
+
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
   const [emptyField, setEmptyField] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
+  const [dataLoading, setDataLoading] = useState(mode === 'view' || mode === 'edit');
   const totalSteps = 3;
 
   const [formState, setFormState] = useState({
     // Dados pessoais
     name: '',
     birth: '',
-    profilePicture: null,
 
     // Credenciais
     email: '',
     password: '',
     confirmPassword: '',
+    profilePicture: null,
+    profilePictureUrl: null,
 
     // Endereco
     address: {
@@ -34,112 +44,235 @@ function RegisterPage() {
       complement: ''
     }
   });
-  
-  const nextStep = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(prev => prev + 1);
+
+  const isViewMode = mode === 'view';
+  const isEditMode = mode === 'edit';
+
+  // carrega dados ao montar o componente se for view/edit
+  useEffect(() => {
+    if (isViewMode || isEditMode) {
+      const fetchUserData = async () => {
+        try {
+          const response = await api.get('/auth/me');
+          const user = response.data;
+
+          setFormState({
+            name: user.name || '',
+            birth: user.birth ? user.birth.split('T')[0] : '',
+            email: user.email || '',
+            password: '',
+            confirmPassword: '',
+            profilePicture: null,
+            profilePictureUrl: user.profilePictureUrl || null,
+            address: user.address || {
+              cep: '',
+              street: '',
+              number: '',
+              hood: '',
+              city: '',
+              state: '',
+              complement: ''
+            }
+          });
+        } catch (err) {
+          setError("Error loading the user data.");
+          navigate('/portal')
+        } finally {
+          setDataLoading(false);
+        }
+      };
+      fetchUserData();
     }
+  }, [mode, isViewMode, isEditMode]);
+
+  useEffect(() => {
+    const isStep1Valid = formState.name && formState.birth;
+    const isStep2Valid = isViewMode || (formState.email && (isEditMode || (formState.password && formState.confirmPassword)));
+    const isStep3Valid = isViewMode || (formState.address.cep && formState.address.street && formState.address.number);
+
+    if (currentStep === 1) setIsBtnDisabled(!isStep1Valid);
+    else if (currentStep === 2) setIsBtnDisabled(!isStep2Valid);
+    else if (currentStep === 3) setIsBtnDisabled(!isStep3Valid);
+  }, [formState, currentStep, isEditMode, isViewMode]);
+
+  const handleChange = (field, value, section = null) => {
+    if (section) {
+      setFormState((prev) => ({
+        ...prev,
+        [section]: { ...prev[section], [field]: value }
+      }));
+    } else {
+      setFormState((prev) => ({ ...prev, [field]: value }));
+    }
+
+    if (section && emptyField[field]) {
+      setEmptyField((prev) => ({ ...prev, [field]: '' }));
+    } else if (!section && emptyField[field]) {
+      setEmptyField((prev) => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleFieldBlur = (field, section = null) => {
+    const value = section ? formState[section][field] : formState[field];
+    if (isEditMode && (field === 'password' || field === 'confirmPassword') && !value) return;
+
+    const errorMsg = validateField(value);
+    setEmptyField((prev) => ({ ...prev, [field]: errorMsg }));
+  };
+
+  const nextStep = () => {
+    if (currentStep < totalSteps) setCurrentStep(currentStep + 1);
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
-    }
+    if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const validateCurrentStep = () => {
-    if (currentStep === 1) {
-      return formState.name.trim() !== '' &&
-      formState.birth.trim() !== '';
-    }
-
-    if (currentStep === 2) {
-      return formState.email.trim() !== '' &&
-      formState.password.trim() !== '' &&
-      formState.confirmPassword.trim() !== '';
-    }
-    
-    if (currentStep === 3) {
-      return formState.address.cep.trim() !== '' &&
-      formState.address.street.trim() !== '' &&
-      formState.address.number.trim() !== '' &&
-      formState.address.hood.trim() !== '' &&
-      formState.address.city.trim() !== '' &&
-      formState.address.state.trim() !== '';
-    }
-    return false;
-  }
-  
-  useEffect(() => {
-    setIsBtnDisabled(!validateCurrentStep());
-  }, [formState, currentStep])
-  
-  const handleChange = (field, value) => {
-    setFormState(prev => ({ ...prev, [field]: value }));
-    // limpa o erro do campo quando o usuario comeca a digitar
-    if (emptyField[field]) {
-      setEmptyField(prev => ({...prev, [field]: ''}));
-    }
-  };
-  
-  const handleFieldBlur = (field, parentField = null) => {
-    // se o campo tiver um 'parent field' (campos aninhados) acessa com formState[parentField][field]
-    const value = parentField ? formState[parentField][field] : formState[field];
-    const error = validateField(value);
-    setEmptyField(prev => ({...prev, [field]: error}));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      let payload;
+      let config = {};
+
+      // Monta o payload
+      if (formState.profilePicture) {
+        // se tiver imagem, usa FormData
+        payload = new FormData();
+        payload.append('name', formState.name);
+        payload.append('birth', formState.birth);
+        payload.append('email', formState.email);
+
+        // envia senha apenas se houver valor
+        if (formState.password) {
+          payload.append('password', formState.password);
+        }
+
+        // envia endereço como string JSON
+        payload.append('address', JSON.stringify(formState.address));
+
+        // envia imagem
+        payload.append('profilePicture', formState.profilePicture);
+
+        config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      } else {
+        payload = {
+          name: formState.name,
+          birth: formState.birth,
+          email: formState.email,
+          address: formState.address,
+        };
+
+        // só adiciona password se houver
+        if (formState.password) {
+          payload.password = formState.password;
+        }
+      }
+
+      if (mode === 'edit') {
+        await api.put('/auth/edit', payload, config);
+        toast.success("Profile successfully updated!");
+        setTimeout(() => navigate("/portal"), 2000);
+      } else {
+        await api.post('/auth/register', payload, config);
+        toast.success("Account successfully created! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to update profile. Please try again.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (dataLoading) return <div className={styles.loading}>Loading data...</div>;
 
   return (
     <div className={sharedStyles.authContainer}>
-    <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
-      <h2 className={sharedStyles.formTitle}>Sign Up</h2>
+      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#d5a874ff" }}
+        autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover
+      />
 
-      {/* se estiver na primeira etapa renderiza Step1*/}
-      {currentStep === 1 && (
-        <Step1 
-          data={formState}
-          onChange={handleChange}
-          onBlur={handleFieldBlur}
-          emptyField={emptyField}
-        />
-      )}
+      <form className={`${sharedStyles.authForm} ${styles.registerForm}`} onSubmit={handleSubmit}>
+        <h2 className={sharedStyles.formTitle}>
+          {isViewMode ? 'Profile' : isEditMode ? 'Edit Profile' : 'Sign Up'}
+        </h2>
 
-      {currentStep === 2 && (
-        <Step2
-          data={formState}
-          onChange={handleChange}
-          onBlur={handleFieldBlur}
-          emptyField={emptyField}
-        />
-      )}
-
-      {currentStep === 3 && (
-        <Step3 
-          data={formState}
-          onChange={handleChange}
-          onBlur={(field) => handleFieldBlur(field, 'address')}
-          emptyField={emptyField}
-        />
-      )}
-
-      <div className={styles.buttonGroup}>
-        {currentStep > 1 && (
-          <button type="button" onClick={prevStep} className={styles.btn}>«</button>
+        {currentStep === 1 && (
+          <Step1
+            data={formState}
+            onChange={handleChange}
+            onBlur={handleFieldBlur}
+            emptyField={emptyField}
+            disabled={isViewMode}
+          />
         )}
 
-        {currentStep < totalSteps && (
-          <button type="button" disabled={isBtnDisabled} onClick={nextStep} className={styles.btn}>»</button>
+        {currentStep === 2 && (
+          <Step2
+            data={formState}
+            onChange={handleChange}
+            onBlur={handleFieldBlur}
+            emptyField={emptyField}
+            disabled={isViewMode}
+            mode={mode}
+          />
         )}
 
-        {currentStep === totalSteps && (
-          <button type="submit" disabled={isBtnDisabled} className={styles.btn}>»</button>
+        {currentStep === 3 && (
+          <Step3
+            data={formState}
+            onChange={handleChange}
+            onBlur={(field) => handleFieldBlur(field, 'address')}
+            emptyField={emptyField}
+            disabled={isViewMode}
+          />
         )}
-      </div>
-    </form>
+
+        <div className={styles.buttonGroup}>
+          {currentStep > 1 && (
+            <button
+              type="button"
+              onClick={prevStep}
+              className={styles.btn}
+              disabled={loading}
+            >
+              «
+            </button>
+          )}
+
+          {currentStep < totalSteps && (
+            <button
+              type="button"
+              disabled={isBtnDisabled || loading}
+              onClick={nextStep}
+              className={styles.btn}
+            >
+              »
+            </button>
+          )}
+
+          {currentStep === totalSteps && !isViewMode && (
+            <button
+              type="submit"
+              disabled={isBtnDisabled || loading}
+              className={styles.btn}
+            >
+              »
+            </button>
+          )}
+        </div>
+
+        {error && (
+          <p className={sharedStyles.errorMessage} style={{ marginTop: '15px', textAlign: 'center' }}>
+            {error}
+          </p>
+        )}
+      </form>
     </div>
   );
 }

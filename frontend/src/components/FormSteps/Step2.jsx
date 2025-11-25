@@ -5,7 +5,7 @@ import { validatePassword, confirmPassword } from '../../utils/validator/passwor
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from "../../pages/Register/Register.module.css";
 
-function Step2({ data, onChange, onBlur, emptyField }) {
+function Step2({ data, onChange, onBlur, emptyField, disabled = false, mode }) {
   const [emailError, setEmailError] = useState('');
   const [passwordRules, setPasswordRules] = useState([]);
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
@@ -22,12 +22,12 @@ function Step2({ data, onChange, onBlur, emptyField }) {
   const handleEmailBlur = (e) => {
     const emailError = validateEmail(e.target.value);
     setEmailError(emailError);
-  }
+  };
 
   const handleConfirmPasswordBlur = (e) => {
-    const confirmErrors = confirmPassword(e.target.value, data.password); 
+    const confirmErrors = confirmPassword(e.target.value, data.password);
     setConfirmPasswordError(confirmErrors);
-  }
+  };
 
   return (
     <>
@@ -38,48 +38,53 @@ function Step2({ data, onChange, onBlur, emptyField }) {
           id="email"
           value={data.email}
           onChange={(e) => onChange('email', e.target.value)}
-          onBlur={(e) => {handleEmailBlur(e); onBlur('email');}}
+          onBlur={(e) => { handleEmailBlur(e); onBlur('email'); }}
           className={`${sharedStyles.inputField} ${emptyField?.email || emailError ? sharedStyles.errorMessage : ''}`}
+          disabled={disabled}
           required
         />
-        {emptyField?.email ? (
-          <span className={sharedStyles.errorMessage}>{emptyField.email}</span>
-        ) : emailError ? (
-          <span className={sharedStyles.errorMessage}>{emailError}</span>
-        ) : null}
+        {(emptyField?.email || emailError) && (
+          <span className={sharedStyles.errorMessage}>{emptyField?.email || emailError}</span>
+        )}
       </div>
 
-      <PasswordInput
-        id="password"
-        label="Password:"
-        value={data.password}
-        onChange={(e) => onChange('password', e.target.value)}
-        onBlur={() => onBlur('password')}
-        className={`${sharedStyles.inputField} ${emptyField?.name ? sharedStyles.errorMessage : ''}`}
-        error={emptyField?.password}
-        required
-      />
-      {data.password && passwordRules.length > 0 && (
-        <div className={styles.validationList}>
-          {passwordRules.map((rule, index) => (
-            <div key={index} className={`${styles.validationItem} ${rule.isValid ? styles.valid : styles.invalid}`}>
-              <span>{rule.isValid ? '✓' : '✗'}</span>
-              <span>{rule.message}</span>
+      {mode !== 'view' && (
+        <>
+          <PasswordInput
+            id="password"
+            label="Password:"
+            value={data.password}
+            onChange={(e) => onChange('password', e.target.value)}
+            onBlur={() => onBlur('password')}
+            className={`${sharedStyles.inputField} ${emptyField?.password ? sharedStyles.errorMessage : ''}`}
+            error={emptyField?.password}
+            disabled={disabled}
+            required
+          />
+          {data.password && passwordRules.length > 0 && !disabled && (
+            <div className={styles.validationList}>
+              {passwordRules.map((rule, index) => (
+                <div key={index} className={`${styles.validationItem} ${rule.isValid ? styles.valid : styles.invalid}`}>
+                  <span>{rule.isValid ? '✓' : '✗'}</span>
+                  <span>{rule.message}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          )}
 
-      <PasswordInput
-        id="confirmPassword"
-        label="Password confirmation:"
-        value={data.confirmPassword}
-        onChange={(e) => onChange('confirmPassword', e.target.value)}
-        onBlur={(e) => {handleConfirmPasswordBlur(e); onBlur('confirmPassword');}}
-        className={`${sharedStyles.inputField} ${emptyField?.confirmPassword || confirmPasswordError ? sharedStyles.errorMessage : ''}`}
-        error={emptyField?.confirmPassword || confirmPasswordError}
-        required
-      />
+          <PasswordInput
+            id="confirmPassword"
+            label="Password confirmation:"
+            value={data.confirmPassword}
+            onChange={(e) => onChange('confirmPassword', e.target.value)}
+            onBlur={(e) => { handleConfirmPasswordBlur(e); onBlur('confirmPassword'); }}
+            className={`${sharedStyles.inputField} ${emptyField?.confirmPassword || confirmPasswordError ? sharedStyles.errorMessage : ''}`}
+            error={emptyField?.confirmPassword || confirmPasswordError}
+            disabled={disabled}
+            required
+          />
+        </>
+      )}
     </>
   );
 }

@@ -3,7 +3,7 @@ import { formatCep } from '../../utils/formatter/cep';
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
 import styles from "../../pages/Register/Register.module.css";
 
-function Step3({ data, onChange, onBlur, emptyField }) {
+function Step3({ data, onChange, onBlur, emptyField, disabled = false }) {
   const [cepError, setCepError] = useState('');
   
   // funcao auxiliar para atualizar campos de address
@@ -68,6 +68,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           onBlur={() => {handleCepBlur(data.address.cep); onBlur('cep');}} 
           placeholder="00000-000"
           className={`${sharedStyles.inputField} ${emptyField?.cep || cepError ? sharedStyles.errorMessage : ''}`}
+          disabled={disabled}
           required
         />
         {(emptyField?.cep || cepError ) && (
@@ -83,6 +84,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           value={data.address.street}
           onChange={(e) => handleAddressChange('street', e.target.value)}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required
         />
       </div>
@@ -96,6 +98,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           onChange={(e) => handleAddressChange('number', e.target.value)}
           onBlur={() => onBlur('number')}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required
         />
         {emptyField?.number && (
@@ -111,6 +114,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           value={data.address.hood}
           onChange={(e) => handleAddressChange('hood', e.target.value)}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required
         />        
       </div>
@@ -123,6 +127,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           value={data.address.city}
           onChange={(e) => handleAddressChange('city', e.target.value)}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required
         />
       </div>
@@ -135,6 +140,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           value={data.address.state}
           onChange={(e) => handleAddressChange('state', e.target.value)}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required
         />
       </div>
@@ -148,6 +154,7 @@ function Step3({ data, onChange, onBlur, emptyField }) {
           onChange={(e) => handleAddressChange('complement', e.target.value)}
           className={sharedStyles.inputField}
           placeholder="(Optional)"
+          disabled={disabled}
         />
       </div>
     </div>

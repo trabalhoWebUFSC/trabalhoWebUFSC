@@ -43,7 +43,7 @@ function Footer() {
               <a href="/#services">SERVICES</a>
             </li>
             <li>
-              <a href="/#services">ROOMS</a>
+              <a href="/#rooms">ROOMS</a>
             </li>
           </ul>
           <div className={styles.socialIcons}>

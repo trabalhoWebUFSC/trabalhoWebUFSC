@@ -1,156 +1,169 @@
 import React, { useState } from 'react';
-import { validateField } from '../../utils/validator/field';
+import api from '../../services/api';
+import modalStyles from './ReservationsModal.module.css';
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
-import modalStyles from './Modal.module.css';
+import ReservationForm from '../../components/Reservations/ReservationsForm/ReservationsForm';
+import PaymentForm from '../../components/Reservations/PaymentForm/PaymentForm';
+import { calculateReservationCost } from '../../utils/booking/calculator';
+import { validateField } from '../../utils/validator/field';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Reservations({ onClose }) {
+function Reservations({ onClose, roomId, pricePerNight }) {
+  const [step, setStep] = useState(1);
   const [emptyField, setEmptyField] = useState({});
-  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const [showGuestEmail, setShowGuestEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  const [summaryData, setSummaryData] = useState({
+    nights: 0,
+    totalPrice: 0
+  });
+
   const [reservationInfo, setReservationInfo] = useState({
     initialDate: '',
     finalDate: '',
-    people: '',
+    people: '1',
     guestEmail: ''
   });
 
-  const handleChange = (field, value) => {
+  const [paymentInfo, setPaymentInfo] = useState({
+    cardNumber: '',
+    holderName: '',
+    expiry: '',
+    cvv: ''
+  });
+
+  const handleReservationChange = (field, value) => {
     setReservationInfo(prev => ({ ...prev, [field]: value }));
-    if (emptyField[field]) {
-      setEmptyField(prev => ({...prev, [field]: ''}));
-    }
-  };
-  
-  const handleFieldBlur = (field) => {
-    const value = reservationInfo[field];
-    const error = validateField(value);
-    setEmptyField(prev => ({...prev, [field]: error}));
+    if (emptyField[field]) setEmptyField(prev => ({...prev, [field]: ''}));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Reservation data:', reservationInfo);
-    onClose?.();
-  };
-
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose?.();
-    }
+  const handlePaymentChange = (field, value) => {
+    setPaymentInfo(prev => ({ ...prev, [field]: value }));
+    if (emptyField[field]) setEmptyField(prev => ({...prev, [field]: ''}));
   };
 
   const toggleGuestEmail = () => {
     setShowGuestEmail(!showGuestEmail);
-    // Limpa o campo e erro quando desmarcar
     if (showGuestEmail) {
       setReservationInfo(prev => ({ ...prev, guestEmail: '' }));
-      setEmptyField(prev => ({...prev, guestEmail: ''}));
+    }
+  };
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    
+    const initialDateError = validateField(reservationInfo.initialDate);
+    if (initialDateError) { setEmptyField({initialDate: initialDateError}); return; }
+    const finalDateError = validateField(reservationInfo.finalDate);
+    if (finalDateError) { setEmptyField({finalDate: finalDateError}); return; }
+    const peopleError = validateField(reservationInfo.people);
+    if (peopleError) { setEmptyField({people: peopleError}); return; }
+
+    if (reservationInfo.initialDate >= reservationInfo.finalDate) {
+      toast.warn("Check-out must be after check-in.");
+      return;
+    }
+
+    const result = calculateReservationCost(
+      reservationInfo.initialDate, 
+      reservationInfo.finalDate, 
+      pricePerNight
+    );
+
+    if (result) {
+      setSummaryData({
+        nights: result.nights,
+        totalPrice: result.total,
+        initialDate: reservationInfo.initialDate,
+        finalDate: reservationInfo.finalDate
+      });
+      setStep(2);
+    } else {
+      toast.error("Invalid dates.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!paymentInfo.cardNumber || !paymentInfo.holderName || !paymentInfo.cvv) {
+      toast.warn("Please fill in the payment details.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const payload = {
+        roomId: roomId,
+        checkIn: reservationInfo.initialDate,
+        checkOut: reservationInfo.finalDate,
+        people: parseInt(reservationInfo.people, 10),
+        guestEmail: showGuestEmail ? reservationInfo.guestEmail : null
+      };
+
+      await api.post('/bookings', payload);
+      
+      toast.success("Payment approved! Reservation confirmed.");
+      setTimeout(() => {
+        onClose?.();
+      }, 2000);
+
+    } catch (err) {
+      console.error("Reservation error:", err);
+      const msg = err.response?.data?.message || "Failed to make reservation.";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={modalStyles.modalOverlay} onClick={handleOverlayClick}>
+    <div className={modalStyles.modalOverlay}>
       <div className={modalStyles.modalContent}>
-        <button 
-          className={modalStyles.closeButton} 
-          onClick={onClose}
-          type="button"
-        >
-          ×
-        </button>
+        <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#a9802dac"}}
+          autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+          rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+        />
+         
+        <button className={modalStyles.closeButton} onClick={onClose} type="button">×</button>
         
-        <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
-          <h2 className={sharedStyles.formTitle}>Make a Reservation</h2>
+        <div className={sharedStyles.authForm}>
+          <h2 className={sharedStyles.formTitle}>
+            {step === 1 ? "Reservation" : "Payment"}
+          </h2>
           
-          <div className={sharedStyles.formGroup}>
-            <label htmlFor="initialDate">Check-in:</label>
-            <input
-              type="date"
-              id="initialDate"
-              value={reservationInfo.initialDate}
-              onChange={(e) => handleChange('initialDate', e.target.value)}
-              onBlur={() => handleFieldBlur('initialDate')}
-              className={`${sharedStyles.inputField} ${emptyField?.initialDate ? sharedStyles.errorMessage : ''}`}
-              required
+          {step === 1 ? (
+            <ReservationForm 
+              data={reservationInfo}
+              onChange={handleReservationChange}
+              onBlur={(field) => {
+                const error = validateField(reservationInfo[field]);
+                if(error) setEmptyField(prev=>({...prev, [field]: error}));
+              }}
+              emptyField={emptyField}
+              showGuestEmail={showGuestEmail}
+              toggleGuestEmail={toggleGuestEmail}
+              onNext={handleNextStep}
             />
-            {emptyField?.initialDate && (
-              <span className={sharedStyles.errorMessage}>{emptyField.initialDate}</span>
-            )}
-          </div>
-
-          <div className={sharedStyles.formGroup}>
-            <label htmlFor="finalDate">Check-out:</label>
-            <input
-              type="date"
-              id="finalDate"
-              value={reservationInfo.finalDate}
-              onChange={(e) => handleChange('finalDate', e.target.value)}
-              onBlur={() => handleFieldBlur('finalDate')}
-              className={`${sharedStyles.inputField} ${emptyField?.finalDate ? sharedStyles.errorMessage : ''}`}
-              required
+          ) : (
+            <PaymentForm 
+              paymentInfo={paymentInfo}
+              onChange={handlePaymentChange}
+              onSubmit={handleSubmit}
+              onBack={() => setStep(1)}
+              loading={loading}
+              summaryData={summaryData}
+              emptyField={emptyField}
+              onBlur={(field) => {
+                const error = validateField(paymentInfo[field]);
+                if(error) setEmptyField(prev=>({...prev, [field]: error}));
+              }}
             />
-            {emptyField?.finalDate && (
-              <span className={sharedStyles.errorMessage}>{emptyField.finalDate}</span>
-            )}
-          </div>
-
-          <div className={sharedStyles.formGroup}>
-            <label htmlFor="people">Number of Guests:</label>
-            <input
-              type="number"
-              id="people"
-              min="1"
-              max="10"
-              value={reservationInfo.people}
-              onChange={(e) => handleChange('people', e.target.value)}
-              onBlur={() => handleFieldBlur('people')}
-              className={`${sharedStyles.inputField} ${emptyField?.people ? sharedStyles.errorMessage : ''}`}
-              required
-            />
-            {emptyField?.people && (
-              <span className={sharedStyles.errorMessage}>{emptyField.people}</span>
-            )}
-          </div>
-
-          {/* Checkbox para adicionar convidado */}
-          <div className={sharedStyles.formGroup}>
-            <label className={modalStyles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={showGuestEmail}
-                onChange={toggleGuestEmail}
-                className={modalStyles.checkbox}
-              />
-              <span>Add another registered guest</span>
-            </label>
-          </div>
-
-          {/* Campo de email expansivel */}
-          {showGuestEmail && (
-            <div className={`${sharedStyles.formGroup} ${modalStyles.expandable}`}>
-              <label htmlFor="guestEmail">Guest Email:</label>
-              <input
-                type="email"
-                id="guestEmail"
-                placeholder="guest@example.com"
-                value={reservationInfo.guestEmail}
-                onChange={(e) => handleChange('guestEmail', e.target.value)}
-                onBlur={() => handleFieldBlur('guestEmail')}
-                className={`${sharedStyles.inputField} ${emptyField?.guestEmail ? sharedStyles.errorMessage : ''}`}
-              />
-              {emptyField?.guestEmail && (
-                <span className={sharedStyles.errorMessage}>{emptyField.guestEmail}</span>
-              )}
-              <small className={modalStyles.helperText}>
-                Enter the email of a registered user to add them to this reservation
-              </small>
-            </div>
           )}
-          
-          <button type="submit" disabled={isBtnDisabled} className={modalStyles.btn}>
-            Reserve Now »
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -47,12 +47,12 @@ const NewsSection = () => {
     },
   ];
 
-  const [currentIndexes, setCurrentIndexes] = useState(blocks.map(() => 0));
+  const [currentIndexes, setCurrentIndexes] = useState(blocks.map(() => 0)); //permite que cada card troque de imagem individualmente
 
   const nextImage = (blockIndex) => {
     setCurrentIndexes((prev) =>
       prev.map((index, i) =>
-        i === blockIndex ? (index + 1) % blocks[i].images.length : index
+        i === blockIndex ? (index + 1) % blocks[i].images.length : index  //Como cada bloco tem só duas imagens, usamos módulo (%) para alternar de forma cíclica.
       )
     );
   };
@@ -64,9 +64,6 @@ const NewsSection = () => {
          <p className={styles.newsSubtitle}>LOCAL NEWS AND ACTIVITIES</p>
         <h2 className={styles.newsTitle}>Latest News Update</h2>
        </div>
-        <button className={styles.discoverBtn}>
-          Discover More &gt; 
-        </button>
       </div>
 
       <div className={styles.newsGrid}>
@@ -103,3 +100,4 @@ const NewsSection = () => {
 };
 
 export default NewsSection;
+

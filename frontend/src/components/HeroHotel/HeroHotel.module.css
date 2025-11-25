@@ -47,20 +47,17 @@
   font-family: "Forum", sans-serif;
 }
 
-/* Responsividade básica */
-@media (max-width: 1200px) {
-  .title {
-    font-size: 4rem;
-  }
-}
 
-@media (max-width: 768px) {
-  .heroSection {
-    min-height: 70vh;
-  }
+
+@media (min-width:750px) and (max-width: 1180px) {
+  .heroSection { 
+    min-height: 100vh; } 
+
+
   .title {
-    font-size: 3rem;
+    font-size: 70px;
   }
+
   .subtitle {
     font-size: 1rem;
     letter-spacing: 2px;
@@ -71,9 +68,23 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 320px) and (max-width:570px) {
   .title {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
+      
+  }
+
+  .subtitle{
+    font-size:10px;
+    width:380px;
+    
+  }
+
+  .heroContent{
+    padding-top:60px;
   }
 }
+  
+
+
 

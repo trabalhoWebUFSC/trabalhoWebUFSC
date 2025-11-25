@@ -9,20 +9,20 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 
 function Reviews() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0); //controla qual review está sendo exibida
     const totalReviews = clientReviews.length;
     const currentReview = clientReviews[currentIndex];
 
     const nextReview = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % totalReviews);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % totalReviews); //usa novamente o módulo pra quando chegar no último item,voltar para o primeiro 
     };
 
 
     const prevReview = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + totalReviews) % totalReviews);
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + totalReviews) % totalReviews); // soma totalReviews para evitar índice negativo e depois aplica o módulo.
     };
     
-    if (totalReviews === 0) {
+    if (totalReviews === 0) {  // se não houver reviews, não renderiza nada
         return null;
     }
 
@@ -48,7 +48,7 @@ function Reviews() {
 
                     <p className={styles.reviewText}>{currentReview.text}</p>
                     
-       
+                     
                     <div className={styles.clientInfo}>
                         <img 
                             src={currentReview.photoUrl} 
@@ -61,8 +61,8 @@ function Reviews() {
                         </div>
                     </div>
                 </div>
-
-                <button className={styles.arrowRight} onClick={nextReview}>
+        
+                <button className={styles.arrowRight} onClick={nextReview}>  
                     <FaChevronRight />
 
                 </button>

@@ -1,93 +1,85 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyReservations.module.css";
 import { Link } from "react-router-dom";
+import api from "../../services/api";
 import { formatBRLDate } from "../../utils/formatter/date";
-
-// Dados mockados para simular a resposta da API
-const mockReservations = [
-  {
-    id: "r3",
-    roomName: "Quarto Standard",
-    checkIn: "2025-11-05",
-    checkOut: "2025-11-06",
-    status: "Finalizada",
-    totalPrice: 180.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "convidado2@email.com",
-  },
-  {
-    id: "r1",
-    roomName: "Suíte Presidencial",
-    checkIn: "2025-12-10",
-    checkOut: "2025-12-15",
-    status: "Confirmada",
-    totalPrice: 1250.5,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "convidado1@email.com",
-  },
-  {
-    id: "r2",
-    roomName: "Quarto Deluxe Vista Mar",
-    checkIn: "2026-01-20",
-    checkOut: "2026-01-22",
-    status: "Pendente",
-    totalPrice: 450.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r4",
-    roomName: "Suíte Master",
-    checkIn: "2026-02-15",
-    checkOut: "2026-02-20",
-    status: "Confirmada",
-    totalPrice: 2100.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r5",
-    roomName: "Quarto Standard",
-    checkIn: "2025-10-01",
-    checkOut: "2025-10-03",
-    status: "Finalizada",
-    totalPrice: 360.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r6",
-    roomName: "Quarto Deluxe Vista Piscina",
-    checkIn: "2025-12-28",
-    checkOut: "2026-01-02",
-    status: "Confirmada",
-    totalPrice: 1350.75,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "familia@email.com",
-  },
-];
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyReservations() {
   // "estado" para guardar a lista de reservas e o status de carregamento
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // função para mapear status da API
+  const mapStatus = (status) => {
+    const map = {
+      'confirmed': 'Confirmada',
+      'pending': 'Pendente',
+      'cancelled': 'Finalizada',
+      'finished': 'Finalizada'
+    };
+    return map[status?.toLowerCase()] || status;
+  };
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // ordena os dados: mais recentes primeiro
-      const sortedData = [...mockReservations].sort(
-        (a, b) => new Date(b.checkIn) - new Date(a.checkIn)
-      );
+    const fetchReservations = async () => {
+      try {
+        const response = await api.get('/bookings/my-reservations');
 
-      setReservations(sortedData);
-      setLoading(false);
-    }, 1000);
+        // formata os dados da API para a estrutura da tabela
+        const apiData = response.data.map(item => ({
+          id: item._id,
+          roomName: item.room?.name || "Quarto",
+          checkIn: item.checkIn,
+          checkOut: item.checkOut,
+          status: mapStatus(item.status),
+          backendStatus: item.status,
+          totalPrice: item.totalPrice,
+          reserverEmail: item.reservedByEmail,
+          companionEmail: item.companionEmail
+        }));
 
-    return () => clearTimeout(timer);
+        setReservations(sortReservations(apiData));
+
+      } catch (error) {
+        console.warn("API unavailable, loading mocks...", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservations();
   }, []);
+
+  // ordena os dados: mais recentes primeiro
+  const sortReservations = (data) => {
+    return [...data].sort((a, b) => new Date(b.checkIn) - new Date(a.checkIn));
+  };
+
+  const handleCancel = async (id) => {
+    if (!window.confirm("Are you sure you want to cancel this reservation?")) return;
+
+    try {
+      await api.delete(`/bookings/${id}`);
+
+      setReservations(prev => prev.map(res =>
+        res.id === id ? { ...res, status: 'Finalizada', backendStatus: 'cancelled' } : res
+      ));
+
+      toast.success("Reservation successfully cancelled.");
+    } catch (error) {
+      console.error("Cancel error", error);
+      toast.error("Error cancelling reservation.");
+    }
+  };
 
   return (
     <div className={styles.pageWrapper}>
+      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#d5a874ff" }}
+        autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover
+      />
       <h1 className={styles.title}>My Reservations</h1>
 
       {/* renderização condicional se reservations > 0 etc */}
@@ -105,6 +97,7 @@ function MyReservations() {
                 <th>Status</th>
                 <th>Reserved by</th>
                 <th>Companion</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -114,19 +107,28 @@ function MyReservations() {
                   <td>{res.roomName}</td>
                   <td>{formatBRLDate(res.checkIn)}</td>
                   <td>{formatBRLDate(res.checkOut)}</td>
-                  <td>R$ {res.totalPrice.toFixed(2)}</td>
+                  <td>R$ {res.totalPrice ? res.totalPrice.toFixed(2) : '0.00'}</td>
                   <td>
                     {/* define a classe do status dinamicamente  */}
                     <span
-                      className={`${styles.status} ${
-                        styles[res.status.toLowerCase()]
-                      }`}
+                      className={`${styles.status} ${styles[res.status.toLowerCase()] || styles.finalizada
+                        }`}
                     >
                       {res.status}
                     </span>
                   </td>
                   <td>{res.reserverEmail}</td>
                   <td>{res.companionEmail || "(None)"}</td>
+                  <td>
+                    {res.backendStatus !== 'cancelled' && res.backendStatus !== 'finished' && (
+                      <button
+                        onClick={() => handleCancel(res.id)}
+                        className={styles.cancel}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

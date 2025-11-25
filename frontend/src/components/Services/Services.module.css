@@ -1,0 +1,150 @@
+.SectionTitle{
+    font-family:"Forum" , sans-serif;
+    font-size:65px;
+    width:350px;
+    height:112px;
+    font-weight:300;
+    margin: 0 auto;
+}
+
+
+.cardTitle { 
+    font-family:"Forum" , sans-serif;
+    font-size:35px;
+    height:112px;
+    font-weight:300;
+    
+    
+}
+
+.sectionSubtitle {
+    font-family:"Forum", sans-serif;
+    font-weight:300;
+    font-size: 30px;
+    width:939px;
+    color: #BF9766;
+    margin: 0 auto;
+    margin-top:-17px;
+}
+
+.cardDescription {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-top: -65px;
+    max-width: 480px; 
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+
+.cardImage{
+    width:578px;
+    height:446px;
+    border-radius: 5px;
+    
+}
+
+.arrowBtn{
+    width:14px;
+    height:34px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    
+}
+
+.gridContainer {
+  margin-top:50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 80px;  
+  row-gap: 40px;
+  margin-left:10px;
+ 
+}
+
+
+.servicesSection{
+    margin-top:130px;
+    margin-bottom:100px;
+}
+
+.card{
+    text-align: center;
+    margin-top:50px;
+}
+
+
+
+
+@media (max-width: 968px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    margin-top: 30px;
+  }
+
+  .cardImage {
+    width: 300px;
+    height: 312px;
+  }
+
+  .SectionTitle {
+    font-size: 42px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .sectionSubtitle {
+    width:340px;
+    font-size: 20px;
+    margin-top: -50px;
+    
+  }
+
+  .cardTitle {
+    font-size: 28px;
+    height: auto;
+    margin-top: 10px;
+  }
+
+  .cardDescription {
+    font-size: 16px;
+    margin-top: 20px;
+    max-width: 90%;
+  }
+}
+
+
+@media (min-width:768px) and (max-width: 1080px) {
+  .gridContainer {
+    grid-template-columns: 1fr; 
+    margin-left: 0;
+    column-gap: 0;
+  }
+
+  .cardImage {
+    width: 480px;
+    height: 480px; 
+  }
+
+  .SectionTitle {
+    font-size: 60px;
+    align-items: center;
+  }
+
+  .sectionSubtitle {
+    width: 100%;
+    font-size: 24px;
+    align-items: center;
+    margin: 0 auto;
+    margin-top:-30px;
+  }
+
+  .header{
+    text-align: center;
+  }
+}
+
+

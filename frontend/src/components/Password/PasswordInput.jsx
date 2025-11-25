@@ -12,7 +12,8 @@ function PasswordInput({
   className = '', 
   label,
   error,
-  required = false 
+  disabled = false,
+  required = false
 }) {
   const [eyeIsClosed, setEyeIsClosed] = useState(true);
   
@@ -27,12 +28,14 @@ function PasswordInput({
           onChange={onChange}
           onBlur={onBlur}
           className={sharedStyles.inputField}
+          disabled={disabled}
           required={required}
         />
         <button 
           type="button"
           className={styles.togglePasswordBtn}
           onClick={() => toggleShow(setEyeIsClosed)}
+          disabled={disabled}
         >
           {eyeIsClosed ? <VscEye /> : <VscEyeClosed />}
         </button>

@@ -1,46 +1,64 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import sharedStyles from '../../styles/auth/AuthShared.module.css';
-import styles from './Login.module.css';
+import api, { setAuthToken } from "../../services/api";
+import sharedStyles from "../../styles/auth/AuthShared.module.css";
+import styles from "./Login.module.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    setLoading(true);
 
-    // LÓGICA DE LOGIN
+    // validação básica
     if (!email || !password) {
-      setError("Por favor, preencha E-mail e Senha.");
+      setError("Please fill in email and password.");
+      setLoading(false);
       return;
     }
 
-    console.log("Tentativa de Login:", { email, password });
+    try {
+      // chamada à api para realizar login
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
 
-    // chamada FETCH para API
-    navigate("/portal");
+      // salva o token e faz login
+      setAuthToken(response.data.token);
+      navigate("/portal");
+    } catch (err) {
+      // exibe mensagem de erro
+      const errorMessage =
+        err.response?.data?.message || "Failed to login. Please try again.";
+      setError(errorMessage);
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-   <div className={sharedStyles.authContainer}>
+    <div className={sharedStyles.authContainer}>
       <form onSubmit={handleSubmit} className={sharedStyles.authForm}>
         <h2 className={sharedStyles.formTitle}>Sign In</h2>
-
-        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
 
         {/* CAMPO EMAIL */}
         <div className={sharedStyles.formGroup}>
           <label htmlFor="email">E-mail:</label>
           <input
-            type="text"
+            type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
             className={sharedStyles.inputField}
           />
         </div>
@@ -54,19 +72,21 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
             className={sharedStyles.inputField}
           />
         </div>
 
         {/* BOTÃO SUBMIT */}
-        <button type="submit" className={styles.submitButton}>
-          Submit 
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Submit"}
         </button>
 
-        {/* LINKS DE RECUPERAÇÃO E CADASTRO */}
-        <p className={styles.forgotPassword}>
-          <Link to="/forgot-password">Forgot your password?</Link>
-        </p>
+        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
 
         {/* Link para o Cadastro */}
         <p className={styles.registerLink}>
