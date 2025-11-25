@@ -76,6 +76,7 @@ function RegisterPage({ mode = 'register' }) {
           });
         } catch (err) {
           setError("Error loading the user data.");
+          navigate('/portal')
         } finally {
           setDataLoading(false);
         }

@@ -6,70 +6,6 @@ import { formatBRLDate } from "../../utils/formatter/date";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Dados mockados para simular a resposta da API
-const mockReservations = [
-  {
-    id: "r3",
-    roomName: "Quarto Standard",
-    checkIn: "2025-11-05",
-    checkOut: "2025-11-06",
-    status: "Finalizada",
-    totalPrice: 180.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "convidado2@email.com",
-  },
-  {
-    id: "r1",
-    roomName: "Suíte Presidencial",
-    checkIn: "2025-12-10",
-    checkOut: "2025-12-15",
-    status: "Confirmada",
-    totalPrice: 1250.5,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "convidado1@email.com",
-  },
-  {
-    id: "r2",
-    roomName: "Quarto Deluxe Vista Mar",
-    checkIn: "2026-01-20",
-    checkOut: "2026-01-22",
-    status: "Pendente",
-    totalPrice: 450.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r4",
-    roomName: "Suíte Master",
-    checkIn: "2026-02-15",
-    checkOut: "2026-02-20",
-    status: "Confirmada",
-    totalPrice: 2100.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r5",
-    roomName: "Quarto Standard",
-    checkIn: "2025-10-01",
-    checkOut: "2025-10-03",
-    status: "Finalizada",
-    totalPrice: 360.0,
-    reserverEmail: "usuario@email.com",
-    companionEmail: null,
-  },
-  {
-    id: "r6",
-    roomName: "Quarto Deluxe Vista Piscina",
-    checkIn: "2025-12-28",
-    checkOut: "2026-01-02",
-    status: "Confirmada",
-    totalPrice: 1350.75,
-    reserverEmail: "usuario@email.com",
-    companionEmail: "familia@email.com",
-  },
-];
-
 function MyReservations() {
   // "estado" para guardar a lista de reservas e o status de carregamento
   const [reservations, setReservations] = useState([]);
@@ -90,7 +26,7 @@ function MyReservations() {
     const fetchReservations = async () => {
       try {
         const response = await api.get('/bookings/my-reservations');
-        
+
         // formata os dados da API para a estrutura da tabela
         const apiData = response.data.map(item => ({
           id: item._id,
@@ -98,20 +34,16 @@ function MyReservations() {
           checkIn: item.checkIn,
           checkOut: item.checkOut,
           status: mapStatus(item.status),
+          backendStatus: item.status,
           totalPrice: item.totalPrice,
           reserverEmail: item.reservedByEmail,
           companionEmail: item.companionEmail
         }));
 
-        if (apiData.length === 0) {
-            setReservations(sortReservations(mockReservations));
-        } else {
-            setReservations(sortReservations(apiData));
-        }
+        setReservations(sortReservations(apiData));
 
       } catch (error) {
         console.warn("API unavailable, loading mocks...", error);
-        setReservations(sortReservations(mockReservations));
       } finally {
         setLoading(false);
       }
@@ -128,15 +60,13 @@ function MyReservations() {
   const handleCancel = async (id) => {
     if (!window.confirm("Are you sure you want to cancel this reservation?")) return;
 
-    if (id.startsWith('r') && id.length < 5) {
-      setReservations(prev => prev.filter(res => res.id !== id));
-      toast.success("Simulated reservation cancelled.");
-      return;
-    }
-
     try {
       await api.delete(`/bookings/${id}`);
-      setReservations(prev => prev.filter(res => res.id !== id));
+
+      setReservations(prev => prev.map(res =>
+        res.id === id ? { ...res, status: 'Finalizada', backendStatus: 'cancelled' } : res
+      ));
+
       toast.success("Reservation successfully cancelled.");
     } catch (error) {
       console.error("Cancel error", error);
@@ -146,9 +76,9 @@ function MyReservations() {
 
   return (
     <div className={styles.pageWrapper}>
-      <ToastContainer position="top-right" icon={false} toastStyle={{backgroundColor: "#d5a874ff"}}
+      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#d5a874ff" }}
         autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
-        rtl={false} pauseOnFocusLoss draggable pauseOnHover 
+        rtl={false} pauseOnFocusLoss draggable pauseOnHover
       />
       <h1 className={styles.title}>My Reservations</h1>
 
@@ -181,9 +111,8 @@ function MyReservations() {
                   <td>
                     {/* define a classe do status dinamicamente  */}
                     <span
-                      className={`${styles.status} ${
-                        styles[res.status.toLowerCase()] || styles.finalizada
-                      }`}
+                      className={`${styles.status} ${styles[res.status.toLowerCase()] || styles.finalizada
+                        }`}
                     >
                       {res.status}
                     </span>
@@ -191,8 +120,8 @@ function MyReservations() {
                   <td>{res.reserverEmail}</td>
                   <td>{res.companionEmail || "(None)"}</td>
                   <td>
-                    {res.status !== 'Finished' && res.status !== 'Cancelled' && (
-                      <button 
+                    {res.backendStatus !== 'cancelled' && res.backendStatus !== 'finished' && (
+                      <button
                         onClick={() => handleCancel(res.id)}
                         className={styles.cancel}
                       >
