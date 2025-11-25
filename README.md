@@ -95,11 +95,11 @@ npm start
 ## 👥 Participantes do Projeto
 Este projeto foi desenvolvido pelos integrantes:
 
-- **Nicole**
-- **Sofia**
-- **Cecília**
-- **João Paulo**
-- **Vinícius**
+- **Nicole Cristina da Silva Gomes**
+- **Sofia Damas Ramos**
+- **Cecília Zica Camargo**
+- **João Paulo Decker Oleinik**
+- **Vinícius Gessner Anverze**
 
 O **Imperial Grand Hotel** é um projeto completo que une:
 - design moderno  
