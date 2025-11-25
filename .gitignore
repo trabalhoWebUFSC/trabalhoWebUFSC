@@ -11,6 +11,12 @@
 # Arquivos de ambiente com segredos
 .env
 .env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
 
 # Arquivos do VS Code
 .vscode/

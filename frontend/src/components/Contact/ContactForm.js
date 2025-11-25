@@ -11,7 +11,7 @@ function ContactForm( onBlur, emptyField ) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    emailjs.init('zCTjLvRJn2sQUTMhG');
+    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -20,7 +20,7 @@ function ContactForm( onBlur, emptyField ) {
 
     try {
       const templateParams = {
-        to_email: 'imperialgrandhotel@gmail.com',
+        to_email: process.env.REACT_APP_CONTACT_EMAIL,
         from_name: name,
         from_email: email,
         phone: phone,
@@ -28,8 +28,8 @@ function ContactForm( onBlur, emptyField ) {
       };
 
       await emailjs.send(
-        'service_odp23i5',
-        'template_0q0md19',
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         templateParams
       );
 
