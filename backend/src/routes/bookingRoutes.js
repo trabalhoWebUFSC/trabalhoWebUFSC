@@ -8,4 +8,6 @@ router.post('/', authMiddleware, bookingController.createBooking);
 
 router.get('/my-reservations', authMiddleware, bookingController.getMyReservations);
 
+router.delete('/:id', authMiddleware, bookingController.cancelBooking);
+
 module.exports = router;

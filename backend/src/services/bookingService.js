@@ -72,4 +72,17 @@ const getMyReservationsForUser = async (userEmail) => {
   return reservations;
 };
 
-module.exports = { createBooking, getMyReservationsForUser };
+const cancelBooking = async (user, bookingId) => {
+  const booking = await Booking.findById(bookingId);
+  if (!booking) throw new Error('Booking not found');
+
+  if (booking.reservedByEmail !== user.email) {
+    throw new Error('You are not authorized to cancel this booking');
+  }
+
+  booking.status = 'cancelled';
+  await booking.save();
+  return booking;
+};
+
+module.exports = { createBooking, getMyReservationsForUser, cancelBooking };

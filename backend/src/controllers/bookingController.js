@@ -23,4 +23,15 @@ const getMyReservations = async (request, response, next) => {
   }
 };
 
-module.exports = { createBooking, getMyReservations };
+const cancelBooking = async (req, res, next) => {
+  try {
+    const bookingId = req.params.id;
+    const user = req.user;
+    const cancelledBooking = await bookingService.cancelBooking(user, bookingId);
+    res.status(200).json({ message: 'Booking successfully cancelled', cancelledBooking });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createBooking, getMyReservations, cancelBooking };
