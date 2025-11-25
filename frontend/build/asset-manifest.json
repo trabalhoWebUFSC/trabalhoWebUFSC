@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4926ef79.css",
+    "main.js": "/static/js/main.82cfe946.js",
+    "static/media/room1.jpg": "/static/media/room1.a4e002a420c463c6c115.jpg",
+    "static/media/resort-bg.jpg": "/static/media/resort-bg.babe0c6b982b25be5499.jpg",
+    "static/media/promobanner.png": "/static/media/promobanner.5a8b303ba75fd3fafae2.png",
+    "static/media/room5.jpg": "/static/media/room5.001c1dc72177450a01f0.jpg",
+    "static/media/room2.jpg": "/static/media/room2.33f6280d7ca9b580596b.jpg",
+    "static/media/room4.jpg": "/static/media/room4.c725c0d2dabfdf302775.jpg",
+    "static/media/room3.jpg": "/static/media/room3.42e36a89e2ec9e48c9bb.jpg",
+    "static/media/hero-hotel-bg2.svg": "/static/media/hero-hotel-bg2.482e733abf389d1ff7e0426e7f03750e.svg",
+    "static/media/about-us.png": "/static/media/about-us.19a8c95fb318ff88db7c.png",
+    "static/media/services.3.jpg": "/static/media/services.3.53f7c8f358ac49ffc123.jpg",
+    "static/media/news.section1.1.jpg": "/static/media/news.section1.1.cca5d88ad1cc78ff56a0.jpg",
+    "static/media/news.section.bathroom.img3.jpg": "/static/media/news.section.bathroom.img3.fb014964ec4112f85d73.jpg",
+    "static/media/news.section3.2.jpg": "/static/media/news.section3.2.36aed4fd8eae2adbffab.jpg",
+    "static/media/services.4.jpg": "/static/media/services.4.637049aa63eb4939c4d0.jpg",
+    "static/media/news.section.bathroom.img2.jpg": "/static/media/news.section.bathroom.img2.ca660d9b3de0121c6315.jpg",
+    "static/media/services.1.jpg": "/static/media/services.1.70190a4531620ee59f18.jpg",
+    "static/media/news.section1.2.jpg": "/static/media/news.section1.2.9753a01fcdc46da82539.jpg",
+    "static/media/news.section.3.1.jpg": "/static/media/news.section.3.1.9330e9b2fe08469cf431.jpg",
+    "static/media/news.section4.2.jpg": "/static/media/news.section4.2.dfcb886937d51ec5b8a0.jpg",
+    "static/media/news.section4.1.jpg": "/static/media/news.section4.1.8de70db7744fcc78bd8c.jpg",
+    "static/media/promobanner2.png": "/static/media/promobanner2.b9480ee1d7d2059c3b39.png",
+    "static/media/news.section2.2.jpg": "/static/media/news.section2.2.132189c25f5b13983b18.jpg",
+    "static/media/services.2.jpg": "/static/media/services.2.78b7c4f842682a15cc75.jpg",
+    "static/media/news.section2.1.jpg": "/static/media/news.section2.1.e251ac446a33c17c0fdd.jpg",
+    "static/media/logo-hotel.png": "/static/media/logo-hotel.21b86653967183df5e79.png",
+    "static/media/foto3.rating.png": "/static/media/foto3.rating.b226c63819c1d94b778d.png",
+    "static/media/hall-bg.jpeg": "/static/media/hall-bg.694e5eaee354bb47bb45.jpeg",
+    "static/media/foto1.rating.png": "/static/media/foto1.rating.ce8729d2243f651a2433.png",
+    "static/media/foto2.rating.png": "/static/media/foto2.rating.b2d57aabef2e6a73addd.png",
+    "index.html": "/index.html",
+    "static/media/play-icon.svg": "/static/media/play-icon.9b2188878b36ecd2355a985d515bbb4e.svg",
+    "main.4926ef79.css.map": "/static/css/main.4926ef79.css.map",
+    "main.82cfe946.js.map": "/static/js/main.82cfe946.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4926ef79.css",
+    "static/js/main.82cfe946.js"
+  ]
+}
