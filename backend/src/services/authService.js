@@ -42,4 +42,23 @@ const loginUser = async (email, password) => {
   return { token, user };
 };
 
-module.exports = { registerUser, loginUser };
+const updateUser = async (userId, updateData) => {
+  const { name, birth, email, password, address } = updateData;
+
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found.');
+
+  if (name) user.name = name;
+  if (birth) user.birth = birth;
+  if (email) user.email = email;
+  if (address) user.address = address;
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+  }
+
+  await user.save();
+  return user;
+};
+
+module.exports = { registerUser, loginUser, updateUser };

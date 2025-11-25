@@ -76,7 +76,6 @@ function RegisterPage({ mode = 'register' }) {
           });
         } catch (err) {
           setError("Error loading the user data.");
-          navigate('/login');
         } finally {
           setDataLoading(false);
         }
@@ -137,25 +136,42 @@ function RegisterPage({ mode = 'register' }) {
       let payload;
       let config = {};
 
+      // Monta o payload
       if (formState.profilePicture) {
+        // se tiver imagem, usa FormData
         payload = new FormData();
         payload.append('name', formState.name);
         payload.append('birth', formState.birth);
         payload.append('email', formState.email);
 
+        // envia senha apenas se houver valor
         if (formState.password) {
           payload.append('password', formState.password);
         }
 
+        // envia endereço como string JSON
         payload.append('address', JSON.stringify(formState.address));
+
+        // envia imagem
         payload.append('profilePicture', formState.profilePicture);
+
         config = { headers: { 'Content-Type': 'multipart/form-data' } };
       } else {
-        payload = formState;
+        payload = {
+          name: formState.name,
+          birth: formState.birth,
+          email: formState.email,
+          address: formState.address,
+        };
+
+        // só adiciona password se houver
+        if (formState.password) {
+          payload.password = formState.password;
+        }
       }
 
       if (mode === 'edit') {
-        await api.put('/users/profile', payload, config);
+        await api.put('/auth/edit', payload, config);
         toast.success("Profile successfully updated!");
         setTimeout(() => navigate("/portal"), 2000);
       } else {
@@ -163,9 +179,8 @@ function RegisterPage({ mode = 'register' }) {
         toast.success("Account successfully created! Redirecting to login...");
         setTimeout(() => navigate("/login"), 2000);
       }
-
     } catch (err) {
-      const msg = err.response?.data?.message || "Failed to sign up. Please try again.";
+      const msg = err.response?.data?.message || "Failed to update profile. Please try again.";
       setError(msg);
     } finally {
       setLoading(false);

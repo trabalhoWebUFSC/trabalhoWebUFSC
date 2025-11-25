@@ -47,4 +47,27 @@ const getMe = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, getMe };
+const editProfile = async (req, res, next) => {
+  try {
+    const userId = req.user._id; // obtido do authMiddleware
+    const { name, birth, email, password, address } = req.body;
+
+    const updatedUser = await authService.updateUser(userId, { name, birth, email, password, address });
+
+    res.status(200).json({
+      message: 'Profile successfully updated!',
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        birth: updatedUser.birth,
+        profilePictureUrl: updatedUser.profilePictureUrl || null,
+        address: updatedUser.address || {}
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { register, login, getMe, editProfile };
