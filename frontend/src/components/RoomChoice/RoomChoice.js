@@ -36,80 +36,6 @@ function RoomChoice() {
     unknown: <FaRegQuestionCircle />
   };
 
-  const rooms = [
-    {
-      _id: 1,
-      name: "Deluxe Room",
-      price: "$300/night",
-      image: room1,
-      features: [
-        { iconKey: "users", text: "1-2 Persons" },
-        { iconKey: "bath", text: "Bathtub" },
-        { iconKey: "mug", text: "Free Breakfast" },
-        { iconKey: "bed", text: "King Size Bed" },
-        { iconKey: "wifi", text: "Free Wifi" },
-        { iconKey: "ac", text: "Air Conditioner" }
-      ]
-    },
-    {
-      _id: 2,
-      name: "Superior Ocean View",
-      price: "$450/night",
-      image: room2,
-      features: [
-        { iconKey: "users", text: "1-2 Persons" },
-        { iconKey: "binoculars", text: "Ocean View Balcony" },
-        { iconKey: "mug", text: "Premium Breakfast" },
-        { iconKey: "bed", text: "Two Queen Beds" },
-        { iconKey: "wifi", text: "High Speed Wifi" },
-        { iconKey: "ac", text: "Air Conditioner" }
-      ]
-    },
-    {
-      _id: 3,
-      name: "Executive Suite",
-      price: "$650/night",
-      image: room3,
-      features: [
-        { iconKey: "users", text: "2-3 Persons" },
-        { iconKey: "pool", text: "Jacuzzi" },
-        { iconKey: "mug", text: "Room Service Breakfast" },
-        { iconKey: "desktop", text: "Dedicated Work Area" },
-        { iconKey: "wifi", text: "Private Network" },
-        { iconKey: "champagne", text: "Mini Bar Included" }
-      ]
-    },
-    {
-      _id: 4,
-      name: "Family Apartment",
-      price: "$790/night",
-      image: room4,
-      features: [
-        { iconKey: "users", text: "2-3 Persons" },
-        { iconKey: "desktop", text: "Full Kitchenette" }, 
-        { iconKey: "mug", text: "Room Service Breakfast" },
-        { iconKey: "bath", text: "Two Bathrooms" },
-        { iconKey: "gamepad", text: "Kids Entertainment" },
-        { iconKey: "car", text: "Private Parking" }
-      ]
-    },
-    {
-      _id: 5,
-      name: "Presidential Penthouse",
-      price: "$1200/night",
-      image: room5,
-      features: [
-        { iconKey: "users", text: "3-4 Persons" },
-        { iconKey: "pool", text: "Private Plunge Pool" },
-        { iconKey: "champagne", text: "Premium Stocked Bar" },
-        { iconKey: "key", text: "Private Elevator Access" },
-        { iconKey: "bell", text: "24h Personal Butler" },
-        { iconKey: "mountain", text: "360° Panoramic View" }
-      ]
-    }
-  ];
-
-  // slider card
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [backendRooms, setBackendRooms] = useState([]);
@@ -121,7 +47,6 @@ function RoomChoice() {
         const response = await api.get('/rooms');
         if (Array.isArray(response.data)) {
           setBackendRooms(response.data);
-          console.log("Quartos carregados do Backend:", response.data.length);
         }
       } catch (error) {
         console.error("Erro ao carregar quartos:", error);
@@ -131,18 +56,29 @@ function RoomChoice() {
     fetchRooms();
   }, []);
 
-  const nextRoom = () => {
-    setCurrentRoomIndex((prev) => (prev === rooms.length - 1 ? 0 : prev + 1));
-  };
-  const prevRoom = () => {
-    setCurrentRoomIndex((prev) => (prev === 0 ? rooms.length - 1 : prev - 1));
+  // Mapeia imagem local pelo nome do arquivo enviado
+  const imageMap = {
+    "room1.png": room1,
+    "room2.png": room2,
+    "room3.png": room3,
+    "room4.png": room4,
+    "room5.png": room5
   };
 
-  const currentRoom = rooms[currentRoomIndex];
-  
-  // Tenta encontrar o ID real do banco comparando com o nome
-  const matchedBackendRoom = backendRooms.find(r => r.name === currentRoom.name);
-  const realRoomId = matchedBackendRoom ? matchedBackendRoom._id : null;
+  const currentRoom = backendRooms[currentRoomIndex] || null;
+
+  const nextRoom = () => {
+    setCurrentRoomIndex((prev) => 
+      backendRooms.length > 0 ? (prev === backendRooms.length - 1 ? 0 : prev + 1) : 0
+    );
+  };
+  const prevRoom = () => {
+    setCurrentRoomIndex((prev) => 
+      backendRooms.length > 0 ? (prev === 0 ? backendRooms.length - 1 : prev - 1) : 0
+    );
+  };
+
+  const realRoomId = currentRoom ? currentRoom._id : null;
 
   const handleBookClick = () => {
     if (realRoomId) {
@@ -167,66 +103,58 @@ function RoomChoice() {
       </div>
 
       <div className={styles.sliderContainer}>
-        <button className={styles.arrowBtn} onClick={prevRoom}>
-          &lt;
-        </button>
+        <button className={styles.arrowBtn} onClick={prevRoom}>&lt;</button>
 
-        <div className={styles.roomCard}>
-          <p className={styles.suiteName}>{currentRoom.name}</p>
-          <p className={styles.price}>{currentRoom.price}</p>
+        {currentRoom && (
+          <div className={styles.roomCard}>
+            <p className={styles.suiteName}>{currentRoom.name}</p>
+            <p className={styles.price}>${currentRoom.pricePerNight}/night</p>
 
-          <hr className={styles.Line} />
-          <div className={styles.featuresContainer}>
-            {currentRoom.features.map((feature, index) => {
-              const IconComponent = iconMap[feature.iconKey] || iconMap["unknown"];
-              return (
+            <hr className={styles.Line} />
+            <div className={styles.featuresContainer}>
+              {currentRoom.amenities.map((text, index) => (
                 <div key={index} className={styles.featureItem}>
-                  <span className={styles.iconWrapper}>{IconComponent}</span>
-                  <span className={styles.featureText}>{feature.text}</span>
+                  <span className={styles.iconWrapper}>{iconMap["mug"]}</span>
+                  <span className={styles.featureText}>{text}</span>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
 
-          <div className={styles.cardActions}>
+            <div className={styles.cardActions}>
+              <button
+                className={styles.bookBtn}
+                onClick={handleBookClick}
+                style={{ opacity: realRoomId ? 1 : 0.6, cursor: realRoomId ? "pointer" : "not-allowed" }}
+              >
+                Book Now &gt;
+              </button>
+            </div>
 
-            <button
-              className={styles.bookBtn}
-              onClick={handleBookClick}
-              // Desabilita visualmente se não tiver ID real
-              style={{ 
-                opacity: realRoomId ? 1 : 0.6, 
-                cursor: realRoomId ? 'pointer' : 'not-allowed' 
-              }}
-            >
-              Book Now &gt;
-            </button>
+            {showReservationModal && (
+              <Reservations
+                onClose={() => setShowReservationModal(false)}
+                roomId={realRoomId}
+                pricePerNight={currentRoom.pricePerNight}
+              />
+            )}
           </div>
-          
-          {showReservationModal && (
-            <Reservations 
-              onClose={() => setShowReservationModal(false)} 
-              roomId={realRoomId} // Envia o ID real do MongoDB
-              pricePerNight={matchedBackendRoom ? matchedBackendRoom.pricePerNight : 0}
+        )}
+
+        <div className={styles.roomImage}>
+          {currentRoom && (
+            <img
+              src={imageMap[currentRoom.photos[0]]}
+              alt={`Imagem da ${currentRoom.name}`}
+              className={styles.roomImg}
             />
           )}
         </div>
 
-        <div className={styles.roomImage}>
-          <img
-            src={currentRoom.image}
-            alt={`Imagem da ${currentRoom.name}`}
-            className={styles.roomImg}
-          />
-        </div>
-
-        <button className={styles.arrowBtn} onClick={nextRoom}>
-          &gt;
-        </button>
+        <button className={styles.arrowBtn} onClick={nextRoom}>&gt;</button>
       </div>
 
       <div className={styles.dotsContainer}>
-        {rooms.map((room, index) => (
+        {backendRooms.map((room, index) => (
           <button
             key={room._id}
             className={`${styles.dot} ${index === currentRoomIndex ? styles.activeDot : ""}`}
@@ -239,5 +167,3 @@ function RoomChoice() {
 }
 
 export default RoomChoice;
-
-
