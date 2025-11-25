@@ -23,4 +23,28 @@ const login = async (request, response, next) => {
   }
 };
 
-module.exports = { register, login };
+const getMe = async (req, res, next) => {
+  try {
+    const user = req.user;
+    console.log({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      birth: user.birth,
+      profilePictureUrl: user.profilePictureUrl || null,
+      address: user.address || {}
+    })
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      birth: user.birth,
+      profilePictureUrl: user.profilePictureUrl || null,
+      address: user.address || {}
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { register, login, getMe };

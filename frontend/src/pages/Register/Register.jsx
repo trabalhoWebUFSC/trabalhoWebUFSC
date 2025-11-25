@@ -83,7 +83,7 @@ function RegisterPage({ mode = 'register' }) {
       };
       fetchUserData();
     }
-  }, [mode, navigate, isViewMode, isEditMode]);
+  }, [mode, isViewMode, isEditMode]);
 
   useEffect(() => {
     const isStep1Valid = formState.name && formState.birth;
