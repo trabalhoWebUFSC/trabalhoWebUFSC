@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api, { setAuthToken } from "../../services/api";
-import sharedStyles from "../../styles/auth/AuthShared.module.css";
-import styles from "./Login.module.css";
+import PasswordInput from '../../components/Password/PasswordInput';
+import sharedStyles from '../../styles/auth/AuthShared.module.css';
+import styles from './Login.module.css';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -64,19 +65,19 @@ function LoginPage() {
         </div>
 
         {/* CAMPO SENHA */}
-        <div className={sharedStyles.formGroup}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={loading}
-            className={sharedStyles.inputField}
+        <div>
+        <PasswordInput
+          id="password"
+          label="Password:"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading}
+          className={sharedStyles.inputField}
           />
+          {error && <span className={sharedStyles.errorMessage}>{error}</span>}
         </div>
-
+        
         {/* BOTÃO SUBMIT */}
         <button
           type="submit"
@@ -86,12 +87,11 @@ function LoginPage() {
           {loading ? "Loading..." : "Submit"}
         </button>
 
-        {error && <p className={sharedStyles.errorMessage}>{error}</p>}
-
         {/* Link para o Cadastro */}
         <p className={styles.registerLink}>
           Don't have an account? <Link to="/register">Register</Link>
         </p>
+        
       </form>
     </div>
   );

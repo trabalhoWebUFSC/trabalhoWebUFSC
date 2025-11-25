@@ -49,7 +49,11 @@ function Navbar() {
 
   const isPortalPage =
     location.pathname.startsWith("/portal") ||   // identifica se estamos no portal do usuário para renderizar links diferentes
-    location.pathname.startsWith("/profile");
+    location.pathname.startsWith("/profile") ||
+    location.pathname === "/services";
+  
+  const isServicesPage = location.pathname === "/services";
+  const isContactPage = location.pathname === "/contact";
 
   const profileDropdownRef = useRef(null);
   const loginDropdownRef = useRef(null);
@@ -202,7 +206,9 @@ function Navbar() {
   return (
     <>
       
-      <nav className={styles.navbarContainer}>
+      <nav className={`${styles.navbarContainer} 
+        ${isServicesPage ? styles.servicesNavbar : ""} 
+        ${isContactPage ? styles.contactNavbar : ""}`}>
         <div className={styles.logo}>
           <img src={HotelLogo} alt="Logo do Hotel" className={styles.logo} />
         </div>
@@ -210,7 +216,9 @@ function Navbar() {
       </nav>
 
       
-      <section className={styles.mobileNavbar}>
+      <section className={`${styles.mobileNavbar} 
+        ${isServicesPage ? styles.servicesNavbar : ""} 
+        ${isContactPage ? styles.contactNavbar : ""}`}>
         <button className={styles.mobilebtn} onClick={toggleMenu}>
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
