@@ -2,6 +2,7 @@
 .submitButton {
   width: 45%;
   padding: 14px;
+  margin-top: 15px;
   background-color: var(--cor-primaria-dourado);
   color: var(--cor-secundaria-preto);
   border: 1px solid var(--cor-secundaria-preto);

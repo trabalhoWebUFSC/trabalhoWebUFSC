@@ -75,7 +75,7 @@ function LoginPage() {
           disabled={loading}
           className={sharedStyles.inputField}
           />
-          {error && <span className={sharedStyles.errorMessage}>{error}</span>}
+        {error && <span className={sharedStyles.errorMessage}>{error}</span>}
         </div>
         
         {/* BOTÃO SUBMIT */}
@@ -83,7 +83,7 @@ function LoginPage() {
           type="submit"
           className={styles.submitButton}
           disabled={loading}
-        >
+          >
           {loading ? "Loading..." : "Submit"}
         </button>
 
@@ -91,7 +91,6 @@ function LoginPage() {
         <p className={styles.registerLink}>
           Don't have an account? <Link to="/register">Register</Link>
         </p>
-        
       </form>
     </div>
   );
