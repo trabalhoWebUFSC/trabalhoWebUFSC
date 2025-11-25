@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import modalStyles from './ReservationsModal.module.css';
 import sharedStyles from '../../styles/auth/AuthShared.module.css';
@@ -10,10 +11,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Reservations({ onClose, roomId, pricePerNight }) {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [emptyField, setEmptyField] = useState({});
   const [showGuestEmail, setShowGuestEmail] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   
   const [summaryData, setSummaryData] = useState({
     nights: 0,
@@ -33,6 +36,20 @@ function Reservations({ onClose, roomId, pricePerNight }) {
     expiry: '',
     cvv: ''
   });
+
+  /* se o usuario nao esta logado e tenta fazer uma reserva,
+  eh direcionado para o portal (para realizar o login) */
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      toast.info("Please, login to make a reservation.");
+      onClose?.();
+      navigate('/portal');
+    } else {
+      setIsUserLoggedIn(true);
+    }
+  }, [navigate, onClose]);
 
   const handleReservationChange = (field, value) => {
     setReservationInfo(prev => ({ ...prev, [field]: value }));
@@ -119,6 +136,13 @@ function Reservations({ onClose, roomId, pricePerNight }) {
       setLoading(false);
     }
   };
+
+  /* se o usuario nao esta logado,
+  nao renderiza o modal de reservas */
+  
+  if (!isUserLoggedIn) {
+    return null;
+  }
 
   return (
     <div className={modalStyles.modalOverlay}>
