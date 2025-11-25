@@ -128,61 +128,84 @@ function RegisterPage({ mode = 'register' }) {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      let payload;
-      let config = {};
-
-      // Monta o payload
+      // COM FOTO DE PERFIL (Multipart/Form-Data) 
       if (formState.profilePicture) {
-        // se tiver imagem, usa FormData
-        payload = new FormData();
+        const payload = new FormData();
         payload.append('name', formState.name);
         payload.append('birth', formState.birth);
         payload.append('email', formState.email);
-
-        // envia senha apenas se houver valor
+        
         if (formState.password) {
           payload.append('password', formState.password);
         }
 
-        // envia endereço como string JSON
-        payload.append('address', JSON.stringify(formState.address));
+        // Backend espera o endereço como JSON string dentro do form-data ou campos separados
 
-        // envia imagem
+        payload.append('address', JSON.stringify(formState.address));
         payload.append('profilePicture', formState.profilePicture);
 
-        config = { headers: { 'Content-Type': 'multipart/form-data' } };
+        if (mode === 'edit') {
+          await api.put('/auth/edit', payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+          toast.success("Profile successfully updated!");
+          setTimeout(() => navigate("/portal"), 2000);
+        } else {
+          await api.post('/auth/register', payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+          toast.success("Account successfully created!");
+          setTimeout(() => navigate("/login"), 2000);
+        }
+
       } else {
-        payload = {
+        // SEM FOTO (JSON PURO) 
+        
+        const payload = {
           name: formState.name,
           birth: formState.birth,
           email: formState.email,
-          address: formState.address,
+          address: formState.address, 
         };
 
-        // só adiciona password se houver
         if (formState.password) {
           payload.password = formState.password;
         }
+
+        if (mode === 'edit') {
+          // Edição continua usando api/axios
+          await api.put('/auth/edit', payload);
+          toast.success("Profile successfully updated!");
+          setTimeout(() => navigate("/portal"), 2000);
+        } else {
+          // Registro usa fetch para evitar problemas com Axios e JSON
+          const response = await fetch('http://localhost:3001/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            // Pega a mensagem de erro do backend (ex: senha fraca)
+            throw new Error(data.message || "Registration failed");
+          }
+
+          toast.success("Account successfully created! Redirecting...");
+          setTimeout(() => navigate("/login"), 2000);
+        }
       }
 
-      if (mode === 'edit') {
-        await api.put('/auth/edit', payload, config);
-        toast.success("Profile successfully updated!");
-        setTimeout(() => navigate("/portal"), 2000);
-      } else {
-        await api.post('/auth/register', payload, config);
-        toast.success("Account successfully created! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000);
-      }
     } catch (err) {
-      const msg = err.response?.data?.message || "Failed to update profile. Please try again.";
+      console.error("Erro no submit:", err);
+      const msg = err.response?.data?.message || err.message || "Failed to process request.";
       setError(msg);
+      toast.error(msg); // Mostra o erro visualmente 
     } finally {
       setLoading(false);
     }
