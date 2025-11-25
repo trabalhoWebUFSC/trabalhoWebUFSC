@@ -27,6 +27,16 @@ export const logout = () => {
   setAuthToken(null);
 };
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete config.headers['Authorization'];
+  }
+  return config;
+});
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
