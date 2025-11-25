@@ -76,7 +76,7 @@ function MyReservations() {
 
   return (
     <div className={styles.pageWrapper}>
-      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#d5a874ff" }}
+      <ToastContainer position="top-right" icon={false} toastStyle={{ backgroundColor: "#a9802dac" }}
         autoClose={3000} theme="colored" hideProgressBar={true} newestOnTop={false} closeOnClick
         rtl={false} pauseOnFocusLoss draggable pauseOnHover
       />
