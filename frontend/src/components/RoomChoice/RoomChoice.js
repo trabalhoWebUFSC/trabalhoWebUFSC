@@ -40,6 +40,7 @@ function RoomChoice() {
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [backendRooms, setBackendRooms] = useState([]);
 
+  // Busca os quartos reais do backend ao carregar
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -48,8 +49,8 @@ function RoomChoice() {
           setBackendRooms(response.data);
         }
       } catch (error) {
-        console.error("Error loading rooms:", error);
-        toast.error("Error connecting to rooms server.");
+        console.error("Erro ao carregar quartos:", error);
+        toast.error("Erro ao conectar com servidor de quartos.");
       }
     };
     fetchRooms();
@@ -72,13 +73,6 @@ function RoomChoice() {
     );
   };
   const prevRoom = () => {
-    setCurrentRoomIndex((prev) => (prev === 0 ? rooms.length - 1 : prev - 1));
-  };
-
-  const currentRoom = rooms[currentRoomIndex];
-  
-  const matchedBackendRoom = backendRooms.find(r => r.name === currentRoom.name);
-  const roomId = matchedBackendRoom ? matchedBackendRoom._id : null;
     setCurrentRoomIndex((prev) => 
       backendRooms.length > 0 ? (prev === 0 ? backendRooms.length - 1 : prev - 1) : 0
     );
@@ -87,11 +81,12 @@ function RoomChoice() {
   const realRoomId = currentRoom ? currentRoom._id : null;
 
   const handleBookClick = () => {
-    if (roomId) {
+    if (realRoomId) {
       setShowReservationModal(true);
     } else {
-      toast.warn("Server temporarily unavailable: Rooms not found.");
-      console.warn(`Room "${currentRoom.name}" not found:`, backendRooms);
+      // Se não tiver ID real, significa que o backend não retornou dados ou o nome não bate
+      toast.warn("Sistema indisponível temporariamente: Quarto não encontrado no servidor.");
+      console.warn(`Quarto "${currentRoom.name}" não encontrado na lista do backend:`, backendRooms);
     }
   };
 
@@ -125,28 +120,6 @@ function RoomChoice() {
               ))}
             </div>
 
-          <div className={styles.cardActions}>
-
-            <button
-              className={styles.bookBtn}
-              onClick={handleBookClick}
-              style={{ 
-                opacity: roomId ? 1 : 0.6, 
-                cursor: roomId ? 'pointer' : 'not-allowed' 
-              }}
-            >
-              {localStorage.getItem('authToken') ? "Book Now >" : ""}
-            </button>
-          </div>
-          
-          {showReservationModal && (
-            <Reservations 
-              onClose={() => setShowReservationModal(false)} 
-              roomId={roomId}
-              pricePerNight={matchedBackendRoom ? matchedBackendRoom.pricePerNight : 0}
-            />
-          )}
-        </div>
             <div className={styles.cardActions}>
               <button
                 className={styles.bookBtn}
